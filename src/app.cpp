@@ -1,5 +1,4 @@
 #include "app.h"
-#include <ncurses.h>
 
 namespace SwearJar {
 
@@ -7,7 +6,7 @@ App::App(std::shared_ptr<CursesInterface> curses) : m_curses(curses) {
     //
 }
 
-App::~App() { endwin(); }
+App::~App() { m_curses->endwin(); }
 
 void App::initialize() {
     m_curses->initscr();
@@ -21,7 +20,7 @@ void App::initialize() {
 }
 
 void App::run() {
-    mvprintw(5, 15, "Hello");
+    // mvprintw(5, 15, "Hello");
     int ch = m_curses->getchar();
 }
 

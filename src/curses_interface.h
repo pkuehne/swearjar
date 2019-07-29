@@ -8,6 +8,7 @@ public:
     virtual void raw() = 0;
     virtual void noecho() = 0;
     virtual void keypad() = 0;
+    virtual void endwin() = 0;
 
     virtual int getchar() = 0;
 };

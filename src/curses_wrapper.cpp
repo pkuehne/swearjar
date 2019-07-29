@@ -7,6 +7,7 @@ void CursesWrapper::initscr() { ::initscr(); }
 void CursesWrapper::raw() { ::raw(); }
 void CursesWrapper::noecho() { ::noecho(); }
 void CursesWrapper::keypad() { ::keypad(stdscr, 1); }
+void CursesWrapper::endwin() { ::endwin(); }
 
 int CursesWrapper::getchar() { return wgetch(stdscr); }
 

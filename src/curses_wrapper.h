@@ -10,6 +10,7 @@ public:
     void raw();
     void noecho();
     void keypad();
+    void endwin();
 
     int getchar();
 };
