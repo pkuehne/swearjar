@@ -3,24 +3,26 @@
 
 namespace SwearJar {
 
-App::App() {
+App::App(std::shared_ptr<CursesInterface> curses) : m_curses(curses) {
     //
 }
 
-App::~App() {
-    endwin();
-}
+App::~App() { endwin(); }
 
 void App::initialize() {
-    initscr();              // Start curses mode
-	raw();                  // Line buffering disabled
-	keypad(stdscr, TRUE);   // We get F1, F2 etc...
-	noecho();               // Don't echo() while we do getch
+    m_curses->initscr();
+    m_curses->raw();
+    m_curses->noecho();
+    m_curses->keypad();
+    // initscr();            // Start curses mode
+    // raw();                // Line buffering disabled
+    // keypad(stdscr, TRUE); // We get F1, F2 etc...
+    // noecho();             // Don't echo() while we do getch
 }
 
 void App::run() {
-    mvprintw(5, 5, "Hello");
-    int ch = getch();
+    mvprintw(5, 15, "Hello");
+    int ch = m_curses->getchar();
 }
 
-} // close namespace
+} // namespace SwearJar

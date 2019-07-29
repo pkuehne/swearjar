@@ -1,8 +1,9 @@
+#include "curses_wrapper.h"
 #include "swearjar.h"
 #include <iostream>
 
 void run() {
-    SwearJar::App app;
+    SwearJar::App app(std::make_shared<SwearJar::CursesWrapper>());
     app.initialize();
     app.run();
 }
