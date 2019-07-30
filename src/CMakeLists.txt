@@ -18,7 +18,7 @@ PRIVATE
 
 add_library(swearjar)
 target_include_directories(swearjar PUBLIC ${CMAKE_CURRENT_LIST_DIR})
-target_sources(swearjarbase
+target_sources(swearjar
 PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}/curses_wrapper.h
     ${CMAKE_CURRENT_LIST_DIR}/curses_wrapper.cpp
