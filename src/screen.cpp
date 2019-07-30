@@ -1,14 +1,14 @@
-#include "app.h"
+#include "screen.h"
 
 namespace SwearJar {
 
-App::App(std::shared_ptr<CursesInterface> curses) : m_curses(curses) {
+Screen::Screen(std::shared_ptr<CursesInterface> curses) : m_curses(curses) {
     //
 }
 
-App::~App() { m_curses->endwin(); }
+Screen::~Screen() { m_curses->endwin(); }
 
-void App::initialize() {
+void Screen::initialize() {
     m_curses->initscr();
     m_curses->raw();
     m_curses->noecho();
@@ -19,7 +19,7 @@ void App::initialize() {
     // noecho();             // Don't echo() while we do getch
 }
 
-void App::run() {
+void Screen::run() {
     // mvprintw(5, 15, "Hello");
     int ch = m_curses->getchar();
 }

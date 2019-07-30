@@ -3,9 +3,9 @@
 #include <iostream>
 
 void run() {
-    SwearJar::App app(std::make_shared<SwearJar::CursesWrapper>());
-    app.initialize();
-    app.run();
+    SwearJar::Screen screen(std::make_shared<SwearJar::CursesWrapper>());
+    screen.initialize();
+    screen.run();
 }
 
 int main() {

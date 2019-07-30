@@ -5,10 +5,10 @@
 
 namespace SwearJar {
 
-class App {
+class Screen {
 public:
-    App(std::shared_ptr<CursesInterface> curses);
-    ~App();
+    Screen(std::shared_ptr<CursesInterface> curses);
+    ~Screen();
     void initialize();
     void run();
 
