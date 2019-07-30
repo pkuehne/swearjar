@@ -18,6 +18,9 @@ public:
                                        unsigned int y, unsigned int x);
 
 private:
+    void refreshDirtyWidgets();
+
+private:
     std::shared_ptr<CursesInterface> m_curses;
     std::map<unsigned int, std::shared_ptr<Panel>> m_panels;
 };
