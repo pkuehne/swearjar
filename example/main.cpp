@@ -3,8 +3,14 @@
 #include <iostream>
 
 void run() {
-    SwearJar::Screen screen(std::make_shared<SwearJar::CursesWrapper>());
+    using namespace SwearJar;
+
+    Screen screen(std::make_shared<CursesWrapper>());
     screen.initialize();
+
+    auto panel = screen.createPanel(10, 20, 5, 5);
+    panel->addWidget(new Label("Hello"));
+
     screen.run();
 }
 

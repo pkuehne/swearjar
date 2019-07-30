@@ -1,4 +1,5 @@
 #include "screen.h"
+#include "panel.h"
 
 namespace SwearJar {
 
@@ -22,6 +23,15 @@ void Screen::initialize() {
 void Screen::run() {
     // mvprintw(5, 15, "Hello");
     int ch = m_curses->getchar();
+}
+
+std::shared_ptr<Panel> Screen::createPanel(unsigned int height,
+                                           unsigned int width, unsigned int y,
+                                           unsigned int x) {
+    unsigned int id = m_curses->newwin(height, width, y, x);
+    auto panel = std::make_shared<Panel>(id);
+    m_panels[id] = panel;
+    return panel;
 }
 
 } // namespace SwearJar
