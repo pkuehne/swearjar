@@ -18,12 +18,15 @@ void Panel::addWidget(std::shared_ptr<Widget> widget) {
 }
 
 void Panel::refreshDirtyWidgets() {
+    m_curses->currentWindow(m_id);
     for (auto widget : m_widgets) {
         if (!widget->dirty()) {
             continue;
         }
         widget->refresh();
+        widget->dirty(false);
     }
+    m_curses->wrefresh();
 }
 
 } // namespace SwearJar

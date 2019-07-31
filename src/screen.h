@@ -1,6 +1,7 @@
 #pragma once
 
 #include "curses_interface.h"
+#include <functional>
 #include <map>
 #include <memory>
 
@@ -16,6 +17,8 @@ public:
     void run();
     std::shared_ptr<Panel> createPanel(unsigned int height, unsigned int width,
                                        unsigned int y, unsigned int x);
+    void quit() { m_quit = true; }
+    std::function<void(char)> unhandledKeys = [](char) {};
 
 private:
     void refreshDirtyWidgets();
@@ -23,6 +26,7 @@ private:
 private:
     std::shared_ptr<CursesInterface> m_curses;
     std::map<unsigned int, std::shared_ptr<Panel>> m_panels;
+    bool m_quit = false;
 };
 
 } // namespace SwearJar

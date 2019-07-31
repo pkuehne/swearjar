@@ -8,6 +8,7 @@ namespace SwearJar {
 
 class CursesWrapper : public CursesInterface {
 public:
+    ~CursesWrapper() {}
     void initscr();
     void raw();
     void noecho();
@@ -15,11 +16,18 @@ public:
     void endwin();
 
     unsigned int newwin(int h, int w, int y, int x);
+    void mvwprintw(int y, int x, const std::string& string);
 
     int getchar();
+    void refresh();
+    void wrefresh();
+
+    void currentWindow(unsigned int newWin) { m_currentWindow = newWin; }
+    unsigned int currentWindow() { return m_currentWindow; }
 
 private:
     std::vector<WINDOW*> m_windows;
+    unsigned int m_currentWindow = 0;
 };
 
 } // namespace SwearJar

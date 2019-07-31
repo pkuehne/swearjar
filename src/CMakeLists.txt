@@ -3,9 +3,8 @@ add_library(swearjarbase)
 target_include_directories(swearjarbase PUBLIC ${CMAKE_CURRENT_LIST_DIR})
 target_sources(swearjarbase
 PUBLIC
-    ${CMAKE_CURRENT_LIST_DIR}/swearjar.h
-PRIVATE
     ${CMAKE_CURRENT_LIST_DIR}/curses_interface.h
+PRIVATE
     ${CMAKE_CURRENT_LIST_DIR}/screen.h
     ${CMAKE_CURRENT_LIST_DIR}/screen.cpp
     ${CMAKE_CURRENT_LIST_DIR}/panel.h
@@ -20,6 +19,8 @@ add_library(swearjar)
 target_include_directories(swearjar PUBLIC ${CMAKE_CURRENT_LIST_DIR})
 target_sources(swearjar
 PUBLIC
+    ${CMAKE_CURRENT_LIST_DIR}/swearjar.h
+PRIVATE
     ${CMAKE_CURRENT_LIST_DIR}/curses_wrapper.h
     ${CMAKE_CURRENT_LIST_DIR}/curses_wrapper.cpp
 )

@@ -1,5 +1,6 @@
 #include "screen.h"
 #include "panel.h"
+#include <iostream>
 
 namespace SwearJar {
 
@@ -17,12 +18,14 @@ void Screen::initialize() {
 }
 
 void Screen::run() {
-    bool quit = false;
     int ch = 0;
-    while (!quit) {
+    m_curses->refresh();
+
+    while (!m_quit) {
         refreshDirtyWidgets();
         ch = m_curses->getchar();
-        quit = (ch == 'q');
+        m_quit = (ch == 'q');
+        unhandledKeys(ch);
     }
 }
 
@@ -40,6 +43,7 @@ void Screen::refreshDirtyWidgets() {
         auto panel = iter.second;
         panel->refreshDirtyWidgets();
     }
+    m_curses->refresh();
 }
 
 } // namespace SwearJar

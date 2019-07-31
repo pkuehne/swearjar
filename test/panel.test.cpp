@@ -8,13 +8,22 @@ class MockWidget : public Widget {
 public:
     MOCK_METHOD0(refresh, void());
 };
+
+class MockCurses : public CursesInterface {
+public:
+    MOCK_METHOD0(getchar, int());
+    MOCK_METHOD4(newwin, unsigned int(int, int, int, int));
+    MOCK_METHOD0(currentWindow, unsigned int());
+};
+
 } // namespace SwearJar
 
 TEST(Panel, addWidgetIncreasesWidgetCount) {
     using namespace SwearJar;
 
     // Given
-    Panel p(0, 0);
+    auto curses = std::make_shared<MockCurses>();
+    Panel p(0, curses);
 
     // When
     p.addWidget(std::make_shared<Widget>());
@@ -27,7 +36,9 @@ TEST(Panel, refreshDirtyWidgetsOnlyRefreshesDirtyWidgets) {
     using namespace SwearJar;
 
     // Given
-    Panel p(0, 0);
+    auto curses = std::make_shared<MockCurses>();
+    Panel p(0, curses);
+    ;
 
     auto w1 = std::make_shared<MockWidget>();
     w1->dirty(true);
@@ -43,4 +54,23 @@ TEST(Panel, refreshDirtyWidgetsOnlyRefreshesDirtyWidgets) {
 
     // When
     p.refreshDirtyWidgets();
+}
+
+TEST(Panel, refreshDirtyWidgetsSetsWidgetClean) {
+    using namespace SwearJar;
+
+    // Given
+    auto curses = std::make_shared<MockCurses>();
+    Panel p(0, curses);
+
+    auto w1 = std::make_shared<MockWidget>();
+    w1->dirty(true);
+
+    p.addWidget(w1);
+
+    // When
+    p.refreshDirtyWidgets();
+
+    // Then
+    EXPECT_FALSE(w1->dirty());
 }

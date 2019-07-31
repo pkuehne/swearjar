@@ -16,6 +16,12 @@ unsigned int CursesWrapper::newwin(int h, int w, int y, int x) {
     return m_windows.size() - 1;
 }
 
+void CursesWrapper::mvwprintw(int y, int x, const std::string& string) {
+    ::mvwprintw(m_windows[m_currentWindow], y, x, "%s", string.c_str());
+}
+
 int CursesWrapper::getchar() { return ::wgetch(stdscr); }
 
+void CursesWrapper::refresh() { ::refresh(); }
+void CursesWrapper::wrefresh() { ::wrefresh(m_windows[m_currentWindow]); }
 } // namespace SwearJar
