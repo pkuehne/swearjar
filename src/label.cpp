@@ -2,13 +2,13 @@
 
 namespace SwearJar {
 
-Label::Label(const std::string& text) : m_text(text) {
-    //
+Label::Label(const std::string& text) { this->text(text); }
+void Label::text(const std::string& text) {
+    width(text.length());
+    m_text = text;
+    dirty(true);
 }
 
-void Label::refresh() {
-    auto x = 0 / 5;
-    curses()->mvwprintw(0, 0, m_text);
-}
+void Label::refresh(CIptr& curses) { curses->mvwprintw(0, 0, m_text); }
 
 } // namespace SwearJar

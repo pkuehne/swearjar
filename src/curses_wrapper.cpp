@@ -20,6 +20,10 @@ void CursesWrapper::mvwprintw(int y, int x, const std::string& string) {
     ::mvwprintw(m_windows[m_currentWindow], y, x, "%s", string.c_str());
 }
 
+void CursesWrapper::mvaddch_(int y, int x, char ch) {
+    mvwaddch(m_windows[m_currentWindow], y, x, ch);
+}
+
 int CursesWrapper::getchar() { return ::wgetch(stdscr); }
 
 void CursesWrapper::refresh() { ::refresh(); }

@@ -60,10 +60,10 @@ TEST(Panel, refreshDirtyWidgetsSetsWidgetClean) {
     using namespace SwearJar;
 
     // Given
-    auto curses = std::make_shared<MockCurses>();
+    auto curses = std::make_shared<::testing::NiceMock<MockCurses>>();
     Panel p(0, curses);
 
-    auto w1 = std::make_shared<MockWidget>();
+    auto w1 = std::make_shared<::testing::NiceMock<MockWidget>>();
     w1->dirty(true);
 
     p.addWidget(w1);
