@@ -22,6 +22,7 @@ public:
     void color_on(short pair);
     void color_off(short pair);
     short get_color(short fg, short bg);
+    void wbkgd(short pair);
 
     unsigned int newwin(int h, int w, int y, int x);
     void mvwprintw(int y, int x, const std::string& string);

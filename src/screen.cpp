@@ -4,9 +4,7 @@
 
 namespace SwearJar {
 
-Screen::Screen(std::shared_ptr<CursesInterface> curses) : m_curses(curses) {
-    //
-}
+Screen::Screen(CIptr curses) : m_curses(curses) { m_curses->refresh(); }
 
 Screen::~Screen() { m_curses->endwin(); }
 
@@ -36,7 +34,7 @@ std::shared_ptr<Panel> Screen::createPanel(unsigned int height,
                                            unsigned int width, unsigned int y,
                                            unsigned int x) {
     unsigned int id = m_curses->newwin(height, width, y, x);
-    auto panel = std::make_shared<Panel>(id, m_curses);
+    auto panel = std::make_shared<Panel>(id, m_curses, height, width);
     m_panels[id] = panel;
     return panel;
 }

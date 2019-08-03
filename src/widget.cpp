@@ -44,13 +44,11 @@ void Widget::clearWidget() {
     if (dirty()) {
         return;
     }
-    // curses->color_on(curses->get_color(fgColor(), bgColor()));
     for (unsigned int y = m_y; y < m_height + m_y; y++) {
         for (unsigned int x = m_x; x < m_width + m_x; x++) {
             curses->mvaddch_(y, x, ' ');
         }
     }
-    // curses->color_off(curses->get_color(fgColor(), bgColor()));
 }
 
 void Widget::drawText(unsigned int y, unsigned int x, const std::string& text,

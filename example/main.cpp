@@ -10,7 +10,7 @@ void run() {
     auto panel = screen.createPanel(15, 15, 5, 5);
     auto label = new Label("Hello");
     label->fgColor(3);
-    // label->bgColor(0);
+    // label->bgColor();
     panel->addWidget(label);
 
     screen.unhandledKeys = [&label](char key) {

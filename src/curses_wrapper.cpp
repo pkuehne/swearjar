@@ -9,6 +9,8 @@ CursesWrapper::CursesWrapper() {
 void CursesWrapper::initscr() {
     ::initscr();
     m_windows.push_back(stdscr);
+    ::color_set(get_color(7, 0), 0);
+    ::refresh();
 }
 
 void CursesWrapper::raw() { ::raw(); }
@@ -37,6 +39,10 @@ void CursesWrapper::color_on(short pair) {
 }
 void CursesWrapper::color_off(short pair) {
     wattroff(m_windows[m_currentWindow], COLOR_PAIR(pair));
+}
+void CursesWrapper::wbkgd(short pair) {
+    ::wbkgd(m_windows[m_currentWindow], COLOR_PAIR(pair));
+    ::touchwin(m_windows[m_currentWindow]);
 }
 
 unsigned int CursesWrapper::newwin(int h, int w, int y, int x) {

@@ -25,7 +25,7 @@ TEST(Panel, addWidgetIncreasesWidgetCount) {
 
     // Given
     auto curses = std::make_shared<MockCurses>();
-    Panel p(0, curses);
+    Panel p(0, curses, 1, 1);
 
     // When
     p.addWidget(std::make_shared<Widget>());
@@ -39,7 +39,7 @@ TEST(Panel, refreshDirtyWidgetsOnlyRefreshesDirtyWidgets) {
 
     // Given
     auto curses = std::make_shared<MockCurses>();
-    Panel p(0, curses);
+    Panel p(0, curses, 1, 1);
     ;
 
     auto w1 = std::make_shared<MockWidget>();
@@ -63,7 +63,7 @@ TEST(Panel, refreshDirtyWidgetsSetsWidgetClean) {
 
     // Given
     auto curses = std::make_shared<::testing::NiceMock<MockCurses>>();
-    Panel p(0, curses);
+    Panel p(0, curses, 1, 1);
 
     auto w1 = std::make_shared<::testing::NiceMock<MockWidget>>();
     w1->dirty(true);
