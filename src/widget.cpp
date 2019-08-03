@@ -46,7 +46,7 @@ void Widget::clearWidget() {
     }
     for (unsigned int y = m_y; y < m_height + m_y; y++) {
         for (unsigned int x = m_x; x < m_width + m_x; x++) {
-            curses->mvaddch_(y, x, ' ');
+            drawChar(y, x, ' ');
         }
     }
 }
@@ -54,8 +54,26 @@ void Widget::clearWidget() {
 void Widget::drawText(unsigned int y, unsigned int x, const std::string& text,
                       short fg, short bg) {
     curses->color_on(curses->get_color(fg, bg));
-    curses->mvwprintw(m_y + y, m_x + x, text);
+
+    for (unsigned int offset = 0; offset < text.length(); offset++) {
+        drawChar(m_y + y, m_x + x + offset, text[offset]);
+    }
     curses->color_off(curses->get_color(fg, bg));
+}
+
+void Widget::drawChar(unsigned int y, unsigned int x, char ch, short fg,
+                      short bg) {
+    curses->color_on(curses->get_color(fg, bg));
+    drawChar(y, x, ch);
+    curses->color_off(curses->get_color(fg, bg));
+}
+void Widget::drawChar(unsigned int y, unsigned int x, char ch) {
+    unsigned int xPos = m_x + x;
+    unsigned int yPos = m_y + y;
+    if (xPos > width() || yPos > height()) {
+        return;
+    }
+    curses->mvaddch_(yPos, xPos, ch);
 }
 
 } // namespace SwearJar

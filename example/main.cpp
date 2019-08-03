@@ -14,9 +14,10 @@ void run() {
     panel->addWidget(label);
 
     screen.unhandledKeys = [&label](char key) {
-        label->text("Bye");
-        label->x(label->x() + 1);
-        label->fgColor(122);
+        label->text("X");
+        label->centered(true);
+        label->width(3);
+        label->fgColor(7);
     };
     screen.run();
 }

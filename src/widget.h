@@ -32,6 +32,8 @@ protected:
     virtual void clearWidget();
     void drawText(unsigned int y, unsigned int x, const std::string& text,
                   short fg, short bg);
+    void drawChar(unsigned int y, unsigned int x, char ch, short fg, short bg);
+    void drawChar(unsigned int y, unsigned int x, char ch);
 
 private:
     virtual void refresh() { refresh(curses); }

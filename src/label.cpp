@@ -11,7 +11,18 @@ void Label::text(const std::string& text) {
 }
 
 void Label::refresh(CIptr& curses) {
-    drawText(0, 0, m_text, fgColor(), bgColor());
+    drawText(0, 0, std::string(width(), ' '), fgColor(), bgColor());
+
+    unsigned int xStart = 0;
+    if (m_centred) {
+        xStart = (width() - m_text.length()) / 2;
+    }
+    drawText(0, xStart, m_text, fgColor(), bgColor());
+}
+
+void Label::centered(bool centered) {
+    m_centred = centered;
+    dirty(true);
 }
 
 } // namespace SwearJar
