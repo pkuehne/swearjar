@@ -12,6 +12,13 @@ public:
     virtual void noecho() {}
     virtual void keypad() {}
     virtual void endwin() {}
+    virtual bool has_colors() = 0;
+    virtual void start_color() {}
+    virtual void init_pair(short pair, short fore, short back) {}
+    virtual void color_on(short pair) {}
+    virtual void color_off(short pair) {}
+    virtual short get_color(short fg, short bg) = 0;
+
     virtual int getchar() = 0;
     virtual void mvwprintw(int y, int x, const std::string& string) {}
     virtual void mvaddch_(int y, int x, char c) {}

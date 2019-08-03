@@ -7,11 +7,17 @@ void run() {
     Screen screen(std::make_shared<CursesWrapper>());
     screen.initialize();
 
-    auto panel = screen.createPanel(5, 5, 5, 5);
+    auto panel = screen.createPanel(15, 15, 5, 5);
     auto label = new Label("Hello");
+    label->fgColor(3);
+    // label->bgColor(0);
     panel->addWidget(label);
 
-    screen.unhandledKeys = [&label](char key) { label->text("Bye"); };
+    screen.unhandledKeys = [&label](char key) {
+        // label->text("Bye");
+        label->x(label->x() + 1);
+        label->fgColor(122);
+    };
     screen.run();
 }
 

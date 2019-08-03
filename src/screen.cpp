@@ -15,6 +15,9 @@ void Screen::initialize() {
     m_curses->raw();
     m_curses->noecho();
     m_curses->keypad();
+    if (m_curses->has_colors()) {
+        m_curses->start_color();
+    }
 }
 
 void Screen::run() {

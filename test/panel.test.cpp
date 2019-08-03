@@ -14,6 +14,8 @@ public:
     MOCK_METHOD0(getchar, int());
     MOCK_METHOD4(newwin, unsigned int(int, int, int, int));
     MOCK_METHOD0(currentWindow, unsigned int());
+    MOCK_METHOD0(has_colors, bool());
+    MOCK_METHOD2(get_color, short(short, short));
 };
 
 } // namespace SwearJar
