@@ -34,7 +34,7 @@ protected:
                   short fg, short bg);
 
 private:
-    void refresh() { refresh(curses); }
+    virtual void refresh() { refresh(curses); }
     static CIptr curses;
 
 private:

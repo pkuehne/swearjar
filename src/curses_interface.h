@@ -19,6 +19,7 @@ public:
     virtual void color_off(short pair) {}
     virtual short get_color(short fg, short bg) = 0;
     virtual void wbkgd(short pair) {}
+    virtual void get_screen_size(int& height, int& width) {}
 
     virtual int getchar() = 0;
     virtual void mvwprintw(int y, int x, const std::string& string) {}

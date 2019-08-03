@@ -24,7 +24,7 @@ TEST(Panel, addWidgetIncreasesWidgetCount) {
     using namespace SwearJar;
 
     // Given
-    auto curses = std::make_shared<MockCurses>();
+    auto curses = std::make_shared<::testing::NiceMock<MockCurses>>();
     Panel p(0, curses, 1, 1);
 
     // When
@@ -38,9 +38,8 @@ TEST(Panel, refreshDirtyWidgetsOnlyRefreshesDirtyWidgets) {
     using namespace SwearJar;
 
     // Given
-    auto curses = std::make_shared<MockCurses>();
+    auto curses = std::make_shared<::testing::NiceMock<MockCurses>>();
     Panel p(0, curses, 1, 1);
-    ;
 
     auto w1 = std::make_shared<MockWidget>();
     w1->dirty(true);
@@ -56,6 +55,9 @@ TEST(Panel, refreshDirtyWidgetsOnlyRefreshesDirtyWidgets) {
 
     // When
     p.refreshDirtyWidgets();
+
+    // Then
+    EXPECT_FALSE(w1->dirty());
 }
 
 TEST(Panel, refreshDirtyWidgetsSetsWidgetClean) {

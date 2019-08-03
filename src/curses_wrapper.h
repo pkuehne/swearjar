@@ -23,6 +23,7 @@ public:
     void color_off(short pair);
     short get_color(short fg, short bg);
     void wbkgd(short pair);
+    void get_screen_size(int& height, int& width);
 
     unsigned int newwin(int h, int w, int y, int x);
     void mvwprintw(int y, int x, const std::string& string);

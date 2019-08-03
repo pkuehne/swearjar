@@ -1,4 +1,5 @@
 #include "panel.h"
+#include <iostream>
 
 namespace SwearJar {
 

@@ -15,6 +15,7 @@ public:
     ~Screen();
     void initialize();
     void run();
+    void clearScreen();
     std::shared_ptr<Panel> createPanel(unsigned int height, unsigned int width,
                                        unsigned int y, unsigned int x);
     void quit() { m_quit = true; }
