@@ -14,7 +14,7 @@ public:
     virtual bool centred() { return m_centred; }
 
 protected:
-    void refresh(CIptr& curses);
+    void refresh();
 
 private:
     std::string m_text;

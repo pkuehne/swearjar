@@ -12,4 +12,8 @@ RUN apt update -qq && apt install --no-install-recommends -qq -y \
 WORKDIR /buildarea
 RUN mkdir -p build
 
+ARG UID=1000
+ARG GID=1000
+USER $UID:$GID
+
 CMD cmake . -Bbuild

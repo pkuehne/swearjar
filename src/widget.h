@@ -27,7 +27,7 @@ public:
     virtual short bgColor() { return m_bg; }
 
 protected:
-    virtual void refresh(CIptr& curses) {}
+    virtual void refresh() {}
 
     virtual void clearWidget();
     void drawText(unsigned int y, unsigned int x, const std::string& text,
@@ -35,8 +35,7 @@ protected:
     void drawChar(unsigned int y, unsigned int x, char ch, short fg, short bg);
     void drawChar(unsigned int y, unsigned int x, char ch);
 
-private:
-    virtual void refresh() { refresh(curses); }
+protected:
     static CIptr curses;
 
 private:

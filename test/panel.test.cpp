@@ -1,3 +1,4 @@
+#include "curses.mock.h"
 #include "panel.h"
 #include "widget.h"
 #include <gmock/gmock.h>
@@ -9,26 +10,15 @@ public:
     MOCK_METHOD0(refresh, void());
 };
 
-class MockCurses : public CursesInterface {
-public:
-    MOCK_METHOD0(getchar, int());
-    MOCK_METHOD4(newwin, unsigned int(int, int, int, int));
-    MOCK_METHOD0(currentWindow, unsigned int());
-    MOCK_METHOD0(has_colors, bool());
-    MOCK_METHOD2(get_color, short(short, short));
-};
-
 } // namespace SwearJar
 
 TEST(Panel, addWidgetIncreasesWidgetCount) {
-    using namespace SwearJar;
-
     // Given
     auto curses = std::make_shared<::testing::NiceMock<MockCurses>>();
-    Panel p(0, curses, 1, 1);
+    SwearJar::Panel p(0, curses, 1, 1);
 
     // When
-    p.addWidget(std::make_shared<Widget>());
+    p.addWidget(std::make_shared<SwearJar::Widget>());
 
     // Then
     EXPECT_EQ(p.widgets().size(), 1);

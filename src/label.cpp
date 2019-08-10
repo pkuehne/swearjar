@@ -10,7 +10,7 @@ void Label::text(const std::string& text) {
     dirty(true);
 }
 
-void Label::refresh(CIptr& curses) {
+void Label::refresh() {
     drawText(0, 0, std::string(width(), ' '), fgColor(), bgColor());
 
     unsigned int xStart = 0;

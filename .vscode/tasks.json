@@ -2,17 +2,115 @@
     "tasks": [
         {
             "type": "shell",
-            "label": "g++ build active file",
-            "command": "/usr/bin/g++",
+            "label": "Initialize",
+            "command": "docker",
             "args": [
-                "-g",
-                "${file}",
-                "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
+                "run",
+                "--rm",
+                "-v",
+                "${workspaceFolder}:/buildarea",
+                "swearjar"
             ],
             "options": {
-                "cwd": "/usr/bin"
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "group": "none"
+        },
+        {
+            "type": "shell",
+            "label": "Clean all",
+            "command": "docker",
+            "args": [
+                "run",
+                "--rm",
+                "-v",
+                "${workspaceFolder}:/buildarea",
+                "swearjar",
+                "make",
+                "--no-print-directory",
+                "-C",
+                "build",
+                "clean"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+        },
+        {
+            "type": "shell",
+            "label": "Build all targets",
+            "command": "docker",
+            "args": [
+                "run",
+                "--rm",
+                "-v",
+                "${workspaceFolder}:/buildarea",
+                "swearjar",
+                "make",
+                "--no-print-directory",
+                "-C",
+                "build"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
             }
+        },
+        {
+            "type": "shell",
+            "label": "Run tests",
+            "command": "docker",
+            "args": [
+                "run",
+                "--rm",
+                "-v",
+                "${workspaceFolder}:/buildarea",
+                "swearjar",
+                "make",
+                "--no-print-directory",
+                "-C",
+                "build",
+                "test"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            }
+        },
+        {
+            "type": "shell",
+            "label": "Run tests with detailed output",
+            "command": "build/test/unit_test",
+            "args": [],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            }
+        },
+        {
+            "type": "shell",
+            "label": "Run example program",
+            "command": "build/example/example",
+            "args": [],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "group": "none"
         }
     ],
     "version": "2.0.0"
