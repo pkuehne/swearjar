@@ -1,5 +1,6 @@
 #pragma once
 #include "curses_interface.h"
+#include "render_context.h"
 #include "widget.h"
 #include <memory>
 #include <vector>
@@ -23,5 +24,6 @@ private:
     std::vector<std::shared_ptr<Widget>> m_widgets;
     unsigned int m_height = 1;
     unsigned int m_width = 1;
+    RenderContext m_render;
 };
 }; // namespace SwearJar

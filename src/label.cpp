@@ -1,4 +1,5 @@
 #include "label.h"
+#include <spdlog/spdlog.h>
 
 namespace SwearJar {
 
@@ -10,14 +11,15 @@ void Label::text(const std::string& text) {
     dirty(true);
 }
 
-void Label::refresh() {
-    drawText(0, 0, std::string(width(), ' '), fgColor(), bgColor());
+void Label::refresh(const RenderContext& render) {
+    spdlog::info("Refreshing with {}", m_text);
+    render.drawText(0, 0, std::string(width(), ' '), fgColor(), bgColor());
 
     unsigned int xStart = 0;
     if (m_centred) {
         xStart = (width() - m_text.length()) / 2;
     }
-    drawText(0, xStart, m_text, fgColor(), bgColor());
+    render.drawText(xStart, 0, m_text, fgColor(), bgColor());
 }
 
 void Label::centered(bool centered) {

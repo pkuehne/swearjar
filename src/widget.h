@@ -1,14 +1,13 @@
 #pragma once
 
-#include "curses_interface.h"
+#include "dimension.h"
+#include "render_context.h"
 #include <memory>
 
 namespace SwearJar {
 
 class Widget {
-    friend class Panel;
-
-public:
+public: // Overridable
     virtual ~Widget() {}
     virtual void dirty(bool value) { m_dirty = value; }
     virtual bool dirty() { return m_dirty; }
@@ -26,20 +25,19 @@ public:
     virtual void bgColor(short bg);
     virtual short bgColor() { return m_bg; }
 
-protected:
-    virtual void refresh() {}
+    virtual void refresh(const RenderContext& render) {}
 
-    virtual void clearWidget();
-    void drawText(unsigned int y, unsigned int x, const std::string& text,
-                  short fg, short bg);
-    void drawChar(unsigned int y, unsigned int x, char ch, short fg, short bg);
-    void drawChar(unsigned int y, unsigned int x, char ch);
+public: // Non-overridable
+    void clearPrevDimensions() { m_prevDimension = Dimension(); }
+    Dimension prevDimension() { return m_prevDimension; }
 
-protected:
-    static CIptr curses;
+protected: // Internal widget functions
+    void invalidate();
 
 private:
+    unsigned int m_panel;
     bool m_dirty = true;
+    Dimension m_prevDimension;
     unsigned int m_height = 1;
     unsigned int m_width = 1;
     unsigned int m_x = 0;

@@ -1,10 +1,13 @@
 #include "screen.h"
 #include "panel.h"
 #include <iostream>
+#include <spdlog/spdlog.h>
 
 namespace SwearJar {
 
-Screen::Screen(CIptr curses) : m_curses(curses) {}
+Screen::Screen(CIptr curses) : m_curses(curses) {
+    spdlog::info("Screen initialized");
+}
 
 Screen::~Screen() { m_curses->endwin(); }
 
@@ -47,9 +50,9 @@ void Screen::clearScreen() {
     m_curses->refresh();
 }
 
-std::shared_ptr<Panel> Screen::createPanel(unsigned int height,
-                                           unsigned int width, unsigned int y,
-                                           unsigned int x) {
+std::shared_ptr<Panel> Screen::createPanel(unsigned int x, unsigned int y,
+                                           unsigned int width,
+                                           unsigned int height) {
     unsigned int id = m_curses->newwin(height, width, y, x);
     auto panel = std::make_shared<Panel>(id, m_curses, height, width);
     m_panels[id] = panel;

@@ -27,7 +27,7 @@ public:
 
     unsigned int newwin(int h, int w, int y, int x);
     void mvwprintw(int y, int x, const std::string& string);
-    void mvaddch_(int y, int x, char c);
+    void mvaddch_(int y, int x, char c) const;
 
     int getchar();
     void refresh();

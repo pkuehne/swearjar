@@ -16,8 +16,8 @@ public:
     void initialize();
     void run();
     void clearScreen();
-    std::shared_ptr<Panel> createPanel(unsigned int height, unsigned int width,
-                                       unsigned int y, unsigned int x);
+    std::shared_ptr<Panel> createPanel(unsigned int x, unsigned int y,
+                                       unsigned int width, unsigned int height);
     void quit() { m_quit = true; }
     std::function<void(char)> unhandledKeys = [](char) {};
 

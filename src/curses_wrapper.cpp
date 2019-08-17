@@ -1,8 +1,10 @@
 #include "curses_wrapper.h"
+#include <spdlog/spdlog.h>
 
 namespace SwearJar {
 
 CursesWrapper::CursesWrapper() {
+    spdlog::info("CW: initializing CursesWrapper");
     m_colorMap.insert({std::make_pair(-1, -1), 0});
 }
 
@@ -57,7 +59,8 @@ void CursesWrapper::mvwprintw(int y, int x, const std::string& string) {
     ::mvwprintw(m_windows[m_currentWindow], y, x, "%s", string.c_str());
 }
 
-void CursesWrapper::mvaddch_(int y, int x, char ch) {
+void CursesWrapper::mvaddch_(int y, int x, char ch) const {
+    // spdlog::info("CW: Adding {} at ({},{}) for {}", ch, x, y, m_currentWindow);
     mvwaddch(m_windows[m_currentWindow], y, x, ch);
 }
 

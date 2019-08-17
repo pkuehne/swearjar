@@ -6,9 +6,6 @@ class TestWidget : public SwearJar::Widget {
 public:
     virtual ~TestWidget() {}
     virtual void clearWidget() { Widget::clearWidget(); }
-    static void setCurses(const SwearJar::CIptr& mock) {
-        Widget::curses = mock;
-    }
 };
 
 TEST(Widget, initializesDirtyToTrue) {
@@ -23,7 +20,7 @@ TEST(Widget, clearWidgetSkipsIfDirty) {
     TestWidget w;
     w.dirty(true);
     auto m = std::make_shared<MockCurses>();
-    TestWidget::setCurses(m);
+    w.curses(m);
 
     // Then
     EXPECT_CALL(*m, mvaddch_(testing::_, testing::_, testing::_)).Times(0);
@@ -39,7 +36,7 @@ TEST(Widget, clearWidgetWritesSpaceInAllPlaces) {
     w.height(3);
     w.dirty(false);
     auto m = std::make_shared<MockCurses>();
-    TestWidget::setCurses(m);
+    w.curses(m);
 
     // Then
     EXPECT_CALL(*m, mvaddch_(testing::_, testing::_, testing::_)).Times(6);
