@@ -2,12 +2,18 @@
 
 #include "dimension.h"
 #include "render_context.h"
+#include <vector>
 #include <memory>
 
 namespace SwearJar {
 
+class Widget;
+using WidgetP = std::shared_ptr<Widget>;
+using WidgetV = std::vector<WidgetP>;
+
 class Widget {
 public: // Overridable
+    Widget();
     virtual ~Widget() {}
     virtual void dirty(bool value) { m_dirty = value; }
     virtual bool dirty() { return m_dirty; }
@@ -25,14 +31,26 @@ public: // Overridable
     virtual void bgColor(short bg);
     virtual short bgColor() { return m_bg; }
 
-    virtual void refresh(const RenderContext& render) {}
+    virtual void refresh(const RenderContext& render); 
 
 public: // Non-overridable
-    void clearPrevDimensions() { m_prevDimension = Dimension(); }
-    Dimension prevDimension() { return m_prevDimension; }
+    void clearPrevDimension() { m_prevDimension = Dimension(); }
+    Dimension prevDimension() const { return m_prevDimension; }
+
+    const WidgetV& children() const { return m_widgets; }
+
+    bool moveFocusForward();
+
+    bool focus() { return m_hasFocus; }
+    bool canTakeFocus() { return m_canTakeFocus; }
+    std::function<void()> gainFocus;
+    std::function<void()> loseFocus;
 
 protected: // Internal widget functions
     void invalidate();
+    void addWidget(WidgetP widget);
+    void focus(bool focus); 
+    void canTakeFocus(bool can) { m_canTakeFocus = can; }
 
 private:
     unsigned int m_panel;
@@ -44,6 +62,10 @@ private:
     unsigned int m_y = 0;
     short m_fg = 7;
     short m_bg = 0;
+    WidgetV m_widgets;
+    WidgetV::iterator m_focusWidget;
+    bool m_canTakeFocus = false;
+    bool m_hasFocus = false;
 };
 
 } // namespace SwearJar

@@ -10,5 +10,7 @@ public:
     MOCK_METHOD0(currentWindow, unsigned int());
     MOCK_METHOD0(has_colors, bool());
     MOCK_METHOD2(get_color, short(short, short));
-    MOCK_METHOD3(mvaddch_, void(int, int, char));
+    MOCK_METHOD1(color_on, void(short));
+    MOCK_METHOD1(color_off, void(short));
+    MOCK_CONST_METHOD3(mvaddch_, void(int, int, char));
 };

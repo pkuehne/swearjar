@@ -7,23 +7,30 @@ void RenderContext::drawText(unsigned int x, unsigned int y,
                              const std::string& text, short fg,
                              short bg) const {
 
-    spdlog::info("RC: drawing text {}", text);
+    spdlog::debug("RC: drawing text {}", text);
+    m_curses->color_on(m_curses->get_color(fg, bg));
     for (unsigned int offset = 0; offset < text.length(); offset++) {
-        drawChar(x + offset, y, text[offset], fg, bg);
+        drawChar(x + offset, y, text[offset]);
     }
+    m_curses->color_off(m_curses->get_color(fg, bg));
 }
-void RenderContext::drawChar(unsigned int x, unsigned int y, char ch, short fg,
-                             short bg) const {
+
+void RenderContext::drawChar(unsigned int x, unsigned int y, char ch) const {
     unsigned int xPos = m_xOffset + x;
     unsigned int yPos = m_yOffset + y;
-    spdlog::info("RC: Placing {} at ({},{}) = ({},{})", ch, x, y, xPos, yPos);
+    spdlog::debug("RC: Placing {} at ({},{}) = ({},{})", ch, x, y, xPos, yPos);
     if (xPos > m_width || yPos > m_height) {
-        spdlog::info("RC: Out of range {} > {} or {} > {}", xPos, m_width, yPos,
-                     m_height);
+        spdlog::debug("RC: Out of range {} > {} or {} > {}", xPos, m_width,
+                      yPos, m_height);
         return;
     }
-    m_curses->color_on(m_curses->get_color(fg, bg));
     m_curses->mvaddch_(yPos, xPos, ch);
+}
+
+void RenderContext::drawChar(unsigned int x, unsigned int y, char ch, short fg,
+                             short bg) const {
+    m_curses->color_on(m_curses->get_color(fg, bg));
+    drawChar(x, y, ch);
     m_curses->color_off(m_curses->get_color(fg, bg));
 }
 
@@ -35,21 +42,21 @@ void RenderContext::clearArea(unsigned int x, unsigned int y,
         return;
     }
     m_curses->color_on(m_curses->get_color(fg, bg));
-    for (unsigned int y = 0; y < m_height; y++) {
-        for (unsigned int x = 0; x < m_width; x++) {
-            m_curses->mvaddch_(y, x, ' ');
+    for (unsigned int y = 0; y < height; y++) {
+        for (unsigned int x = 0; x < width; x++) {
+            drawChar(x, y, ' ');
         }
     }
     m_curses->color_off(m_curses->get_color(fg, bg));
 }
 
 void RenderContext::beginRender() {
-    spdlog::info("Begin render for {}", m_panel);
+    spdlog::debug("Begin render for {}", m_panel);
     m_curses->currentWindow(m_panel);
 }
 
 void RenderContext::endRender() {
-    spdlog::info("End render for {}", m_panel);
+    spdlog::debug("End render for {}", m_panel);
     m_curses->wrefresh();
 }
 

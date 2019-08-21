@@ -6,6 +6,12 @@
 #include <vector>
 
 namespace SwearJar {
+
+class BaseWidget : public Widget {
+public:
+    void addWidget(WidgetP widget) { Widget::addWidget(widget); }
+};
+
 class Panel {
 public:
     Panel(unsigned int id, CIptr curses, unsigned int height,
@@ -13,7 +19,13 @@ public:
     virtual ~Panel();
     void addWidget(Widget* widget);
     void addWidget(std::shared_ptr<Widget> widget);
-    const std::vector<std::shared_ptr<Widget>>& widgets() { return m_widgets; }
+    template <typename T> WidgetP createWidget() {
+        auto w = std::make_shared<T>();
+        addWidget(w);
+        return w;
+    }
+
+    const WidgetV& widgets() { return m_baseWidget->children(); }
 
     void refreshDirtyWidgets();
     void clearPanel();
@@ -21,7 +33,7 @@ public:
 private:
     unsigned int m_id;
     std::shared_ptr<CursesInterface> m_curses;
-    std::vector<std::shared_ptr<Widget>> m_widgets;
+    std::shared_ptr<BaseWidget> m_baseWidget;
     unsigned int m_height = 1;
     unsigned int m_width = 1;
     RenderContext m_render;

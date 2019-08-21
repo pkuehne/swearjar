@@ -7,7 +7,7 @@
 namespace SwearJar {
 class MockWidget : public Widget {
 public:
-    MOCK_METHOD0(refresh, void());
+    MOCK_METHOD1(refresh, void(const RenderContext&));
 };
 
 } // namespace SwearJar
@@ -22,6 +22,19 @@ TEST(Panel, addWidgetIncreasesWidgetCount) {
 
     // Then
     EXPECT_EQ(p.widgets().size(), 1);
+}
+
+TEST(Widget, createWidgetAddsOneAndReturns) {
+    using namespace SwearJar;
+
+    // Given
+    auto curses = std::make_shared<::testing::NiceMock<MockCurses>>();
+    SwearJar::Panel p(0, curses, 1, 1);
+    auto newWidget = p.createWidget<Widget>();
+
+    // Then
+    EXPECT_TRUE(newWidget);
+    EXPECT_FALSE(p.widgets().empty());
 }
 
 TEST(Panel, refreshDirtyWidgetsOnlyRefreshesDirtyWidgets) {
@@ -40,8 +53,8 @@ TEST(Panel, refreshDirtyWidgetsOnlyRefreshesDirtyWidgets) {
     p.addWidget(w2);
 
     // Then
-    EXPECT_CALL(*w1, refresh()).Times(1);
-    EXPECT_CALL(*w2, refresh()).Times(0);
+    EXPECT_CALL(*w1, refresh(::testing::_)).Times(1);
+    EXPECT_CALL(*w2, refresh(::testing::_)).Times(0);
 
     // When
     p.refreshDirtyWidgets();
