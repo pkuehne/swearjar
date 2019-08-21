@@ -306,7 +306,6 @@ TEST(Widget, moveFocusWillCallSameChildAgainTillItReturnsFalse) {
     base.addWidget(c2);
     c1->addWidget(c11);
     c1->addWidget(c12);
-    //base.moveFocusForward();
 
     // When
     retval = base.moveFocusForward();
