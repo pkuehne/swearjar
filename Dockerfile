@@ -1,7 +1,7 @@
 FROM build-base:latest
 
-# Usage: 
-#   Build the project: 
+# Usage:
+#   Build the project:
 #       docker run --rm -v "$PWD:/buildarea" swearjar make -C build
 #   Run the tests:
 #       docker run --rm -v "$PWD:/buildarea" swearjar make -C build test
@@ -17,3 +17,4 @@ ARG GID=1000
 USER $UID:$GID
 
 CMD cmake . -Bbuild
+

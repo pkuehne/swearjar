@@ -15,7 +15,7 @@ void Button::text(const std::string& text) {
 }
 
 void Button::refresh(const RenderContext& render) {
-    spdlog::info("Button: Refreshing with {}", m_text);
+    spdlog::debug("Button: Refreshing with {}", m_text);
     render.drawText(0, 0, std::string(width(), ' '), fgColor(), bgColor());
 
     unsigned int xStart = (width() - m_text.length()) / 2;

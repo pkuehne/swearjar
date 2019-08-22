@@ -11,6 +11,18 @@ class Widget;
 using WidgetP = std::shared_ptr<Widget>;
 using WidgetV = std::vector<WidgetP>;
 
+enum Color {
+    Red = 1,
+    Green = 2,
+    Yellow = 3,
+    Blue = 4,
+    Magenta = 5,
+    Cyan = 6,
+    White = 7,
+    Grey = 8,
+    Black = 16,
+};
+
 class Widget {
 public: // Overridable
     Widget();
@@ -61,8 +73,8 @@ private:
     unsigned int m_width = 1;
     unsigned int m_x = 0;
     unsigned int m_y = 0;
-    short m_fg = 8;
-    short m_bg = 0;
+    short m_fg = Color::Grey;
+    short m_bg = Color::Black;
     WidgetV m_widgets;
     WidgetV::iterator m_focusWidget;
     bool m_canTakeFocus = false;

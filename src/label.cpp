@@ -11,7 +11,7 @@ void Label::text(const std::string& text) {
 }
 
 void Label::refresh(const RenderContext& render) {
-    spdlog::info("Refreshing with {}", m_text);
+    spdlog::debug("Refreshing with {}", m_text);
     render.drawText(0, 0, std::string(width(), ' '), fgColor(), bgColor());
 
     unsigned int xStart = 0;

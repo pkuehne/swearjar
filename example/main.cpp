@@ -18,6 +18,8 @@ SwearJar::Label* make_label(std::shared_ptr<SwearJar::Panel>& panel) {
     auto label = new Label("Hello");
     label->x(5);
     label->y(0);
+    label->fgColor(Color::Magenta);
+    label->bgColor(Color::Black);
     panel->addWidget(label);
 
     return label;
@@ -41,10 +43,8 @@ SwearJar::Button* make_button(std::shared_ptr<SwearJar::Panel>& panel) {
         b->text(text);
     };
     button->pressed = [&](Button* b) {
-        b->fgColor(3);
+        b->fgColor(Color::Yellow);
     };
-    // button->fgColor(0);
-    // button->bgColor(8);
     panel->addWidget(button);
 
     y += 2;
