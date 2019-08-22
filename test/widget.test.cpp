@@ -326,8 +326,8 @@ TEST(Widget, gainFocusCalledWhenFocusSetToTrue) {
     TestWidget base;
     bool gain_called = false;
     bool lose_called = false;
-    base.gainFocus = [&]() { gain_called = true; };
-    base.loseFocus = [&]() { lose_called = true; };
+    base.gainFocus = [&](Widget*) { gain_called = true; };
+    base.loseFocus = [&](Widget*) { lose_called = true; };
 
     // When
     ASSERT_NO_THROW(base.focus(true));
@@ -344,8 +344,8 @@ TEST(Widget, loseFocusFunctionCalledWhenFocusSetFalse) {
     TestWidget base;
     bool gain_called = false;
     bool lose_called = false;
-    base.gainFocus = [&]() { gain_called = true; };
-    base.loseFocus = [&]() { lose_called = true; };
+    base.gainFocus = [&](Widget*) { gain_called = true; };
+    base.loseFocus = [&](Widget*) { lose_called = true; };
 
     // When
     ASSERT_NO_THROW(base.focus(false));
@@ -366,4 +366,53 @@ TEST(Widget, focusFunctionsNotCalledIfNotSet) {
     // When
     ASSERT_NO_THROW(base.focus(true));
     ASSERT_NO_THROW(base.focus(false));
+}
+
+TEST(Widget, handleKeysReturnsFalseIfNoChildrenByDefault) {
+    using namespace SwearJar;
+
+    // Given
+    TestWidget base;
+
+    // When
+    bool retval = base.handleKeyPress('X');
+
+    // Then
+    EXPECT_FALSE(retval);
+}
+
+TEST(Widget, handleKeysReturnsFalseIfNoChildrenHasFocus) {
+    using namespace SwearJar;
+
+    // Given
+    TestWidget base;
+    auto c1 = std::make_shared<TestWidget>();
+    base.addWidget(c1);
+
+    // When
+    bool retval = base.handleKeyPress('X');
+
+    // Then
+    EXPECT_FALSE(retval);
+}
+
+TEST(Widget, handleKeysReturnsTrueIfChildSelectedHasHandled) {
+    using namespace SwearJar;
+
+    class KeyPressWidget: public TestWidget {
+    public:
+        bool handleKeyPress(int ch) { return true; }
+    };
+
+    // Given
+    TestWidget base;
+    auto c1 = std::make_shared<KeyPressWidget>();
+    base.addWidget(c1);
+    ASSERT_TRUE(base.moveFocusForward());
+
+    // When
+    bool retval = base.handleKeyPress('X');
+
+    // Then
+    EXPECT_TRUE(retval);
 }

@@ -19,6 +19,8 @@ public:
     virtual void color_on(short pair) {}
     virtual void color_off(short pair) {}
     virtual short get_color(short fg, short bg) = 0;
+    virtual void reverse_on() {}
+    virtual void reverse_off() {}
     virtual void wbkgd(short pair) {}
     virtual void get_screen_size(int& height, int& width) {}
 

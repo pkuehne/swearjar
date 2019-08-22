@@ -39,9 +39,19 @@ short CursesWrapper::get_color(short fg, short bg) {
 void CursesWrapper::color_on(short pair) {
     wattron(m_windows[m_currentWindow], COLOR_PAIR(pair));
 }
+
 void CursesWrapper::color_off(short pair) {
     wattroff(m_windows[m_currentWindow], COLOR_PAIR(pair));
 }
+
+void CursesWrapper::reverse_on() {
+    wattron(m_windows[m_currentWindow], A_REVERSE);
+}
+
+void CursesWrapper::reverse_off() {
+    wattroff(m_windows[m_currentWindow], A_REVERSE);
+}
+
 void CursesWrapper::wbkgd(short pair) {
     ::wbkgd(m_windows[m_currentWindow], COLOR_PAIR(pair));
     ::touchwin(m_windows[m_currentWindow]);

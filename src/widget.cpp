@@ -57,27 +57,33 @@ void Widget::refresh(const RenderContext& render) {
             continue;
         }
         Dimension d = widget->prevDimension();
+        render.setOffsets(widget->x(), widget->y());
         render.clearArea(d.x, d.y, d.width, d.height, 7, 0);
         widget->clearPrevDimension();
     }
+    render.clearOffsets();
 
     // Re-render the widget
     for (auto widget : m_widgets) {
         if (!widget->dirty()) {
             continue;
         }
+        render.setOffsets(widget->x(), widget->y());
+        render.reverse(widget->focus());
         widget->refresh(render);
         widget->dirty(false);
+        render.reverse(false);
     }
+    render.clearOffsets();
 }
 
 void Widget::focus(bool focus) {
     m_hasFocus = focus;
     if (m_hasFocus && gainFocus != 0) {
-        gainFocus();
+        gainFocus(this);
     }
     if (!m_hasFocus && loseFocus != 0) {
-        loseFocus();
+        loseFocus(this);
     }
 }
 
@@ -85,6 +91,7 @@ bool Widget::moveFocusForward() {
     // There are no child widgets to consider
     if (m_widgets.empty()) {
         if (canTakeFocus()) {
+            invalidate();
             focus(!focus());
             return focus();
         }
@@ -106,6 +113,16 @@ bool Widget::moveFocusForward() {
     } while (m_focusWidget != m_widgets.end());
 
     // No more widgets
+    return false;
+}
+
+bool Widget::handleKeyPress(int ch) {
+    if (m_widgets.empty()) {
+        return false;
+    }
+    if (m_focusWidget != m_widgets.end()) {
+        return (*m_focusWidget)->handleKeyPress(ch);
+    }
     return false;
 }
 

@@ -26,11 +26,23 @@ void Screen::run() {
     int ch = 0;
     m_curses->refresh();
 
+    m_panels.begin()->second->widget()->moveFocusForward();
     while (!m_quit) {
         refreshDirtyWidgets();
         ch = m_curses->getchar();
-        m_quit = (ch == 'q');
-        unhandledKeys(ch);
+        // spdlog::info("Handling {}", ch);
+        if (ch == 9) {
+            m_panels.begin()->second->widget()->moveFocusForward();
+            continue;
+        }
+        if (ch == 'q') {
+            m_quit = true;
+            continue;
+        }
+        bool handled = m_panels.begin()->second->widget()->handleKeyPress(ch);
+        if (!handled) {
+            unhandledKeys(ch);
+        }
     }
 }
 
@@ -39,13 +51,13 @@ void Screen::clearScreen() {
     int height, width;
     m_curses->get_screen_size(height, width);
 
-    m_curses->color_on(m_curses->get_color(7, 0));
+    m_curses->color_on(m_curses->get_color(8, 0));
     for (unsigned int y = 0; y < height; y++) {
         for (unsigned int x = 0; x < width; x++) {
             m_curses->mvaddch_(y, x, ' ');
         }
     }
-    m_curses->color_off(m_curses->get_color(7, 2));
+    m_curses->color_off(m_curses->get_color(8, 0));
 
     m_curses->refresh();
 }

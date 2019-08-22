@@ -2,8 +2,8 @@
 
 #include "dimension.h"
 #include "render_context.h"
-#include <vector>
 #include <memory>
+#include <vector>
 
 namespace SwearJar {
 
@@ -31,7 +31,8 @@ public: // Overridable
     virtual void bgColor(short bg);
     virtual short bgColor() { return m_bg; }
 
-    virtual void refresh(const RenderContext& render); 
+    virtual void refresh(const RenderContext& render);
+    virtual bool handleKeyPress(int ch);
 
 public: // Non-overridable
     void clearPrevDimension() { m_prevDimension = Dimension(); }
@@ -43,13 +44,13 @@ public: // Non-overridable
 
     bool focus() { return m_hasFocus; }
     bool canTakeFocus() { return m_canTakeFocus; }
-    std::function<void()> gainFocus;
-    std::function<void()> loseFocus;
+    std::function<void(Widget*)> gainFocus = 0;
+    std::function<void(Widget*)> loseFocus = 0;
 
 protected: // Internal widget functions
     void invalidate();
     void addWidget(WidgetP widget);
-    void focus(bool focus); 
+    void focus(bool focus);
     void canTakeFocus(bool can) { m_canTakeFocus = can; }
 
 private:
@@ -60,7 +61,7 @@ private:
     unsigned int m_width = 1;
     unsigned int m_x = 0;
     unsigned int m_y = 0;
-    short m_fg = 7;
+    short m_fg = 8;
     short m_bg = 0;
     WidgetV m_widgets;
     WidgetV::iterator m_focusWidget;

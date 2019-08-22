@@ -25,6 +25,7 @@ public:
         return w;
     }
 
+    WidgetP widget() { return m_baseWidget; }
     const WidgetV& widgets() { return m_baseWidget->children(); }
 
     void refreshDirtyWidgets();

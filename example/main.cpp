@@ -1,37 +1,53 @@
 #include "swearjar.h"
 #include <iostream>
-#include <spdlog/spdlog.h>
 #include <spdlog/sinks/basic_file_sink.h>
+#include <spdlog/spdlog.h>
 
-SwearJar::Label* make_label(SwearJar::Screen& screen) {
+std::shared_ptr<SwearJar::Panel> make_panel(SwearJar::Screen& screen) {
+    unsigned int x = 0;
+    unsigned int y = 0;
+    unsigned int w = 50;
+    unsigned int h = 50;
+    auto panel = screen.createPanel(x, y, w, h);
+    return panel;
+}
+
+SwearJar::Label* make_label(std::shared_ptr<SwearJar::Panel>& panel) {
     using namespace SwearJar;
 
-    unsigned int x = 5;
-    unsigned int y = 5;
-    unsigned int w = 15;
-    unsigned int h = 15;
-    auto panel = screen.createPanel(x, y, w, h);
     auto label = new Label("Hello");
-    label->fgColor(3);
-    label->bgColor(5);
+    label->x(5);
+    label->y(0);
     panel->addWidget(label);
 
     return label;
 }
 
-SwearJar::Button* make_button(SwearJar::Screen& screen) {
+SwearJar::Button* make_button(std::shared_ptr<SwearJar::Panel>& panel) {
     using namespace SwearJar;
 
-    unsigned int x = 25;
-    unsigned int y = 25;
-    unsigned int w = 15;
-    unsigned int h = 15;
-    auto panel = screen.createPanel(x, y, w, h);
-    auto button = new Button("Click me");
-    button->fgColor(8);
-    // button->bgColor(5);
+    static unsigned int y = 5;
+    static unsigned int cnt = 0;
+    std::string text = "Click me " + std::to_string(++cnt);
+    auto button = new Button(text);
+    button->x(5);
+    button->y(y);
+    button->gainFocus = [](Widget* w) {
+        auto b = dynamic_cast<Button*>(w);
+        b->text("Hit it!");
+    };
+    button->loseFocus = [text](Widget* w) {
+        auto b = dynamic_cast<Button*>(w);
+        b->text(text);
+    };
+    button->pressed = [&](Button* b) {
+        b->fgColor(3);
+    };
+    // button->fgColor(0);
+    // button->bgColor(8);
     panel->addWidget(button);
 
+    y += 2;
     return button;
 }
 
@@ -41,14 +57,16 @@ void run() {
     Screen screen(std::make_shared<CursesWrapper>());
     screen.initialize();
 
-    auto label = make_label(screen);
-    auto button = make_button(screen);
+    auto panel = make_panel(screen);
+    auto label = make_label(panel);
+    auto button = make_button(panel);
+    auto button2 = make_button(panel);
+    auto button3 = make_button(panel);
 
-    screen.unhandledKeys = [&label](char key) {
+    screen.unhandledKeys = [&](char key) {
         label->text("X");
         label->centered(true);
         label->width(3);
-        label->fgColor(7);
     };
     screen.run();
 }
@@ -57,7 +75,7 @@ int main() {
     std::cout << "Start!" << std::endl;
 
     auto file_logger = spdlog::basic_logger_mt("basic_logger", "../logs.txt");
-    spdlog::set_default_logger(file_logger);   
+    spdlog::set_default_logger(file_logger);
 
     spdlog::info("Starting");
 

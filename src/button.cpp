@@ -1,10 +1,11 @@
 #include "button.h"
+#include <spdlog/spdlog.h>
 
 namespace SwearJar {
 
 Button::Button(const std::string& text) {
     this->text(text);
-    height(3);
+    canTakeFocus(true);
 }
 
 void Button::text(const std::string& text) {
@@ -14,12 +15,23 @@ void Button::text(const std::string& text) {
 }
 
 void Button::refresh(const RenderContext& render) {
+    spdlog::info("Button: Refreshing with {}", m_text);
     render.drawText(0, 0, std::string(width(), ' '), fgColor(), bgColor());
 
     unsigned int xStart = (width() - m_text.length()) / 2;
     render.drawText(xStart, 0, m_text, fgColor(), bgColor());
     render.drawChar(0, 0, '<', fgColor(), bgColor());
     render.drawChar(width() - 1, 0, '>', fgColor(), bgColor());
+}
+
+bool Button::handleKeyPress(int ch) {
+    if (ch != 10) {
+        return false;
+    }
+    if (pressed != 0) {
+        pressed(this);
+    }
+    return true;
 }
 
 } // namespace SwearJar

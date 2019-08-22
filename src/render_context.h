@@ -10,8 +10,8 @@ class RenderContext {
 public:
     RenderContext(const CIptr& curses, unsigned int panel)
         : m_curses(curses), m_panel(panel) {
-            spdlog::debug("Created RenderContext for {}", panel);
-        }
+        spdlog::debug("Created RenderContext for {}", panel);
+    }
 
     void panel(unsigned int panel) { m_panel = panel; }
     unsigned int panel() { return m_panel; }
@@ -28,12 +28,23 @@ public:
     void yOffset(unsigned int yOffset) { m_yOffset = yOffset; }
     unsigned int yOffset() { return m_yOffset; }
 
+    void setOffsets(unsigned int x, unsigned int y) const {
+        m_xOffset = x;
+        m_yOffset = y;
+    }
+    void clearOffsets() const {
+        m_xOffset = 0;
+        m_yOffset = 0;
+    }
+
+    void reverse(bool on) const;
     void beginRender();
     void endRender();
     void drawText(unsigned int x, unsigned int y, const std::string& text,
                   short fg, short bg) const;
     void drawChar(unsigned int x, unsigned int y, char ch) const;
-    void drawChar(unsigned int x, unsigned int y, char ch, short fg, short bg) const;
+    void drawChar(unsigned int x, unsigned int y, char ch, short fg,
+                  short bg) const;
     void clearArea(unsigned int x, unsigned int y, unsigned int width,
                    unsigned int height, short fg, short bg) const;
 
@@ -42,8 +53,8 @@ private:
     unsigned int m_panel = 0;
     unsigned int m_width = 0;
     unsigned int m_height = 0;
-    unsigned int m_xOffset = 0;
-    unsigned int m_yOffset = 0;
+    mutable unsigned int m_xOffset = 0;
+    mutable unsigned int m_yOffset = 0;
 };
 
 } // namespace SwearJar

@@ -22,6 +22,8 @@ public:
     void color_on(short pair);
     void color_off(short pair);
     short get_color(short fg, short bg);
+    void reverse_on();
+    void reverse_off();
     void wbkgd(short pair);
     void get_screen_size(int& height, int& width);
 
