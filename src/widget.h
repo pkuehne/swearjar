@@ -73,7 +73,7 @@ private:
     unsigned int m_width = 1;
     unsigned int m_x = 0;
     unsigned int m_y = 0;
-    short m_fg = Color::Grey;
+    short m_fg = Color::White;
     short m_bg = Color::Black;
     WidgetV m_widgets;
     WidgetV::iterator m_focusWidget;
