@@ -47,6 +47,8 @@ public:
                   short bg) const;
     void clearArea(unsigned int x, unsigned int y, unsigned int width,
                    unsigned int height, short fg, short bg) const;
+    void drawBorder(unsigned int x, unsigned int y, unsigned int width,
+                    unsigned int height, short fg, short bg) const;
 
 private:
     CIptr m_curses;

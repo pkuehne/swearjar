@@ -1,4 +1,5 @@
 #include "swearjar.h"
+#include "frame.h"
 #include <iostream>
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/spdlog.h>
@@ -23,6 +24,21 @@ SwearJar::Label* make_label(std::shared_ptr<SwearJar::Panel>& panel) {
     panel->addWidget(label);
 
     return label;
+}
+
+SwearJar::Frame* make_frame(std::shared_ptr<SwearJar::Panel>& panel) {
+    using namespace SwearJar;
+
+    auto frame = new Frame("Hello");
+    frame->x(30);
+    frame->y(7);
+    frame->width(15);
+    frame->height(3);
+    //frame->fgColor(Color::Magenta);
+    //frame->bgColor(Color::Black);
+    panel->addWidget(frame);
+
+    return frame;
 }
 
 SwearJar::Button* make_button(std::shared_ptr<SwearJar::Panel>& panel) {
@@ -59,6 +75,7 @@ void run() {
 
     auto panel = make_panel(screen);
     auto label = make_label(panel);
+    auto frame = make_frame(panel);
     auto button = make_button(panel);
     auto button2 = make_button(panel);
     auto button3 = make_button(panel);
