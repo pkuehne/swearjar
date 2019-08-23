@@ -11,6 +11,7 @@ class Frame : public Widget {
         std::string title() { return m_title; }
 
         // Overriden Widget functions
+        void addWidget(WidgetP widget, unsigned int x, unsigned int y);
         void refresh(const RenderContext& render);
 
     private:

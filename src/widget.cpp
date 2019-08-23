@@ -57,7 +57,7 @@ void Widget::refresh(const RenderContext& render) {
             continue;
         }
         Dimension d = widget->prevDimension();
-        render.setOffsets(widget->x(), widget->y());
+        render.setOffsets(x() + widget->x(), y() + widget->y());
         render.clearArea(d.x, d.y, d.width, d.height, 7, 0);
         widget->clearPrevDimension();
     }
@@ -68,7 +68,7 @@ void Widget::refresh(const RenderContext& render) {
         if (!widget->dirty()) {
             continue;
         }
-        render.setOffsets(widget->x(), widget->y());
+        render.setOffsets(x() + widget->x(), y() + widget->y());
         render.reverse(widget->focus());
         widget->refresh(render);
         widget->dirty(false);

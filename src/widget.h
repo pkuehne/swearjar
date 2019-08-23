@@ -45,6 +45,7 @@ public: // Overridable
 
     virtual void refresh(const RenderContext& render);
     virtual bool handleKeyPress(int ch);
+    virtual void addWidget(WidgetP widget);
 
 public: // Non-overridable
     void clearPrevDimension() { m_prevDimension = Dimension(); }
@@ -61,7 +62,6 @@ public: // Non-overridable
 
 protected: // Internal widget functions
     void invalidate();
-    void addWidget(WidgetP widget);
     void focus(bool focus);
     void canTakeFocus(bool can) { m_canTakeFocus = can; }
 

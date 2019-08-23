@@ -29,11 +29,13 @@ SwearJar::Label* make_label(std::shared_ptr<SwearJar::Panel>& panel) {
 SwearJar::Frame* make_frame(std::shared_ptr<SwearJar::Panel>& panel) {
     using namespace SwearJar;
 
-    auto frame = new Frame("Hello");
+
+    auto frame = new Frame("Frame");
     frame->x(30);
     frame->y(7);
     frame->width(15);
     frame->height(3);
+    frame->addWidget(std::make_shared<Label>("Label"), 1, 1);
     //frame->fgColor(Color::Magenta);
     //frame->bgColor(Color::Black);
     panel->addWidget(frame);
