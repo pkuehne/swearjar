@@ -5,6 +5,17 @@ namespace SwearJar {
 
 Widget::Widget() { m_focusWidget = m_widgets.end(); }
 
+bool Widget::dirty() {
+    if (m_widgets.empty()) {
+        return m_dirty;
+    }
+    bool dirty = false;
+    for (auto w : m_widgets) {
+        dirty |= w->dirty();
+    }
+    return dirty;
+}
+
 void Widget::height(unsigned int height) {
     invalidate();
     m_height = height;

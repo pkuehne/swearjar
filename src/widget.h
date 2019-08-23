@@ -28,7 +28,7 @@ public: // Overridable
     Widget();
     virtual ~Widget() {}
     virtual void dirty(bool value) { m_dirty = value; }
-    virtual bool dirty() { return m_dirty; }
+    virtual bool dirty();
 
     virtual void height(unsigned int height);
     virtual unsigned int height() { return m_height; }
@@ -46,6 +46,7 @@ public: // Overridable
     virtual void refresh(const RenderContext& render);
     virtual bool handleKeyPress(int ch);
     virtual void addWidget(WidgetP widget);
+    template<class T> std::shared_ptr<T> createWidget(unsigned int x, unsigned int y);
 
 public: // Non-overridable
     void clearPrevDimension() { m_prevDimension = Dimension(); }
@@ -80,5 +81,15 @@ private:
     bool m_canTakeFocus = false;
     bool m_hasFocus = false;
 };
+
+template<class T>
+std::shared_ptr<T> Widget::createWidget(unsigned int x, unsigned int y)
+{
+    auto widget = std::make_shared<T>();
+    widget->x(x);
+    widget->y(y);
+    this->addWidget(widget);
+    return widget;
+}
 
 } // namespace SwearJar

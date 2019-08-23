@@ -4,43 +4,42 @@
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/spdlog.h>
 
-std::shared_ptr<SwearJar::Panel> make_panel(SwearJar::Screen& screen) {
+void make_button_label_example(SwearJar::Screen& screen) {
+    using namespace SwearJar;
+
     unsigned int x = 0;
     unsigned int y = 0;
     unsigned int w = 50;
     unsigned int h = 50;
     auto panel = screen.createPanel(x, y, w, h);
-    return panel;
-}
-
-SwearJar::Label* make_label(std::shared_ptr<SwearJar::Panel>& panel) {
-    using namespace SwearJar;
-
-    auto label = new Label("Hello");
-    label->x(5);
-    label->y(0);
-    label->fgColor(Color::Magenta);
-    label->bgColor(Color::Black);
-    panel->addWidget(label);
-
-    return label;
-}
-
-SwearJar::Frame* make_frame(std::shared_ptr<SwearJar::Panel>& panel) {
-    using namespace SwearJar;
-
 
     auto frame = new Frame("Frame");
-    frame->x(30);
-    frame->y(7);
-    frame->width(15);
-    frame->height(3);
-    frame->addWidget(std::make_shared<Label>("Label"), 1, 1);
-    //frame->fgColor(Color::Magenta);
-    //frame->bgColor(Color::Black);
     panel->addWidget(frame);
+    frame->width(20);
+    frame->height(11);
 
-    return frame;
+    auto lblDisplay = frame->createWidget<Label>(2, 2);
+    lblDisplay->text("This is a label");
+    lblDisplay->fgColor(Color::Magenta);
+    lblDisplay->bgColor(Color::Black);
+
+    auto btnRed = frame->createWidget<Button>(2, 4);
+    btnRed->text("Red");
+    btnRed->pressed = [lblDisplay](Button*) {
+        lblDisplay->fgColor(Color::Red);
+    };
+
+    auto btnBlue = frame->createWidget<Button>(2, 6);
+    btnBlue->text("Blue");
+    btnBlue->pressed = [lblDisplay](Button*) {
+        lblDisplay->fgColor(Color::Blue);
+    };
+
+    auto btnYellow = frame->createWidget<Button>(2, 8);
+    btnYellow->text("Yellow");
+    btnYellow->pressed = [lblDisplay](Button*) {
+        lblDisplay->fgColor(Color::Yellow);
+    };
 }
 
 SwearJar::Button* make_button(std::shared_ptr<SwearJar::Panel>& panel) {
@@ -75,18 +74,19 @@ void run() {
     Screen screen(std::make_shared<CursesWrapper>());
     screen.initialize();
 
-    auto panel = make_panel(screen);
-    auto label = make_label(panel);
-    auto frame = make_frame(panel);
-    auto button = make_button(panel);
-    auto button2 = make_button(panel);
-    auto button3 = make_button(panel);
+    make_button_label_example(screen);
+    //auto panel = make_panel(screen);
+    //auto label = make_label(panel);
+    //auto frame = make_frame(panel);
+    //auto button = make_button(panel);
+    //auto button2 = make_button(panel);
+    //auto button3 = make_button(panel);
 
-    screen.unhandledKeys = [&](char key) {
-        label->text("X");
-        label->centered(true);
-        label->width(3);
-    };
+    //screen.unhandledKeys = [&](char key) {
+        //label->text("X");
+        //label->centered(true);
+        //label->width(3);
+    //};
     screen.run();
 }
 
