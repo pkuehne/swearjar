@@ -12,6 +12,6 @@ void Frame::refresh(const RenderContext& render) {
 void Frame::addWidget(WidgetP widget, unsigned int x, unsigned int y) {
     widget->x(x);
     widget->y(y);
-    Widget::addWidget(widget);
+    CollectionWidget::addWidget(widget);
 }
 } // namespace SwearJar

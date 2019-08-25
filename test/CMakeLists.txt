@@ -1,5 +1,6 @@
 add_executable(unit_test
     widget.test.cpp
+    collection-widget.test.cpp
     panel.test.cpp
     render_context.test.cpp
 )
