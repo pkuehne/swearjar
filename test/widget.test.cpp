@@ -67,6 +67,40 @@ TEST(Widget, settingHeightMarksDirty) {
     EXPECT_TRUE(w.dirty());
 }
 
+TEST(Widget, dirtyIsTrueIfDirtyChildWidgetExists) {
+    using namespace SwearJar;
+
+    // Given
+    TestWidget w;
+    w.dirty(false);
+    WidgetP c = std::make_shared<Widget>();
+
+    // When
+    w.addWidget(c);
+
+    // Then
+    EXPECT_TRUE(w.dirty());
+}
+
+TEST(Widget, dirtyIsFalseIfNoDirtyChildWidgetExists) {
+    using namespace SwearJar;
+
+    // Given
+    TestWidget w;
+    w.dirty(false);
+    WidgetP c = std::make_shared<Widget>();
+    WidgetP d = std::make_shared<Widget>();
+    w.addWidget(c);
+    w.addWidget(d);
+
+    // When
+    c->dirty(false);
+    d->dirty(false);
+
+    // Then
+    EXPECT_FALSE(w.dirty());
+}
+
 TEST(Widget, prevDimensionIsSetWhenDirtied) {
     using namespace SwearJar;
 

@@ -5,6 +5,17 @@ namespace SwearJar {
 
 Widget::Widget() { m_focusWidget = m_widgets.end(); }
 
+bool Widget::dirty() {
+    if (m_widgets.empty()) {
+        return m_dirty;
+    }
+    bool dirty = false;
+    for (auto w : m_widgets) {
+        dirty |= w->dirty();
+    }
+    return dirty;
+}
+
 void Widget::height(unsigned int height) {
     invalidate();
     m_height = height;
@@ -57,7 +68,7 @@ void Widget::refresh(const RenderContext& render) {
             continue;
         }
         Dimension d = widget->prevDimension();
-        render.setOffsets(widget->x(), widget->y());
+        render.setOffsets(x() + widget->x(), y() + widget->y());
         render.clearArea(d.x, d.y, d.width, d.height, 7, 0);
         widget->clearPrevDimension();
     }
@@ -68,7 +79,7 @@ void Widget::refresh(const RenderContext& render) {
         if (!widget->dirty()) {
             continue;
         }
-        render.setOffsets(widget->x(), widget->y());
+        render.setOffsets(x() + widget->x(), y() + widget->y());
         render.reverse(widget->focus());
         widget->refresh(render);
         widget->dirty(false);

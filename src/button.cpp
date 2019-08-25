@@ -3,9 +3,12 @@
 
 namespace SwearJar {
 
-Button::Button(const std::string& text) {
-    this->text(text);
+Button::Button() {
     canTakeFocus(true);
+}
+
+Button::Button(const std::string& text) : Button() {
+    this->text(text);
 }
 
 void Button::text(const std::string& text) {
@@ -25,6 +28,7 @@ void Button::refresh(const RenderContext& render) {
 }
 
 bool Button::handleKeyPress(int ch) {
+    spdlog::info ("Button pressed");
     if (ch != 10) {
         return false;
     }
