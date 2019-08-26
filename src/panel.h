@@ -1,15 +1,13 @@
 #pragma once
 #include "curses_interface.h"
 #include "render_context.h"
-#include "widget.h"
+#include "collection_widget.h"
 #include <memory>
 #include <vector>
 
 namespace SwearJar {
 
-class BaseWidget : public Widget {
-public:
-    void addWidget(WidgetP widget) { Widget::addWidget(widget); }
+class BaseWidget : public CollectionWidget {
 };
 
 class Panel {

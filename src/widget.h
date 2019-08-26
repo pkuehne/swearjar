@@ -43,16 +43,14 @@ public: // Overridable
     virtual void bgColor(short bg);
     virtual short bgColor() { return m_bg; }
 
-    virtual void refresh(const RenderContext& render);
-    virtual bool handleKeyPress(int ch);
+    virtual void refresh(const RenderContext& render) {}
+    virtual bool handleKeyPress(int ch) {}
 
 public: // Non-overridable
     void clearPrevDimension() { m_prevDimension = Dimension(); }
     Dimension prevDimension() const { return m_prevDimension; }
 
-    const WidgetV& children() const { return m_widgets; }
-
-    bool moveFocusForward();
+    virtual bool moveFocusForward();
 
     bool focus() { return m_hasFocus; }
     bool canTakeFocus() { return m_canTakeFocus; }
@@ -61,7 +59,6 @@ public: // Non-overridable
 
 protected: // Internal widget functions
     void invalidate();
-    void addWidget(WidgetP widget);
     void focus(bool focus);
     void canTakeFocus(bool can) { m_canTakeFocus = can; }
 
@@ -73,10 +70,8 @@ private:
     unsigned int m_width = 1;
     unsigned int m_x = 0;
     unsigned int m_y = 0;
-    short m_fg = Color::Grey;
+    short m_fg = Color::White;
     short m_bg = Color::Black;
-    WidgetV m_widgets;
-    WidgetV::iterator m_focusWidget;
     bool m_canTakeFocus = false;
     bool m_hasFocus = false;
 };

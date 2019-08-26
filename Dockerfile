@@ -1,4 +1,4 @@
-FROM build-base:latest
+FROM pkuehne/build-base:latest
 
 # Usage:
 #   Build the project:
