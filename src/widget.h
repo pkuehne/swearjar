@@ -28,7 +28,7 @@ public: // Overridable
     Widget();
     virtual ~Widget() {}
     virtual void dirty(bool value) { m_dirty = value; }
-    virtual bool dirty();
+    virtual bool dirty() { return m_dirty; }
 
     virtual void height(unsigned int height);
     virtual unsigned int height() { return m_height; }
@@ -43,18 +43,14 @@ public: // Overridable
     virtual void bgColor(short bg);
     virtual short bgColor() { return m_bg; }
 
-    virtual void refresh(const RenderContext& render);
-    virtual bool handleKeyPress(int ch);
-    virtual void addWidget(WidgetP widget);
-    template<class T> std::shared_ptr<T> createWidget(unsigned int x, unsigned int y);
+    virtual void refresh(const RenderContext& render) {}
+    virtual bool handleKeyPress(int ch) {}
 
 public: // Non-overridable
     void clearPrevDimension() { m_prevDimension = Dimension(); }
     Dimension prevDimension() const { return m_prevDimension; }
 
-    const WidgetV& children() const { return m_widgets; }
-
-    bool moveFocusForward();
+    virtual bool moveFocusForward();
 
     bool focus() { return m_hasFocus; }
     bool canTakeFocus() { return m_canTakeFocus; }
@@ -76,20 +72,8 @@ private:
     unsigned int m_y = 0;
     short m_fg = Color::White;
     short m_bg = Color::Black;
-    WidgetV m_widgets;
-    WidgetV::iterator m_focusWidget;
     bool m_canTakeFocus = false;
     bool m_hasFocus = false;
 };
-
-template<class T>
-std::shared_ptr<T> Widget::createWidget(unsigned int x, unsigned int y)
-{
-    auto widget = std::make_shared<T>();
-    widget->x(x);
-    widget->y(y);
-    this->addWidget(widget);
-    return widget;
-}
 
 } // namespace SwearJar

@@ -1,10 +1,10 @@
 #pragma once
 
-#include "widget.h"
+#include "collection_widget.h"
 
 namespace SwearJar {
 
-class Frame : public Widget {
+class Frame : public CollectionWidget {
     public:
         explicit Frame() :m_title("") {}
         explicit Frame(const std::string& title) :m_title(title) {}
@@ -13,7 +13,7 @@ class Frame : public Widget {
 
         // Overriden Widget functions
         void addWidget(WidgetP widget, unsigned int x, unsigned int y);
-        void refresh(const RenderContext& render);
+        void refresh(const RenderContext& render) override;
 
     private:
         std::string m_title;

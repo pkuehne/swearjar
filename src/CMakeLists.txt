@@ -19,6 +19,8 @@ PRIVATE
     ${CMAKE_CURRENT_LIST_DIR}/button.cpp
     ${CMAKE_CURRENT_LIST_DIR}/frame.h
     ${CMAKE_CURRENT_LIST_DIR}/frame.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/collection_widget.h
+    ${CMAKE_CURRENT_LIST_DIR}/collection_widget.cpp
 )
 target_link_libraries(swearjarbase PRIVATE spdlog::spdlog)
 
