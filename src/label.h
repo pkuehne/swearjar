@@ -6,8 +6,7 @@ namespace SwearJar {
 
 class Label : public Widget {
 public:
-    Label() {}
-    explicit Label(const std::string& text);
+    explicit Label(const std::string& name);
     virtual void text(const std::string& text);
     virtual const std::string& text() { return m_text; }
 

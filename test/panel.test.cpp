@@ -7,6 +7,7 @@
 namespace SwearJar {
 class MockWidget : public Widget {
 public:
+    MockWidget() : Widget("") {}
     MOCK_METHOD1(refresh, void(const RenderContext&));
 };
 
@@ -18,7 +19,7 @@ TEST(Panel, addWidgetIncreasesWidgetCount) {
     SwearJar::Panel p(0, curses, 1, 1);
 
     // When
-    p.addWidget(std::make_shared<SwearJar::Widget>());
+    p.addWidget(std::make_shared<SwearJar::Widget>(""));
 
     // Then
     EXPECT_EQ(p.widgets().size(), 1);
@@ -30,7 +31,7 @@ TEST(Widget, createWidgetAddsOneAndReturns) {
     // Given
     auto curses = std::make_shared<::testing::NiceMock<MockCurses>>();
     SwearJar::Panel p(0, curses, 1, 1);
-    auto newWidget = p.createWidget<Widget>();
+    auto newWidget = p.createWidget<Widget>("", 0, 0);
 
     // Then
     EXPECT_TRUE(newWidget);

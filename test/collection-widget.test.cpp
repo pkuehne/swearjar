@@ -5,20 +5,21 @@ using namespace SwearJar;
 
 class TestWidget : public SwearJar::Widget {
 public:
-    TestWidget() { canTakeFocus(true); }
+    TestWidget() : Widget("") { canTakeFocus(true); }
     void canTakeFocus(bool focus) { Widget::canTakeFocus(focus); }
     bool focus() { return Widget::focus(); }
 };
 
 class TestCollectionWidget : public CollectionWidget {
 public:
+    TestCollectionWidget() : CollectionWidget("") {}
     void canTakeFocus(bool focus) { Widget::canTakeFocus(focus); }
 };
 
 TEST(CollectionWidget, dirtyIsTrueIfDirtyChildWidgetExists) {
     // Given
     TestCollectionWidget w;
-    WidgetP c = std::make_shared<Widget>();
+    WidgetP c = std::make_shared<Widget>("");
 
     // When
     w.addWidget(c);
@@ -30,8 +31,8 @@ TEST(CollectionWidget, dirtyIsTrueIfDirtyChildWidgetExists) {
 TEST(CollectionWidget, dirtyIsFalseIfNoDirtyChildWidgetExists) {
     // Given
     TestCollectionWidget w;
-    WidgetP c = std::make_shared<Widget>();
-    WidgetP d = std::make_shared<Widget>();
+    WidgetP c = std::make_shared<Widget>("");
+    WidgetP d = std::make_shared<Widget>("");
     w.addWidget(c);
     w.addWidget(d);
 
@@ -54,7 +55,7 @@ TEST(CollectionWidget, initializesWithNoChildren) {
 TEST(CollectionWidget, addingWidgetIncreasesChildCount) {
     // Given
     TestCollectionWidget w;
-    WidgetP c = std::make_shared<Widget>();
+    WidgetP c = std::make_shared<Widget>("");
 
     // When
     w.addWidget(c);
@@ -213,7 +214,7 @@ TEST(CollectionWidget, handleKeysReturnsFalseIfNoChildrenByDefault) {
 TEST(CollectionWidget, handleKeysReturnsFalseIfNoChildrenHasFocus) {
     // Given
     TestCollectionWidget base;
-    auto c1 = std::make_shared<Widget>();
+    auto c1 = std::make_shared<Widget>("");
     base.addWidget(c1);
 
     // When

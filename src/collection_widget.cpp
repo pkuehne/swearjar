@@ -2,7 +2,9 @@
 #include <spdlog/spdlog.h>
 
 namespace SwearJar {
-CollectionWidget::CollectionWidget() { m_focusWidget = m_widgets.end(); }
+CollectionWidget::CollectionWidget(const std::string& name) : Widget(name) {
+    m_focusWidget = m_widgets.end();
+}
 
 bool CollectionWidget::dirty() {
     bool dirty = false;

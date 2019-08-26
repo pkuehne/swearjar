@@ -5,8 +5,7 @@
 namespace SwearJar {
 class Button : public Widget {
 public:
-    Button();
-    explicit Button(const std::string& text);
+    explicit Button(const std::string& name);
     virtual void text(const std::string& text);
     virtual const std::string& text() { return m_text; }
 
