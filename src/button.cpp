@@ -3,13 +3,7 @@
 
 namespace SwearJar {
 
-Button::Button() {
-    canTakeFocus(true);
-}
-
-Button::Button(const std::string& text) : Button() {
-    this->text(text);
-}
+Button::Button(const std::string& name) : Widget(name) { canTakeFocus(true); }
 
 void Button::text(const std::string& text) {
     width(text.length() + 4);
@@ -28,7 +22,7 @@ void Button::refresh(const RenderContext& render) {
 }
 
 bool Button::handleKeyPress(int ch) {
-    spdlog::info ("Button pressed");
+    spdlog::info("Button pressed");
     if (ch != 10) {
         return false;
     }

@@ -3,7 +3,7 @@
 
 namespace SwearJar {
 
-Label::Label(const std::string& text) { this->text(text); }
+Label::Label(const std::string& name) : Widget(name) {}
 
 void Label::text(const std::string& text) {
     width(text.length());

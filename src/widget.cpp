@@ -3,7 +3,7 @@
 
 namespace SwearJar {
 
-Widget::Widget() {}
+Widget::Widget(const std::string& name) : m_name(name) {}
 
 void Widget::height(unsigned int height) {
     invalidate();

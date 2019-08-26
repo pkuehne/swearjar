@@ -25,7 +25,7 @@ enum Color {
 
 class Widget {
 public: // Overridable
-    Widget();
+    Widget(const std::string& name);
     virtual ~Widget() {}
     virtual void dirty(bool value) { m_dirty = value; }
     virtual bool dirty() { return m_dirty; }
@@ -42,6 +42,8 @@ public: // Overridable
     virtual short fgColor() { return m_fg; }
     virtual void bgColor(short bg);
     virtual short bgColor() { return m_bg; }
+
+    virtual std::string name() { return m_name; }
 
     virtual void refresh(const RenderContext& render) {}
     virtual bool handleKeyPress(int ch) {}
@@ -63,6 +65,7 @@ protected: // Internal widget functions
     void canTakeFocus(bool can) { m_canTakeFocus = can; }
 
 private:
+    std::string m_name;
     unsigned int m_panel;
     bool m_dirty = true;
     Dimension m_prevDimension;

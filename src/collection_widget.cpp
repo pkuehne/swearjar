@@ -2,7 +2,9 @@
 #include <spdlog/spdlog.h>
 
 namespace SwearJar {
-CollectionWidget::CollectionWidget() { m_focusWidget = m_widgets.end(); }
+CollectionWidget::CollectionWidget(const std::string& name) : Widget(name) {
+    m_focusWidget = m_widgets.end();
+}
 
 bool CollectionWidget::dirty() {
     bool dirty = false;
@@ -74,6 +76,7 @@ bool CollectionWidget::handleKeyPress(int ch) {
         return false;
     }
     if (m_focusWidget != m_widgets.end()) {
+        spdlog::debug("Sending keyPress to {}", (*m_focusWidget)->name());
         return (*m_focusWidget)->handleKeyPress(ch);
     }
     return false;

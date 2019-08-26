@@ -5,7 +5,7 @@ using namespace SwearJar;
 
 class TestWidget : public SwearJar::Widget {
 public:
-    TestWidget() { canTakeFocus(true); }
+    TestWidget() : Widget("") { canTakeFocus(true); }
     virtual ~TestWidget() {}
     void canTakeFocus(bool focus) { Widget::canTakeFocus(focus); }
     void focus(bool focus) { Widget::focus(focus); }
@@ -14,13 +14,13 @@ public:
 
 TEST(Widget, initializesDirtyToTrue) {
 
-    Widget w;
+    Widget w("");
     EXPECT_TRUE(w.dirty());
 }
 
 TEST(Widget, settingXMarksDirty) {
     // Given
-    Widget w;
+    Widget w("");
     w.dirty(false);
 
     // When
@@ -32,7 +32,7 @@ TEST(Widget, settingXMarksDirty) {
 
 TEST(Widget, settingYMarksDirty) {
     // Given
-    Widget w;
+    Widget w("");
     w.dirty(false);
 
     // When
@@ -44,7 +44,7 @@ TEST(Widget, settingYMarksDirty) {
 
 TEST(Widget, settingWidthMarksDirty) {
     // Given
-    Widget w;
+    Widget w("");
     w.dirty(false);
 
     // When
@@ -56,7 +56,7 @@ TEST(Widget, settingWidthMarksDirty) {
 
 TEST(Widget, settingHeightMarksDirty) {
     // Given
-    Widget w;
+    Widget w("");
     w.dirty(false);
 
     // When
@@ -68,7 +68,7 @@ TEST(Widget, settingHeightMarksDirty) {
 
 TEST(Widget, prevDimensionIsSetWhenDirtied) {
     // Given
-    Widget w;
+    Widget w("");
     w.height(20);
     w.width(30);
     w.x(2);
@@ -179,4 +179,3 @@ TEST(Widget, focusFunctionsNotCalledIfNotSet) {
     ASSERT_NO_THROW(base.focus(true));
     ASSERT_NO_THROW(base.focus(false));
 }
-
