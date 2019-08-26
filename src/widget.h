@@ -43,6 +43,8 @@ public: // Overridable
     virtual void bgColor(short bg);
     virtual short bgColor() { return m_bg; }
 
+    virtual std::string name() { return m_name; }
+
     virtual void refresh(const RenderContext& render) {}
     virtual bool handleKeyPress(int ch) {}
 

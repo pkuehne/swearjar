@@ -18,7 +18,7 @@ void RenderContext::drawText(unsigned int x, unsigned int y,
 void RenderContext::drawChar(unsigned int x, unsigned int y, char ch) const {
     unsigned int xPos = m_xOffset + x;
     unsigned int yPos = m_yOffset + y;
-    spdlog::info("RC: Placing '{}' at ({},{}) = ({},{})", ch, x, y, xPos,
+    spdlog::debug("RC: Placing '{}' at ({},{}) = ({},{})", ch, x, y, xPos,
                   yPos);
     if (xPos > m_width || yPos > m_height) {
         spdlog::warn("RC: Out of range {} > {} or {} > {}", xPos, m_width, yPos,
@@ -56,12 +56,11 @@ void RenderContext::clearArea(unsigned int x, unsigned int y,
 
 void RenderContext::drawBorder(unsigned int x, unsigned int y,
                                unsigned int width, unsigned int height,
-                               short fg, short bg) const
-{
-    spdlog::info("RC: drawing border {}x{} @ ({},{})", width, height, x, y);
+                               short fg, short bg) const {
+    spdlog::debug("RC: drawing border {}x{} @ ({},{})", width, height, x, y);
     if (width < 3 || height < 3) {
         spdlog::warn("RC: Invalid border dimensions {}x{} @ ({},{})", width,
-                height, x, y);
+                     height, x, y);
         return;
     }
     const char verticalBorder = '|';
@@ -71,12 +70,12 @@ void RenderContext::drawBorder(unsigned int x, unsigned int y,
     const char cornerSW = '+';
     const char cornerSE = '+';
 
-    //const char verticalBorder = 186;
-    //const char horizontalBorder = 205;
-    //const char cornerNW = 201;
-    //const char cornerNE = 187;
-    //const char cornerSW = 200;
-    //const char cornerSE = 188;
+    // const char verticalBorder = 186;
+    // const char horizontalBorder = 205;
+    // const char cornerNW = 201;
+    // const char cornerNE = 187;
+    // const char cornerSW = 200;
+    // const char cornerSE = 188;
 
     width -= 1;
     height -= 1;
@@ -88,13 +87,13 @@ void RenderContext::drawBorder(unsigned int x, unsigned int y,
     }
 
     for (unsigned int xPos = 1; xPos < width; xPos++) {
-        drawChar(x+xPos, y, horizontalBorder);
-        drawChar(x+xPos, y + height, horizontalBorder);
+        drawChar(x + xPos, y, horizontalBorder);
+        drawChar(x + xPos, y + height, horizontalBorder);
     }
     drawChar(x, y, cornerNW);
-    drawChar(x+width, y, cornerNE);
-    drawChar(x, y+height, cornerSW);
-    drawChar(x+width, y+height, cornerSE);
+    drawChar(x + width, y, cornerNE);
+    drawChar(x, y + height, cornerSW);
+    drawChar(x + width, y + height, cornerSE);
     m_curses->color_off(m_curses->get_color(bg, bg));
 }
 

@@ -76,6 +76,7 @@ bool CollectionWidget::handleKeyPress(int ch) {
         return false;
     }
     if (m_focusWidget != m_widgets.end()) {
+        spdlog::debug("Sending keyPress to {}", (*m_focusWidget)->name());
         return (*m_focusWidget)->handleKeyPress(ch);
     }
     return false;
