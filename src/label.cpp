@@ -7,6 +7,7 @@ Label::Label(const std::string& name) : Widget(name) {}
 
 void Label::text(const std::string& text) {
     width(text.length());
+    minWidth(text.length());
     m_text = text;
 }
 

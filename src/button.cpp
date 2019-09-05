@@ -7,6 +7,7 @@ Button::Button(const std::string& name) : Widget(name) { canTakeFocus(true); }
 
 void Button::text(const std::string& text) {
     width(text.length() + 4);
+    minWidth(text.length() + 4);
     m_text = text;
     dirty(true);
 }

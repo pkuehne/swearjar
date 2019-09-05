@@ -10,6 +10,8 @@ public:
 
     bool dirty() override;
     void dirty(bool) override{};
+    unsigned int minHeight() override;
+    unsigned int minWidth() override;
 
     const WidgetV& children() const { return m_widgets; }
 
@@ -21,6 +23,7 @@ public:
     void refresh(const RenderContext& render) override;
     bool moveFocusForward() override;
     virtual bool handleKeyPress(int ch) override;
+    virtual void realign() override;
 
 private:
     WidgetV m_widgets;

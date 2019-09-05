@@ -32,8 +32,14 @@ public: // Overridable
 
     virtual void height(unsigned int height);
     virtual unsigned int height() { return m_height; }
+    virtual void minHeight(unsigned int height);
+    virtual unsigned int minHeight() { return m_minHeight; }
+
     virtual void width(unsigned int width);
     virtual unsigned int width() { return m_width; }
+    virtual void minWidth(unsigned int width);
+    virtual unsigned int minWidth() { return m_minWidth; }
+
     virtual void x(unsigned int x);
     virtual unsigned int x() { return m_x; }
     virtual void y(unsigned int y);
@@ -42,11 +48,14 @@ public: // Overridable
     virtual short fgColor() { return m_fg; }
     virtual void bgColor(short bg);
     virtual short bgColor() { return m_bg; }
+    virtual void growthFactor(unsigned int factor) { m_growthFactor = factor; }
+    virtual unsigned int growthFactor() { return m_growthFactor; }
 
     virtual std::string name() { return m_name; }
 
     virtual void refresh(const RenderContext& render) {}
     virtual bool handleKeyPress(int ch) {}
+    virtual void realign() {}
 
 public: // Non-overridable
     void clearPrevDimension() { m_prevDimension = Dimension(); }
@@ -71,8 +80,11 @@ private:
     Dimension m_prevDimension;
     unsigned int m_height = 1;
     unsigned int m_width = 1;
+    unsigned int m_minHeight = 1;
+    unsigned int m_minWidth = 1;
     unsigned int m_x = 0;
     unsigned int m_y = 0;
+    unsigned int m_growthFactor = 0;
     short m_fg = Color::White;
     short m_bg = Color::Black;
     bool m_canTakeFocus = false;

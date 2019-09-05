@@ -6,6 +6,22 @@ CollectionWidget::CollectionWidget(const std::string& name) : Widget(name) {
     m_focusWidget = m_widgets.end();
 }
 
+unsigned int CollectionWidget::minHeight() {
+    unsigned int min = 0;
+    for (auto w : m_widgets) {
+        min += w->minHeight();
+    }
+    return min;
+}
+
+unsigned int CollectionWidget::minWidth() {
+    unsigned int min = 0;
+    for (auto w : m_widgets) {
+        min += w->minWidth();
+    }
+    return min;
+}
+
 bool CollectionWidget::dirty() {
     bool dirty = false;
     for (auto w : m_widgets) {
@@ -80,6 +96,37 @@ bool CollectionWidget::handleKeyPress(int ch) {
         return (*m_focusWidget)->handleKeyPress(ch);
     }
     return false;
+}
+
+void CollectionWidget::realign() {
+    unsigned int widthToAllocate = width() - minWidth();
+    unsigned int totalGrowthFactor = 0;
+    for (const auto& w : children()) {
+        totalGrowthFactor += w->growthFactor();
+    }
+
+    unsigned int allocatedWidth = 0;
+    for (auto& w : children()) {
+        double extraWidth = 0.0f;
+        if (w->growthFactor() > 0) {
+            extraWidth = w->growthFactor();
+            extraWidth /= totalGrowthFactor;
+            extraWidth *= widthToAllocate;
+        }
+
+        unsigned int width = w->minWidth() + extraWidth;
+        w->width(width);
+        w->x(allocatedWidth);
+        allocatedWidth += width;
+
+        w->height(height());
+        w->y(0);
+    }
+
+    if (allocatedWidth < widthToAllocate && children().size()) {
+        auto& first = children()[0];
+        first->width(first->width() + widthToAllocate);
+    }
 }
 
 } // namespace SwearJar
