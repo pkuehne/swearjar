@@ -1,5 +1,5 @@
 #pragma once
-#include "collection_widget.h"
+#include "layout_widget.h"
 #include "curses_interface.h"
 #include "render_context.h"
 #include <memory>
@@ -7,9 +7,9 @@
 
 namespace SwearJar {
 
-class BaseWidget : public CollectionWidget {
+class BaseWidget : public LayoutWidget {
 public:
-    BaseWidget() : CollectionWidget("base") {}
+    BaseWidget() : LayoutWidget("base") {}
 };
 
 class Panel {

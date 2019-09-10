@@ -22,8 +22,7 @@ public:
 
     void refresh(const RenderContext& render) override;
     bool moveFocusForward() override;
-    virtual bool handleKeyPress(int ch) override;
-    virtual void realign() override;
+    bool handleKeyPress(int ch) override;
 
 private:
     WidgetV m_widgets;

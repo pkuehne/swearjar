@@ -14,6 +14,8 @@ RUN mkdir -p build
 
 ARG UID=1000
 ARG GID=1000
+RUN useradd -u $UID builder
+
 USER $UID:$GID
 
 CMD cmake . -Bbuild

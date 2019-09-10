@@ -55,7 +55,6 @@ public: // Overridable
 
     virtual void refresh(const RenderContext& render) {}
     virtual bool handleKeyPress(int ch) {}
-    virtual void realign() {}
 
 public: // Non-overridable
     void clearPrevDimension() { m_prevDimension = Dimension(); }
