@@ -20,14 +20,16 @@ public:
 
 public:
     LayoutWidget(const std::string& name) : CollectionWidget(name) {}
-    virtual void addSpacer();
 
-    void realign();
+    virtual void addSpacer();
+    virtual void realign();
     virtual void realignHorizontally();
     virtual void realignVertically();
+
     void alignment(Alignment align) { m_alignment = align; }
     Alignment alignment() { return m_alignment; }
 
+    void refresh(const RenderContext& render) override;
 private:
     Alignment m_alignment = Alignment::Fixed;
 };

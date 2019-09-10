@@ -26,10 +26,14 @@ public:
     }
 
     WidgetP widget() { return m_baseWidget; }
+    std::shared_ptr<BaseWidget> baseWidget() { return m_baseWidget; }
     const WidgetV& widgets() { return m_baseWidget->children(); }
 
     void refreshDirtyWidgets();
     void clearPanel();
+
+    unsigned int width() { return m_width; }
+    unsigned int height() { return m_height; }
 
 private:
     unsigned int m_id;

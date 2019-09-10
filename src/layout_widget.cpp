@@ -37,6 +37,7 @@ void LayoutWidget::realignHorizontally() {
         unsigned int newWidth = w->minWidth() + extraWidth;
         w->width(newWidth);
         w->x(allocatedWidth);
+        spdlog::info("Aligning {} at {} and width {}", w->name(), w->x(), w->width());
         allocatedWidth += newWidth;
 
         w->height(height());
@@ -78,6 +79,11 @@ void LayoutWidget::realignVertically() {
         auto& first = children()[0];
         first->height(first->height() + heightToAllocate);
     }
+}
+
+void LayoutWidget::refresh(const RenderContext& render) {
+    realign();
+    CollectionWidget::refresh(render);
 }
 
 } // namespace SwearJar

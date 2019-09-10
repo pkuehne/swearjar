@@ -4,14 +4,14 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-namespace SwearJar {
+using namespace SwearJar;
+
 class MockWidget : public Widget {
 public:
     MockWidget() : Widget("") {}
     MOCK_METHOD1(refresh, void(const RenderContext&));
 };
 
-} // namespace SwearJar
 
 TEST(Panel, addWidgetIncreasesWidgetCount) {
     // Given
@@ -65,8 +65,6 @@ TEST(Panel, refreshDirtyWidgetsOnlyRefreshesDirtyWidgets) {
 }
 
 TEST(Panel, refreshDirtyWidgetsSetsWidgetClean) {
-    using namespace SwearJar;
-
     // Given
     auto curses = std::make_shared<::testing::NiceMock<MockCurses>>();
     Panel p(0, curses, 1, 1);
@@ -81,4 +79,18 @@ TEST(Panel, refreshDirtyWidgetsSetsWidgetClean) {
 
     // Then
     EXPECT_FALSE(w1->dirty());
+}
+
+TEST(Panel, baseWidgetInitializedToHeightAndWidth) {
+    // Given
+    auto curses = std::make_shared<::testing::NiceMock<MockCurses>>();
+    Panel p(0, curses, 10, 20);
+
+    // When
+    auto base = p.baseWidget();
+
+    // Then
+    EXPECT_EQ(base->width(), p.width());
+    EXPECT_EQ(base->height(), p.height());
+
 }

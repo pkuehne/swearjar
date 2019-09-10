@@ -12,11 +12,15 @@ void make_button_label_example(SwearJar::Screen& screen) {
     unsigned int w = 50;
     unsigned int h = 50;
     auto panel = screen.createPanel(x, y, w, h);
+    auto baseWidget = panel->baseWidget();
+    baseWidget->alignment(LayoutWidget::Alignment::Horizontal);
 
+    baseWidget->addSpacer();
     auto frame = panel->createWidget<Frame>("frmFrame", 0, 0);
     frame->title("Frame");
     frame->width(20);
     frame->height(11);
+    baseWidget->addSpacer();
 
     auto lblDisplay = frame->createWidget<Label>("lblDisplay", 2, 2);
     lblDisplay->text("This is a label");
