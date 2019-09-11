@@ -37,6 +37,21 @@ TEST(Widget, createWidgetAddsOneAndReturns) {
     EXPECT_FALSE(p.widgets().empty());
 }
 
+TEST(Widget, createWidgetWithoutCoordinatesSetsThemToZero) {
+    using namespace SwearJar;
+
+    // Given
+    auto curses = std::make_shared<::testing::NiceMock<MockCurses>>();
+    SwearJar::Panel p(0, curses, 1, 1);
+    auto newWidget = p.createWidget<Widget>("test");
+
+    // Then
+    EXPECT_TRUE(newWidget);
+    EXPECT_EQ("test", newWidget->name());
+    EXPECT_EQ(0, newWidget->x());
+    EXPECT_EQ(0, newWidget->y());
+}
+
 TEST(Panel, refreshDirtyWidgetsOnlyRefreshesDirtyWidgets) {
     using namespace SwearJar;
 

@@ -1,6 +1,6 @@
 #pragma once
-#include "layout_widget.h"
 #include "curses_interface.h"
+#include "layout_widget.h"
 #include "render_context.h"
 #include <memory>
 #include <vector>
@@ -19,6 +19,10 @@ public:
     virtual ~Panel();
     void addWidget(Widget* widget);
     void addWidget(std::shared_ptr<Widget> widget);
+    template <typename T>
+    std::shared_ptr<T> createWidget(const std::string& name) {
+        return createWidget<T>(name, 0, 0);
+    }
     template <typename T>
     std::shared_ptr<T> createWidget(const std::string& name, unsigned int x,
                                     unsigned int y) {
