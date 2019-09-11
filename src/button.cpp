@@ -23,7 +23,7 @@ void Button::refresh(const RenderContext& render) {
 }
 
 bool Button::handleKeyPress(int ch) {
-    spdlog::info("Button pressed");
+    spdlog::info("Button '{}' pressed", name());
     if (ch != 10) {
         return false;
     }

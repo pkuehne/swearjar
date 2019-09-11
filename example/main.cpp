@@ -73,7 +73,6 @@ SwearJar::Button* make_button(std::shared_ptr<SwearJar::Panel>& panel) {
 }
 
 void run() {
-
     using namespace SwearJar;
     Screen screen(std::make_shared<CursesWrapper>());
     screen.initialize();
