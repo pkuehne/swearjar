@@ -16,7 +16,7 @@ public:
 public:
     LayoutWidget(const std::string& name) : CollectionWidget(name) {}
 
-    virtual void addSpacer();
+    virtual void addSpacer(unsigned int factor = 1);
     virtual void realign();
     virtual void realignHorizontally();
     virtual void realignVertically();
@@ -24,10 +24,14 @@ public:
     void alignment(Alignment align) { m_alignment = align; }
     Alignment alignment() { return m_alignment; }
 
+    void margin(unsigned int margin) { m_margin = margin; }
+    unsigned int margin() { return m_margin; }
+
     void refresh(const RenderContext& render) override;
 
 private:
     Alignment m_alignment = Alignment::Fixed;
+    unsigned int m_margin = 0;
 };
 
 } // namespace SwearJar

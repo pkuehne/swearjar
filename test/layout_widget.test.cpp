@@ -17,12 +17,24 @@ TEST(LayoutWidget, addingSpacerAddsAnotherWidget) {
     EXPECT_EQ(1, layout.children().size());
 }
 
+TEST(LayoutWidget, addingSpacerCanSetGrowthFactor) {
+    // Given
+    LayoutWidget layout("layout");
+    unsigned int factor = 5;
+
+    // When
+    layout.addSpacer(factor);
+
+    // Then
+    EXPECT_EQ(factor, layout.children()[0]->growthFactor());
+}
+
 TEST(LayoutWidget, spacerGrowsByDefault) {
     // Given
     SpacerWidget w;
 
     // Then
-    EXPECT_EQ(1, w.growthFactor());
+    EXPECT_NE(0, w.growthFactor());
 }
 
 TEST(LayoutWidget, realignAllocatesWidthOnlyToGrowingWidgets) {
@@ -126,13 +138,13 @@ TEST(LayoutWidget, realignSetsFullHeightForAllWidgets) {
     auto c2 = std::make_shared<Widget>("");
     c2->minWidth(2);
     c2->height(1);
-    c1->y(0);
+    c2->y(0);
     base.addWidget(c2);
 
     auto c3 = std::make_shared<Widget>("");
     c3->minWidth(2);
     c3->height(8);
-    c1->y(4);
+    c3->y(4);
     base.addWidget(c3);
 
     // When
@@ -202,4 +214,71 @@ TEST(LayoutWidget, refreshOnlyRealignsWhenDirty) {
 
     // Then
     EXPECT_EQ(c1->width(), c1->minWidth());
+}
+
+TEST(LayoutWidget, realignSetsXvalueWithMargin) {
+    // Given
+    LayoutWidget base("");
+    base.width(20);
+    base.margin(1);
+    base.alignment(LayoutWidget::Alignment::Horizontal);
+
+    auto c1 = std::make_shared<Widget>("");
+    c1->minWidth(4);
+    base.addWidget(c1);
+
+    auto c2 = std::make_shared<Widget>("");
+    c2->minWidth(5);
+    c2->growthFactor(1);
+    base.addWidget(c2);
+
+    // When
+    base.realign();
+
+    // Then
+    EXPECT_EQ(1, c1->x());
+    EXPECT_EQ(4, c1->width());
+    EXPECT_EQ(5, c2->x());
+    EXPECT_EQ(14, c2->width());
+}
+
+TEST(LayoutWidget, realignSetsFullHeightWithMargin) {
+    // Given
+    unsigned int margin = 2;
+
+    LayoutWidget base("");
+    base.width(20);
+    base.height(10);
+    base.margin(margin);
+    base.alignment(LayoutWidget::Alignment::Horizontal);
+
+    auto c1 = std::make_shared<Widget>("");
+    c1->minWidth(2);
+    c1->height(5);
+    c1->y(2);
+    base.addWidget(c1);
+
+    auto c2 = std::make_shared<Widget>("");
+    c2->minWidth(2);
+    c2->height(1);
+    c2->y(0);
+    base.addWidget(c2);
+
+    auto c3 = std::make_shared<Widget>("");
+    c3->minWidth(2);
+    c3->height(8);
+    c3->y(4);
+    base.addWidget(c3);
+
+    // When
+    base.realign();
+
+    // Then
+    EXPECT_EQ(base.height() - (margin * 2), c1->height());
+    EXPECT_EQ(base.height() - (margin * 2), c2->height());
+    EXPECT_EQ(base.height() - (margin * 2), c3->height());
+
+    EXPECT_EQ(margin, c1->y());
+    EXPECT_EQ(margin, c2->y());
+    EXPECT_EQ(margin, c3->y());
 }

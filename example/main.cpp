@@ -12,32 +12,41 @@ void make_button_label_example(SwearJar::Screen& screen) {
     baseWidget->alignment(LayoutWidget::Alignment::Horizontal);
 
     baseWidget->addSpacer();
-    auto frame = panel->createWidget<Frame>("frmFrame", 0, 0);
-    frame->title("Frame");
+    auto frame = panel->createWidget<Frame>("frmFrame");
     baseWidget->addSpacer();
 
-    auto lblDisplay = frame->createWidget<Label>("lblDisplay", 2, 2);
+    frame->title("Frame");
+    frame->alignment(LayoutWidget::Alignment::Vertical);
+    frame->addSpacer();
+    frame->margin(2);
+
+    auto lblDisplay = frame->createWidget<Label>("lblDisplay");
+    lblDisplay->centred(true);
     lblDisplay->text("This is a label");
     lblDisplay->fgColor(Color::Magenta);
     lblDisplay->bgColor(Color::Black);
 
-    auto btnRed = frame->createWidget<Button>("btnRed", 2, 4);
+    frame->addSpacer();
+
+    auto btnRed = frame->createWidget<Button>("btnRed");
     btnRed->text("Red");
     btnRed->pressed = [lblDisplay](Button*) {
         lblDisplay->fgColor(Color::Red);
     };
 
-    auto btnBlue = frame->createWidget<Button>("btnBlue", 2, 6);
+    auto btnBlue = frame->createWidget<Button>("btnBlue");
     btnBlue->text("Blue");
     btnBlue->pressed = [lblDisplay](Button*) {
         lblDisplay->fgColor(Color::Blue);
     };
 
-    auto btnYellow = frame->createWidget<Button>("btnYellow", 2, 8);
+    auto btnYellow = frame->createWidget<Button>("btnYellow");
     btnYellow->text("Yellow");
     btnYellow->pressed = [lblDisplay](Button*) {
         lblDisplay->fgColor(Color::Yellow);
     };
+
+    frame->addSpacer(2);
 }
 
 SwearJar::Button* make_button(std::shared_ptr<SwearJar::Panel>& panel) {

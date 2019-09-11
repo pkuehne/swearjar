@@ -2,7 +2,11 @@
 
 namespace SwearJar {
 
-void LayoutWidget::addSpacer() { addWidget(std::make_shared<SpacerWidget>()); }
+void LayoutWidget::addSpacer(unsigned int factor) {
+    auto widget = std::make_shared<SpacerWidget>();
+    widget->growthFactor(factor);
+    addWidget(widget);
+}
 
 void LayoutWidget::realign() {
     switch (m_alignment) {
@@ -31,13 +35,13 @@ unsigned int calculateNewSize(unsigned int minSize, unsigned int growthFactor,
 }
 
 void LayoutWidget::realignHorizontally() {
-    unsigned int widthToAllocate = width() - minWidth();
+    unsigned int widthToAllocate = width() - minWidth() - (m_margin * 2);
     unsigned int totalGrowthFactor = 0;
     for (const auto& w : children()) {
         totalGrowthFactor += w->growthFactor();
     }
 
-    unsigned int allocatedWidth = 0;
+    unsigned int allocatedWidth = m_margin;
     for (auto& w : children()) {
         unsigned int newWidth =
             calculateNewSize(w->minWidth(), w->growthFactor(),
@@ -46,8 +50,8 @@ void LayoutWidget::realignHorizontally() {
         w->x(allocatedWidth);
         allocatedWidth += newWidth;
 
-        w->height(height());
-        w->y(0);
+        w->height(height() - (m_margin * 2));
+        w->y(m_margin);
     }
 
     if (allocatedWidth < widthToAllocate && children().size()) {
@@ -57,13 +61,13 @@ void LayoutWidget::realignHorizontally() {
 }
 
 void LayoutWidget::realignVertically() {
-    unsigned int heightToAllocate = height() - minHeight();
+    unsigned int heightToAllocate = height() - minHeight() - (m_margin * 2);
     unsigned int totalGrowthFactor = 0;
     for (const auto& w : children()) {
         totalGrowthFactor += w->growthFactor();
     }
 
-    unsigned int allocatedHeight = 0;
+    unsigned int allocatedHeight = m_margin;
     for (auto& w : children()) {
         unsigned int newHeight =
             calculateNewSize(w->minHeight(), w->growthFactor(),
@@ -72,8 +76,8 @@ void LayoutWidget::realignVertically() {
         w->y(allocatedHeight);
         allocatedHeight += newHeight;
 
-        w->width(width());
-        w->x(0);
+        w->width(width() - (m_margin * 2));
+        w->x(m_margin);
     }
 
     if (allocatedHeight < heightToAllocate && children().size()) {

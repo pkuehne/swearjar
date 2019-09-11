@@ -1,12 +1,12 @@
 #pragma once
 
-#include "collection_widget.h"
+#include "layout_widget.h"
 
 namespace SwearJar {
 
-class Frame : public CollectionWidget {
+class Frame : public LayoutWidget {
 public:
-    explicit Frame(const std::string& name) : CollectionWidget(name) {}
+    explicit Frame(const std::string& name) : LayoutWidget(name) { margin(1); }
     void title(const std::string& title) { m_title = title; }
     std::string title() { return m_title; }
 
