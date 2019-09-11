@@ -10,7 +10,7 @@ void make_button_label_example(SwearJar::Screen& screen) {
     unsigned int x = 0;
     unsigned int y = 0;
     unsigned int w = 50;
-    unsigned int h = 50;
+    unsigned int h = 20;
     auto panel = screen.createPanel(x, y, w, h);
     auto baseWidget = panel->baseWidget();
     baseWidget->alignment(LayoutWidget::Alignment::Horizontal);

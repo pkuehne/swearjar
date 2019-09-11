@@ -18,6 +18,18 @@ void LayoutWidget::realign() {
     }
 }
 
+unsigned int calculateNewSize(unsigned int minSize, unsigned int growthFactor,
+                              unsigned int totalGrowthFactor,
+                              unsigned int widthToAllocate) {
+    double extraSize = 0.0f;
+    if (growthFactor > 0) {
+        extraSize = growthFactor;
+        extraSize /= totalGrowthFactor;
+        extraSize *= widthToAllocate;
+    }
+    return minSize + extraSize;
+}
+
 void LayoutWidget::realignHorizontally() {
     unsigned int widthToAllocate = width() - minWidth();
     unsigned int totalGrowthFactor = 0;
@@ -27,17 +39,11 @@ void LayoutWidget::realignHorizontally() {
 
     unsigned int allocatedWidth = 0;
     for (auto& w : children()) {
-        double extraWidth = 0.0f;
-        if (w->growthFactor() > 0) {
-            extraWidth = w->growthFactor();
-            extraWidth /= totalGrowthFactor;
-            extraWidth *= widthToAllocate;
-        }
-
-        unsigned int newWidth = w->minWidth() + extraWidth;
+        unsigned int newWidth = calculateNewSize(w->minWidth(),
+                                    w->growthFactor(), totalGrowthFactor,
+                                    widthToAllocate);
         w->width(newWidth);
         w->x(allocatedWidth);
-        spdlog::info("Aligning {} at {} and width {}", w->name(), w->x(), w->width());
         allocatedWidth += newWidth;
 
         w->height(height());
@@ -59,14 +65,9 @@ void LayoutWidget::realignVertically() {
 
     unsigned int allocatedHeight = 0;
     for (auto& w : children()) {
-        double extraHeight = 0.0f;
-        if (w->growthFactor() > 0) {
-            extraHeight = w->growthFactor();
-            extraHeight /= totalGrowthFactor;
-            extraHeight *= heightToAllocate;
-        }
-
-        unsigned int newHeight = w->minHeight() + extraHeight;
+        unsigned int newHeight = calculateNewSize(w->minHeight(),
+                                    w->growthFactor(), totalGrowthFactor,
+                                    heightToAllocate);
         w->height(newHeight);
         w->y(allocatedHeight);
         allocatedHeight += newHeight;
