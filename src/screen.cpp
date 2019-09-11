@@ -39,7 +39,8 @@ void Screen::run() {
             m_quit = true;
             continue;
         }
-        bool handled = m_panels.begin()->second->baseWidget()->handleKeyPress(ch);
+        bool handled =
+            m_panels.begin()->second->baseWidget()->handleKeyPress(ch);
         if (!handled) {
             unhandledKeys(ch);
         }
@@ -60,6 +61,13 @@ void Screen::clearScreen() {
     m_curses->color_off(m_curses->get_color(8, 0));
 
     m_curses->refresh();
+}
+
+std::shared_ptr<Panel> Screen::createPanel() {
+    int height = 0, width = 0;
+    m_curses->get_screen_size(height, width);
+
+    return createPanel(0, 0, width, height);
 }
 
 std::shared_ptr<Panel> Screen::createPanel(unsigned int x, unsigned int y,

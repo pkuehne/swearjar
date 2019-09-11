@@ -1,5 +1,5 @@
-#include "swearjar.h"
 #include "frame.h"
+#include "swearjar.h"
 #include <iostream>
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/spdlog.h>
@@ -7,19 +7,13 @@
 void make_button_label_example(SwearJar::Screen& screen) {
     using namespace SwearJar;
 
-    unsigned int x = 0;
-    unsigned int y = 0;
-    unsigned int w = 50;
-    unsigned int h = 20;
-    auto panel = screen.createPanel(x, y, w, h);
+    auto panel = screen.createPanel();
     auto baseWidget = panel->baseWidget();
     baseWidget->alignment(LayoutWidget::Alignment::Horizontal);
 
     baseWidget->addSpacer();
     auto frame = panel->createWidget<Frame>("frmFrame", 0, 0);
     frame->title("Frame");
-    frame->width(20);
-    frame->height(11);
     baseWidget->addSpacer();
 
     auto lblDisplay = frame->createWidget<Label>("lblDisplay", 2, 2);
@@ -63,9 +57,7 @@ SwearJar::Button* make_button(std::shared_ptr<SwearJar::Panel>& panel) {
         auto b = dynamic_cast<Button*>(w);
         b->text(text);
     };
-    button->pressed = [&](Button* b) {
-        b->fgColor(Color::Yellow);
-    };
+    button->pressed = [&](Button* b) { b->fgColor(Color::Yellow); };
     panel->addWidget(button);
 
     y += 2;
@@ -78,17 +70,17 @@ void run() {
     screen.initialize();
 
     make_button_label_example(screen);
-    //auto panel = make_panel(screen);
-    //auto label = make_label(panel);
-    //auto frame = make_frame(panel);
-    //auto button = make_button(panel);
-    //auto button2 = make_button(panel);
-    //auto button3 = make_button(panel);
+    // auto panel = make_panel(screen);
+    // auto label = make_label(panel);
+    // auto frame = make_frame(panel);
+    // auto button = make_button(panel);
+    // auto button2 = make_button(panel);
+    // auto button3 = make_button(panel);
 
-    //screen.unhandledKeys = [&](char key) {
-        //label->text("X");
-        //label->centered(true);
-        //label->width(3);
+    // screen.unhandledKeys = [&](char key) {
+    // label->text("X");
+    // label->centered(true);
+    // label->width(3);
     //};
     screen.run();
 }

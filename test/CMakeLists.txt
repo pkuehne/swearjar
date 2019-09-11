@@ -1,4 +1,5 @@
 add_executable(unit_test
+    screen.test.cpp
     widget.test.cpp
     collection-widget.test.cpp
     panel.test.cpp
