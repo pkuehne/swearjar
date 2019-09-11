@@ -41,7 +41,7 @@ void RenderContext::clearArea(unsigned int x, unsigned int y,
 
     spdlog::debug("RC: clearing area {}x{} @ ({},{})", width, height, x, y);
     if (width == 0 || height == 0) {
-        spdlog::warn("RC: Invalid clear area {}x{} @ ({},{})", width, height, x,
+        spdlog::debug("RC: Invalid clear area {}x{} @ ({},{})", width, height, x,
                      y);
         return;
     }

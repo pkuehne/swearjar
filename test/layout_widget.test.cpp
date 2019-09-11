@@ -1,5 +1,7 @@
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 #include "layout_widget.h"
+#include "curses.mock.h"
 
 using namespace ::testing;
 using namespace SwearJar;
@@ -175,5 +177,32 @@ TEST(LayoutWidget, realignSetsXvalueOnWidgets) {
     EXPECT_EQ(0, c1->x());
     EXPECT_EQ(4, c2->x());
     EXPECT_EQ(12, c3->x());
+}
+
+TEST(LayoutWidget, refreshOnlyRealignsWhenDirty) {
+    // Given
+    auto curses = std::make_shared<NiceMock<MockCurses>>();
+    unsigned int window = 1;
+    RenderContext context(curses, window);
+    context.width(80);
+    context.height(25);
+
+    LayoutWidget base("");
+    base.width(80);
+    base.height(25);
+    base.alignment(LayoutWidget::Alignment::Horizontal);
+
+    auto c1 = std::make_shared<Widget>("");
+    c1->minWidth(4);
+    c1->width(4);
+    c1->growthFactor(1);
+    c1->dirty(false);
+    base.addWidget(c1);
+
+    // When
+    base.refresh(context);
+
+    // Then
+    EXPECT_EQ(c1->width(), c1->minWidth());
 }
 
