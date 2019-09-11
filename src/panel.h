@@ -25,7 +25,6 @@ public:
         return m_baseWidget->createWidget<T>(name, x, y);
     }
 
-    WidgetP widget() { return m_baseWidget; }
     std::shared_ptr<BaseWidget> baseWidget() { return m_baseWidget; }
     const WidgetV& widgets() { return m_baseWidget->children(); }
 
