@@ -1,7 +1,7 @@
-#include <gtest/gtest.h>
-#include <gmock/gmock.h>
-#include "layout_widget.h"
 #include "curses.mock.h"
+#include "layout_widget.h"
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
 
 using namespace ::testing;
 using namespace SwearJar;
@@ -77,7 +77,6 @@ TEST(LayoutWidget, realignAllocatesGrowingWidgetsProportionally) {
     // When
     base.realign();
 
-
     // Then
     EXPECT_EQ(4, c1->width());
     EXPECT_EQ(6, c2->width());
@@ -104,7 +103,6 @@ TEST(LayoutWidget, realignAllocatesWidthToFirstWidgetIfNoneExpand) {
 
     // When
     base.realign();
-
 
     // Then
     EXPECT_EQ(16, c1->width());
@@ -205,4 +203,3 @@ TEST(LayoutWidget, refreshOnlyRealignsWhenDirty) {
     // Then
     EXPECT_EQ(c1->width(), c1->minWidth());
 }
-

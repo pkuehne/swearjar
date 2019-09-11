@@ -39,9 +39,9 @@ void LayoutWidget::realignHorizontally() {
 
     unsigned int allocatedWidth = 0;
     for (auto& w : children()) {
-        unsigned int newWidth = calculateNewSize(w->minWidth(),
-                                    w->growthFactor(), totalGrowthFactor,
-                                    widthToAllocate);
+        unsigned int newWidth =
+            calculateNewSize(w->minWidth(), w->growthFactor(),
+                             totalGrowthFactor, widthToAllocate);
         w->width(newWidth);
         w->x(allocatedWidth);
         allocatedWidth += newWidth;
@@ -65,9 +65,9 @@ void LayoutWidget::realignVertically() {
 
     unsigned int allocatedHeight = 0;
     for (auto& w : children()) {
-        unsigned int newHeight = calculateNewSize(w->minHeight(),
-                                    w->growthFactor(), totalGrowthFactor,
-                                    heightToAllocate);
+        unsigned int newHeight =
+            calculateNewSize(w->minHeight(), w->growthFactor(),
+                             totalGrowthFactor, heightToAllocate);
         w->height(newHeight);
         w->y(allocatedHeight);
         allocatedHeight += newHeight;

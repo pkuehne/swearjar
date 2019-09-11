@@ -12,7 +12,6 @@ public:
     MOCK_METHOD1(refresh, void(const RenderContext&));
 };
 
-
 TEST(Panel, addWidgetIncreasesWidgetCount) {
     // Given
     auto curses = std::make_shared<::testing::NiceMock<MockCurses>>();
@@ -92,5 +91,4 @@ TEST(Panel, baseWidgetInitializedToHeightAndWidth) {
     // Then
     EXPECT_EQ(base->width(), p.width());
     EXPECT_EQ(base->height(), p.height());
-
 }

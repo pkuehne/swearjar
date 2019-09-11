@@ -1,16 +1,15 @@
-#include <gtest/gtest.h>
 #include "button.h"
+#include <gtest/gtest.h>
 
 using namespace ::testing;
 using namespace SwearJar;
 
-TEST(Button, keyPressCallsCallbackOnEnter)
-{
+TEST(Button, keyPressCallsCallbackOnEnter) {
     // Given
     bool pressed = false;
 
     Button b("testButton");
-    b.pressed = [&pressed](Button*){ pressed = true; };
+    b.pressed = [&pressed](Button*) { pressed = true; };
 
     // When
     bool handled = b.handleKeyPress(10);
@@ -20,13 +19,12 @@ TEST(Button, keyPressCallsCallbackOnEnter)
     EXPECT_TRUE(pressed);
 }
 
-TEST(Button, keyPressDoesNothingIfNotEnter)
-{
+TEST(Button, keyPressDoesNothingIfNotEnter) {
     // Given
     bool pressed = false;
 
     Button b("testButton");
-    b.pressed = [&pressed](Button*){ pressed = true; };
+    b.pressed = [&pressed](Button*) { pressed = true; };
 
     // When
     bool handled = b.handleKeyPress('f');
@@ -36,8 +34,7 @@ TEST(Button, keyPressDoesNothingIfNotEnter)
     EXPECT_FALSE(pressed);
 }
 
-TEST(Button, keyPressDoesNotThrowIfNoFunctionIsSet)
-{
+TEST(Button, keyPressDoesNotThrowIfNoFunctionIsSet) {
     // Given
     Button b("testButton");
     b.pressed = nullptr;

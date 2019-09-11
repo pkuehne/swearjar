@@ -2,7 +2,6 @@
 
 #include "collection_widget.h"
 
-
 namespace SwearJar {
 
 class SpacerWidget : public Widget {
@@ -12,11 +11,7 @@ public:
 
 class LayoutWidget : public CollectionWidget {
 public:
-    enum class Alignment {
-        Fixed,
-        Horizontal,
-        Vertical
-    };
+    enum class Alignment { Fixed, Horizontal, Vertical };
 
 public:
     LayoutWidget(const std::string& name) : CollectionWidget(name) {}
@@ -30,6 +25,7 @@ public:
     Alignment alignment() { return m_alignment; }
 
     void refresh(const RenderContext& render) override;
+
 private:
     Alignment m_alignment = Alignment::Fixed;
 };
