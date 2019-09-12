@@ -2,16 +2,22 @@
 #include "curses.mock.h"
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <spdlog/spdlog.h>
 
 using namespace SwearJar;
 using namespace ::testing;
+
+class RefreshableWidget : public Widget {
+public:
+    RefreshableWidget() : Widget("") {}
+    MOCK_METHOD1(refresh, void(const RenderContext&));
+};
 
 class TestWidget : public SwearJar::Widget {
 public:
     TestWidget() : Widget("") { canTakeFocus(true); }
     void canTakeFocus(bool focus) { Widget::canTakeFocus(focus); }
     bool focus() { return Widget::focus(); }
-    MOCK_METHOD1(refresh, void(RenderContext&));
 };
 
 class TestCollectionWidget : public CollectionWidget {
@@ -281,27 +287,24 @@ TEST(CollectionWidget, minHeightReturnsTotalMinHeightOfChildren) {
     EXPECT_EQ(12, height);
 }
 
-// TEST(CollectionWidget, refreshOnlyRefreshesDirtyWidgets) {
-//// Given
-// CollectionWidget base("base");
+TEST(CollectionWidget, refreshOnlyRefreshesDirtyWidgets) {
+    // Given
+    auto curses = std::make_shared<::testing::NiceMock<MockCurses>>();
+    unsigned int window = 1;
+    RenderContext context(curses, window);
 
-// auto c1 = std::make_shared<TestWidget>();
-// c1->dirty(false);
-// base.addWidget(c1);
+    CollectionWidget base("base");
 
-// auto c2 = std::make_shared<TestWidget>();
-// c2->dirty(true);
-// base.addWidget(c2);
+    auto c1 = std::make_shared<RefreshableWidget>();
+    c1->dirty(false);
+    base.addWidget(c1);
+    EXPECT_CALL(*c1, refresh(_)).Times(0);
 
-// EXPECT_CALL(*c1, refresh(_)).Times(0);
-// EXPECT_CALL(*c2, refresh(_)).Times(1);
+    auto c2 = std::make_shared<RefreshableWidget>();
+    c2->dirty(true);
+    base.addWidget(c2);
+    EXPECT_CALL(*c2, refresh(_)).Times(1);
 
-// auto curses = std::make_shared<::testing::NiceMock<MockCurses>>();
-// unsigned int window = 1;
-// RenderContext context(curses, window);
-
-//// When
-// base.refresh(context);
-
-//// Then
-//}
+    // When
+    base.refresh(context);
+}
