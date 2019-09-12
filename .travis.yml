@@ -1,0 +1,18 @@
+---
+language: cpp
+sudo: required
+services:
+    - docker
+before_install:
+    - docker build -t swearjar .
+jobs:
+    include:
+        - stage: create build dir
+          script: mkdir -p build
+        - stage: cmake
+          script: docker run --rm -v"$PWD:/buildarea" swearjar /bin/sh -c 'cd build; cmake ..'
+        - stage: build
+          script: docker run --rm -v"$PWD:/buildarea" swearjar /bin/sh -c 'cd build; make'
+        - stage: build
+          script: docker run --rm -v"$PWD:/buildarea" swearjar /bin/sh -c 'cd build; make test'
+
