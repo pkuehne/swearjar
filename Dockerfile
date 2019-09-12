@@ -1,4 +1,4 @@
-FROM pkuehne/build-base:latest
+FROM pkuehne/cpp-build-base:latest
 
 # Usage:
 #   Build the project:
