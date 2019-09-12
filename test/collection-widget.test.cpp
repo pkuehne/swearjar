@@ -281,27 +281,27 @@ TEST(CollectionWidget, minHeightReturnsTotalMinHeightOfChildren) {
     EXPECT_EQ(12, height);
 }
 
-TEST(CollectionWidget, refreshOnlyRefreshesDirtyWidgets) {
-    // Given
-    CollectionWidget base("base");
+// TEST(CollectionWidget, refreshOnlyRefreshesDirtyWidgets) {
+//// Given
+// CollectionWidget base("base");
 
-    auto c1 = std::make_shared<TestWidget>();
-    c1->dirty(false);
-    base.addWidget(c1);
+// auto c1 = std::make_shared<TestWidget>();
+// c1->dirty(false);
+// base.addWidget(c1);
 
-    auto c2 = std::make_shared<TestWidget>();
-    c2->dirty(true);
-    base.addWidget(c2);
+// auto c2 = std::make_shared<TestWidget>();
+// c2->dirty(true);
+// base.addWidget(c2);
 
-    EXPECT_CALL(*c1, refresh(_)).Times(0);
-    EXPECT_CALL(*c2, refresh(_)).Times(1);
+// EXPECT_CALL(*c1, refresh(_)).Times(0);
+// EXPECT_CALL(*c2, refresh(_)).Times(1);
 
-    auto curses = std::make_shared<::testing::NiceMock<MockCurses>>();
-    unsigned int window = 1;
-    RenderContext context(curses, window);
+// auto curses = std::make_shared<::testing::NiceMock<MockCurses>>();
+// unsigned int window = 1;
+// RenderContext context(curses, window);
 
-    // When
-    base.refresh(context);
+//// When
+// base.refresh(context);
 
-    // Then
-}
+//// Then
+//}
