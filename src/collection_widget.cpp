@@ -36,7 +36,7 @@ void CollectionWidget::addWidget(WidgetP widget) {
 }
 
 void CollectionWidget::refresh(const RenderContext& render) {
-    spdlog::debug("WI: refresh called");
+    spdlog::info("WI: refresh called");
 
     // Clear previous position for the widget
     for (auto widget : m_widgets) {
@@ -45,6 +45,7 @@ void CollectionWidget::refresh(const RenderContext& render) {
         }
         render.addOffsets(widget->x(), widget->y());
         Dimension d = widget->prevDimension();
+        spdlog::info("WI: clearing {}", widget->name());
         render.clearArea(d.x, d.y, d.width, d.height, 7, 0);
         widget->clearPrevDimension();
         render.clearOffsets(widget->x(), widget->y());
