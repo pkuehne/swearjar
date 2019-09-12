@@ -15,10 +15,9 @@ void make_button_label_example(SwearJar::Screen& screen) {
     auto frame = panel->createWidget<Frame>("frmFrame");
     baseWidget->addSpacer();
 
-    frame->title("Frame");
+    frame->title("Button Example");
     frame->alignment(LayoutWidget::Alignment::Vertical);
     frame->addSpacer();
-    frame->margin(2);
 
     auto lblDisplay = frame->createWidget<Label>("lblDisplay");
     lblDisplay->centred(true);
@@ -28,19 +27,27 @@ void make_button_label_example(SwearJar::Screen& screen) {
 
     frame->addSpacer();
 
-    auto btnRed = frame->createWidget<Button>("btnRed");
+    auto buttonWrapper = frame->createWidget<LayoutWidget>("margin");
+    buttonWrapper->alignment(LayoutWidget::Alignment::Horizontal);
+    buttonWrapper->addSpacer();
+    auto buttonBox = buttonWrapper->createWidget<LayoutWidget>("buttons");
+    buttonWrapper->addSpacer();
+
+    buttonBox->alignment(LayoutWidget::Alignment::Vertical);
+
+    auto btnRed = buttonBox->createWidget<Button>("btnRed");
     btnRed->text("Red");
     btnRed->pressed = [lblDisplay](Button*) {
         lblDisplay->fgColor(Color::Red);
     };
 
-    auto btnBlue = frame->createWidget<Button>("btnBlue");
+    auto btnBlue = buttonBox->createWidget<Button>("btnBlue");
     btnBlue->text("Blue");
     btnBlue->pressed = [lblDisplay](Button*) {
         lblDisplay->fgColor(Color::Blue);
     };
 
-    auto btnYellow = frame->createWidget<Button>("btnYellow");
+    auto btnYellow = buttonBox->createWidget<Button>("btnYellow");
     btnYellow->text("Yellow");
     btnYellow->pressed = [lblDisplay](Button*) {
         lblDisplay->fgColor(Color::Yellow);

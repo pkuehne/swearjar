@@ -43,25 +43,25 @@ void CollectionWidget::refresh(const RenderContext& render) {
         if (!widget->dirty()) {
             continue;
         }
+        render.addOffsets(widget->x(), widget->y());
         Dimension d = widget->prevDimension();
-        render.setOffsets(x() + widget->x(), y() + widget->y());
         render.clearArea(d.x, d.y, d.width, d.height, 7, 0);
         widget->clearPrevDimension();
+        render.clearOffsets(widget->x(), widget->y());
     }
-    render.clearOffsets();
 
     // Re-render the widget
     for (auto widget : m_widgets) {
         if (!widget->dirty()) {
             continue;
         }
-        render.setOffsets(x() + widget->x(), y() + widget->y());
+        render.addOffsets(widget->x(), widget->y());
         render.reverse(widget->focus());
         widget->refresh(render);
         widget->dirty(false);
         render.reverse(false);
+        render.clearOffsets(widget->x(), widget->y());
     }
-    render.clearOffsets();
 }
 
 bool CollectionWidget::moveFocusForward() {

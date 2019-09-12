@@ -28,13 +28,13 @@ public:
     void yOffset(unsigned int yOffset) { m_yOffset = yOffset; }
     unsigned int yOffset() { return m_yOffset; }
 
-    void setOffsets(unsigned int x, unsigned int y) const {
-        m_xOffset = x;
-        m_yOffset = y;
+    void addOffsets(unsigned int x, unsigned int y) const {
+        m_xOffset += x;
+        m_yOffset += y;
     }
-    void clearOffsets() const {
-        m_xOffset = 0;
-        m_yOffset = 0;
+    void clearOffsets(unsigned int x, unsigned int y) const {
+        m_xOffset -= x;
+        m_yOffset -= y;
     }
 
     void reverse(bool on) const;
