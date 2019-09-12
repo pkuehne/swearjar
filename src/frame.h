@@ -6,7 +6,7 @@ namespace SwearJar {
 
 class Frame : public LayoutWidget {
 public:
-    explicit Frame(const std::string& name) : LayoutWidget(name) { margin(1); }
+    explicit Frame(const std::string& name);
     void title(const std::string& title) { m_title = title; }
     std::string title() { return m_title; }
 
