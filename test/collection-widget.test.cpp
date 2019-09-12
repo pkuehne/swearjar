@@ -1,7 +1,10 @@
 #include "collection_widget.h"
+#include "curses.mock.h"
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 using namespace SwearJar;
+using namespace ::testing;
 
 class TestWidget : public SwearJar::Widget {
 public:
@@ -14,6 +17,14 @@ class TestCollectionWidget : public CollectionWidget {
 public:
     TestCollectionWidget() : CollectionWidget("") {}
     void canTakeFocus(bool focus) { Widget::canTakeFocus(focus); }
+};
+
+class TestRenderContext : public RenderContext {
+public:
+    TestRenderContext(CIptr curses, unsigned int window)
+        : RenderContext(curses, window) {}
+    MOCK_METHOD6(clearArea, void(unsigned int, unsigned int, unsigned int,
+                                 unsigned int, short, short));
 };
 
 TEST(CollectionWidget, dirtyIsTrueIfDirtyChildWidgetExists) {
@@ -277,3 +288,24 @@ TEST(CollectionWidget, minHeightReturnsTotalMinHeightOfChildren) {
     EXPECT_EQ(12, height);
 }
 
+TEST(CollectionWidget, refreshOnlyRefreshesDirtyWidgets) {
+    // Given
+    CollectionWidget base("base");
+    auto c1 = std::make_shared<Widget>("");
+    c1->dirty(false);
+    base.addWidget(c1);
+
+    auto c2 = std::make_shared<Widget>("");
+    base.addWidget(c2);
+
+    auto curses = std::make_shared<::testing::NiceMock<MockCurses>>();
+    unsigned int window = 1;
+    TestRenderContext context(curses, window);
+
+    EXPECT_CALL(context, clearArea(_, _, _, _, _, _)).Times(1);
+
+    // When
+    base.refresh(context);
+
+    // Then
+}

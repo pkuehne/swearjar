@@ -12,6 +12,7 @@ public:
         : m_curses(curses), m_panel(panel) {
         spdlog::debug("Created RenderContext for {}", panel);
     }
+    virtual ~RenderContext() {}
 
     void panel(unsigned int panel) { m_panel = panel; }
     unsigned int panel() { return m_panel; }
@@ -38,17 +39,17 @@ public:
     }
 
     void reverse(bool on) const;
-    void beginRender();
-    void endRender();
-    void drawText(unsigned int x, unsigned int y, const std::string& text,
-                  short fg, short bg) const;
-    void drawChar(unsigned int x, unsigned int y, char ch) const;
-    void drawChar(unsigned int x, unsigned int y, char ch, short fg,
-                  short bg) const;
-    void clearArea(unsigned int x, unsigned int y, unsigned int width,
-                   unsigned int height, short fg, short bg) const;
-    void drawBorder(unsigned int x, unsigned int y, unsigned int width,
-                    unsigned int height, short fg, short bg) const;
+    virtual void beginRender();
+    virtual void endRender();
+    virtual void drawText(unsigned int x, unsigned int y,
+                          const std::string& text, short fg, short bg) const;
+    virtual void drawChar(unsigned int x, unsigned int y, char ch) const;
+    virtual void drawChar(unsigned int x, unsigned int y, char ch, short fg,
+                          short bg) const;
+    virtual void clearArea(unsigned int x, unsigned int y, unsigned int width,
+                           unsigned int height, short fg, short bg) const;
+    virtual void drawBorder(unsigned int x, unsigned int y, unsigned int width,
+                            unsigned int height, short fg, short bg) const;
 
 private:
     CIptr m_curses;
