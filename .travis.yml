@@ -8,4 +8,4 @@ before_install:
 jobs:
     include:
         - stage: build and test
-          script: docker run --rm -v"$PWD:/buildarea" swearjar /bin/sh -c 'mkdir -p build && cd build && cmake .. && make && make test'
+          script: mkdir -p build && docker run --rm -v"$PWD:/buildarea" swearjar /bin/sh -c 'cd build && cmake .. && make && make test'
