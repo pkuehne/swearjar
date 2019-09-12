@@ -10,7 +10,7 @@ add_executable(unit_test
 
 target_link_libraries(unit_test gtest_main gmock)
 target_link_libraries(unit_test swearjarbase)
-target_link_libraries(unit_test spdlog::spdlog)
+target_link_libraries(unit_test spdlog)
 
 #include(GoogleTest)
 #gtest_discover_tests (unit_test)

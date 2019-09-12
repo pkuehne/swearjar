@@ -14,7 +14,7 @@ RUN mkdir -p build
 
 ARG UID=1000
 ARG GID=1000
-RUN useradd -u $UID builder
+RUN useradd -m --uid $UID builder
 
 USER $UID:$GID
 

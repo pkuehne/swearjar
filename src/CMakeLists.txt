@@ -24,7 +24,7 @@ target_sources(swearjarbase
     ${CMAKE_CURRENT_LIST_DIR}/layout_widget.h
     ${CMAKE_CURRENT_LIST_DIR}/layout_widget.cpp
     )
-target_link_libraries(swearjarbase PRIVATE spdlog::spdlog)
+target_link_libraries(swearjarbase PRIVATE spdlog)
 
 add_library(swearjar)
 target_include_directories(swearjar PUBLIC ${CMAKE_CURRENT_LIST_DIR})
@@ -36,4 +36,4 @@ target_sources(swearjar
     ${CMAKE_CURRENT_LIST_DIR}/curses_wrapper.cpp
     )
 
-target_link_libraries(swearjar swearjarbase spdlog::spdlog ncurses)
+target_link_libraries(swearjar swearjarbase spdlog ncurses)
