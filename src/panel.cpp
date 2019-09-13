@@ -8,6 +8,8 @@ Panel::Panel(unsigned int id, CIptr curses, unsigned int height,
              unsigned int width)
     : m_id(id), m_curses(curses), m_baseWidget(std::make_shared<BaseWidget>()),
       m_height(height), m_width(width), m_render(curses, id) {
+    m_baseWidget->width(width);
+    m_baseWidget->height(height);
     m_render.width(width);
     m_render.height(height);
     clearPanel();

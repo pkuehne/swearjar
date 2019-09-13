@@ -1,7 +1,17 @@
 #include "collection_widget.h"
+#include "curses.mock.h"
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <spdlog/spdlog.h>
 
 using namespace SwearJar;
+using namespace ::testing;
+
+class RefreshableWidget : public Widget {
+public:
+    RefreshableWidget() : Widget("") {}
+    MOCK_METHOD1(refresh, void(const RenderContext&));
+};
 
 class TestWidget : public SwearJar::Widget {
 public:
@@ -241,4 +251,60 @@ TEST(CollectionWidget, handleKeysReturnsTrueIfChildSelectedHasHandled) {
 
     // Then
     EXPECT_TRUE(retval);
+}
+
+TEST(CollectionWidget, minWidthReturnsTotalMinWidthOfChildren) {
+    // Given
+    TestCollectionWidget base;
+    auto c1 = std::make_shared<Widget>("");
+    c1->minWidth(5);
+    auto c2 = std::make_shared<Widget>("");
+    c2->minWidth(7);
+    base.addWidget(c1);
+    base.addWidget(c2);
+
+    // When
+    unsigned int width = base.minWidth();
+
+    // Then
+    EXPECT_EQ(12, width);
+}
+
+TEST(CollectionWidget, minHeightReturnsTotalMinHeightOfChildren) {
+    // Given
+    TestCollectionWidget base;
+    auto c1 = std::make_shared<Widget>("");
+    c1->minHeight(5);
+    auto c2 = std::make_shared<Widget>("");
+    c2->minHeight(7);
+    base.addWidget(c1);
+    base.addWidget(c2);
+
+    // When
+    unsigned int height = base.minHeight();
+
+    // Then
+    EXPECT_EQ(12, height);
+}
+
+TEST(CollectionWidget, refreshOnlyRefreshesDirtyWidgets) {
+    // Given
+    auto curses = std::make_shared<::testing::NiceMock<MockCurses>>();
+    unsigned int window = 1;
+    RenderContext context(curses, window);
+
+    CollectionWidget base("base");
+
+    auto c1 = std::make_shared<RefreshableWidget>();
+    c1->dirty(false);
+    base.addWidget(c1);
+    EXPECT_CALL(*c1, refresh(_)).Times(0);
+
+    auto c2 = std::make_shared<RefreshableWidget>();
+    c2->dirty(true);
+    base.addWidget(c2);
+    EXPECT_CALL(*c2, refresh(_)).Times(1);
+
+    // When
+    base.refresh(context);
 }

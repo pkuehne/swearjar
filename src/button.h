@@ -11,7 +11,6 @@ public:
 
     std::function<void(Button*)> pressed;
 
-protected:
     void refresh(const RenderContext& render) override;
     bool handleKeyPress(int ch) override;
 

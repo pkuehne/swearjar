@@ -10,9 +10,19 @@ void Widget::height(unsigned int height) {
     m_height = height;
 }
 
+void Widget::minHeight(unsigned int height) {
+    invalidate();
+    m_minHeight = height;
+}
+
 void Widget::width(unsigned int width) {
     invalidate();
     m_width = width;
+}
+
+void Widget::minWidth(unsigned int width) {
+    invalidate();
+    m_minWidth = width;
 }
 
 void Widget::x(unsigned int x) {

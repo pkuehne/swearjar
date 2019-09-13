@@ -35,3 +35,4 @@ build/
 *.cpp.*
 *.h.*
 *.swp
+log*.txt

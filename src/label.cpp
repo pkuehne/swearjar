@@ -7,6 +7,7 @@ Label::Label(const std::string& name) : Widget(name) {}
 
 void Label::text(const std::string& text) {
     width(text.length());
+    minWidth(text.length());
     m_text = text;
 }
 
@@ -21,8 +22,8 @@ void Label::refresh(const RenderContext& render) {
     render.drawText(xStart, 0, m_text, fgColor(), bgColor());
 }
 
-void Label::centered(bool centered) {
-    m_centred = centered;
+void Label::centred(bool centred) {
+    m_centred = centred;
     dirty(true);
 }
 

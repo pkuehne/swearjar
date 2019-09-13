@@ -10,7 +10,7 @@ public:
     virtual void text(const std::string& text);
     virtual const std::string& text() { return m_text; }
 
-    virtual void centered(bool centered);
+    virtual void centred(bool centred);
     virtual bool centred() { return m_centred; }
 
 protected:

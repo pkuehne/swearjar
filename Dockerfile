@@ -1,4 +1,4 @@
-FROM pkuehne/build-base:latest
+FROM pkuehne/cpp-build-base:latest
 
 # Usage:
 #   Build the project:
@@ -10,11 +10,7 @@ RUN apt update -qq && apt install --no-install-recommends -qq -y \
     libncurses-dev
 
 WORKDIR /buildarea
+COPY . /buildarea
 RUN mkdir -p build
 
-ARG UID=1000
-ARG GID=1000
-USER $UID:$GID
-
-CMD cmake . -Bbuild
-
+CMD ./scripts/build.sh

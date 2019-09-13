@@ -1,5 +1,5 @@
-#include "swearjar.h"
 #include "frame.h"
+#include "swearjar.h"
 #include <iostream>
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/spdlog.h>
@@ -7,86 +7,72 @@
 void make_button_label_example(SwearJar::Screen& screen) {
     using namespace SwearJar;
 
-    unsigned int x = 0;
-    unsigned int y = 0;
-    unsigned int w = 50;
-    unsigned int h = 50;
-    auto panel = screen.createPanel(x, y, w, h);
+    // Create a Window for all our widgets
+    auto panel = screen.createPanel();
 
-    auto frame = panel->createWidget<Frame>("frmFrame", 0, 0);
-    frame->title("Frame");
-    frame->width(20);
-    frame->height(11);
+    // Grab the base widget and make layout its children horizontally
+    auto baseWidget = panel->baseWidget();
+    baseWidget->alignment(LayoutWidget::Alignment::Horizontal);
 
-    auto lblDisplay = frame->createWidget<Label>("lblDisplay", 2, 2);
+    // Create a new Frame widget and put spacers either side for automatic
+    // margin
+    baseWidget->addSpacer();
+    auto frame = panel->createWidget<Frame>("frmFrame");
+    baseWidget->addSpacer();
+
+    // The Frame has a Layout itself and by default its vertical
+    frame->title(" Button Example ");
+    frame->addSpacer();
+
+    // Add a centred label with some magenta on black text
+    auto lblDisplay = frame->createWidget<Label>("lblDisplay");
+    lblDisplay->centred(true);
     lblDisplay->text("This is a label");
     lblDisplay->fgColor(Color::Magenta);
     lblDisplay->bgColor(Color::Black);
 
-    auto btnRed = frame->createWidget<Button>("btnRed", 2, 4);
+    // The order in which widgets and spacers are created matters!
+    frame->addSpacer();
+    auto buttonWrapper = frame->createWidget<LayoutWidget>("margin");
+    frame->addSpacer(2);
+
+    // Wrap the buttons in a LayoutWidget so we can give them extra margin on
+    // the sides inside the Frame
+    // Then add the buttons inside a vertical LayoutWidget so they stack one on
+    // top of the other
+    buttonWrapper->alignment(LayoutWidget::Alignment::Horizontal);
+    buttonWrapper->addSpacer();
+    auto buttonBox = buttonWrapper->createWidget<LayoutWidget>("buttons");
+    buttonBox->alignment(LayoutWidget::Alignment::Vertical);
+    buttonWrapper->addSpacer();
+
+    // The `pressed` property is called when ever the button is clicked either
+    // by keyboard or mouse
+    auto btnRed = buttonBox->createWidget<Button>("btnRed");
     btnRed->text("Red");
     btnRed->pressed = [lblDisplay](Button*) {
         lblDisplay->fgColor(Color::Red);
     };
 
-    auto btnBlue = frame->createWidget<Button>("btnBlue", 2, 6);
+    auto btnBlue = buttonBox->createWidget<Button>("btnBlue");
     btnBlue->text("Blue");
     btnBlue->pressed = [lblDisplay](Button*) {
         lblDisplay->fgColor(Color::Blue);
     };
 
-    auto btnYellow = frame->createWidget<Button>("btnYellow", 2, 8);
+    auto btnYellow = buttonBox->createWidget<Button>("btnYellow");
     btnYellow->text("Yellow");
     btnYellow->pressed = [lblDisplay](Button*) {
         lblDisplay->fgColor(Color::Yellow);
     };
 }
 
-SwearJar::Button* make_button(std::shared_ptr<SwearJar::Panel>& panel) {
-    using namespace SwearJar;
-
-    static unsigned int y = 5;
-    static unsigned int cnt = 0;
-    std::string text = "Click me " + std::to_string(++cnt);
-    auto button = new Button(text);
-    button->x(5);
-    button->y(y);
-    button->gainFocus = [](Widget* w) {
-        auto b = dynamic_cast<Button*>(w);
-        b->text("Hit it!");
-    };
-    button->loseFocus = [text](Widget* w) {
-        auto b = dynamic_cast<Button*>(w);
-        b->text(text);
-    };
-    button->pressed = [&](Button* b) {
-        b->fgColor(Color::Yellow);
-    };
-    panel->addWidget(button);
-
-    y += 2;
-    return button;
-}
-
 void run() {
-
-    using namespace SwearJar;
-    Screen screen(std::make_shared<CursesWrapper>());
+    SwearJar::Screen screen(std::make_shared<SwearJar::CursesWrapper>());
     screen.initialize();
 
     make_button_label_example(screen);
-    //auto panel = make_panel(screen);
-    //auto label = make_label(panel);
-    //auto frame = make_frame(panel);
-    //auto button = make_button(panel);
-    //auto button2 = make_button(panel);
-    //auto button3 = make_button(panel);
 
-    //screen.unhandledKeys = [&](char key) {
-        //label->text("X");
-        //label->centered(true);
-        //label->width(3);
-    //};
     screen.run();
 }
 

@@ -1,15 +1,15 @@
 #pragma once
-#include "collection_widget.h"
 #include "curses_interface.h"
+#include "layout_widget.h"
 #include "render_context.h"
 #include <memory>
 #include <vector>
 
 namespace SwearJar {
 
-class BaseWidget : public CollectionWidget {
+class BaseWidget : public LayoutWidget {
 public:
-    BaseWidget() : CollectionWidget("base") {}
+    BaseWidget() : LayoutWidget("base") {}
 };
 
 class Panel {
@@ -20,16 +20,23 @@ public:
     void addWidget(Widget* widget);
     void addWidget(std::shared_ptr<Widget> widget);
     template <typename T>
+    std::shared_ptr<T> createWidget(const std::string& name) {
+        return createWidget<T>(name, 0, 0);
+    }
+    template <typename T>
     std::shared_ptr<T> createWidget(const std::string& name, unsigned int x,
                                     unsigned int y) {
         return m_baseWidget->createWidget<T>(name, x, y);
     }
 
-    WidgetP widget() { return m_baseWidget; }
+    std::shared_ptr<BaseWidget> baseWidget() { return m_baseWidget; }
     const WidgetV& widgets() { return m_baseWidget->children(); }
 
     void refreshDirtyWidgets();
     void clearPanel();
+
+    unsigned int width() { return m_width; }
+    unsigned int height() { return m_height; }
 
 private:
     unsigned int m_id;
