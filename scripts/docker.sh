@@ -1,5 +1,5 @@
-#! /usr/bin/env bash
+#! /bin/bash
 
 set -ex
-docker run --rm -e"UID=$UID" -e"GID=$UID" -v"$PWD:/buildarea" swearjar \
-    /bin/sh -c ./scripts/build.sh
+
+docker run --rm -it -v "$PWD:/buildarea" swearjar /bin/bash

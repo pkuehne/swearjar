@@ -8,4 +8,4 @@ before_install:
 jobs:
     include:
         - stage: build and test
-          script: mkdir -p build && ./scripts/docker.sh
+          script: docker run --rm swearjar
