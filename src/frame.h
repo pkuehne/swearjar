@@ -1,12 +1,21 @@
 #pragma once
 
-#include "widget.h"
+#include "layout_widget.h"
 
 namespace SwearJar {
 
-class Frame : public Widget {
+class Frame : public LayoutWidget {
 public:
-    void refresh(const RenderContext& render);
+    explicit Frame(const std::string& name);
+    void title(const std::string& title) { m_title = title; }
+    std::string title() { return m_title; }
+
+    // Overriden Widget functions
+    void addWidget(WidgetP widget, unsigned int x, unsigned int y);
+    void refresh(const RenderContext& render) override;
+
+private:
+    std::string m_title;
 };
 
 } // namespace SwearJar

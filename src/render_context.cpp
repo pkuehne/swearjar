@@ -41,7 +41,7 @@ void RenderContext::clearArea(unsigned int x, unsigned int y,
 
     spdlog::debug("RC: clearing area {}x{} @ ({},{})", width, height, x, y);
     if (width == 0 || height == 0) {
-        spdlog::warn("RC: Invalid clear area {}x{} @ ({},{})", width, height, x,
+        spdlog::debug("RC: Invalid clear area {}x{} @ ({},{})", width, height, x,
                      y);
         return;
     }
@@ -52,6 +52,49 @@ void RenderContext::clearArea(unsigned int x, unsigned int y,
         }
     }
     m_curses->color_off(m_curses->get_color(fg, bg));
+}
+
+void RenderContext::drawBorder(unsigned int x, unsigned int y,
+                               unsigned int width, unsigned int height,
+                               short fg, short bg) const {
+    spdlog::debug("RC: drawing border {}x{} @ ({},{})", width, height, x, y);
+    if (width < 3 || height < 3) {
+        spdlog::warn("RC: Invalid border dimensions {}x{} @ ({},{})", width,
+                     height, x, y);
+        return;
+    }
+    const char verticalBorder = '|';
+    const char horizontalBorder = '-';
+    const char cornerNW = '+';
+    const char cornerNE = '+';
+    const char cornerSW = '+';
+    const char cornerSE = '+';
+
+    // const char verticalBorder = 186;
+    // const char horizontalBorder = 205;
+    // const char cornerNW = 201;
+    // const char cornerNE = 187;
+    // const char cornerSW = 200;
+    // const char cornerSE = 188;
+
+    width -= 1;
+    height -= 1;
+
+    m_curses->color_on(m_curses->get_color(fg, bg));
+    for (unsigned int yPos = 1; yPos < height; yPos++) {
+        drawChar(x, yPos + y, verticalBorder);
+        drawChar(x + width, yPos + y, verticalBorder);
+    }
+
+    for (unsigned int xPos = 1; xPos < width; xPos++) {
+        drawChar(x + xPos, y, horizontalBorder);
+        drawChar(x + xPos, y + height, horizontalBorder);
+    }
+    drawChar(x, y, cornerNW);
+    drawChar(x + width, y, cornerNE);
+    drawChar(x, y + height, cornerSW);
+    drawChar(x + width, y + height, cornerSE);
+    m_curses->color_off(m_curses->get_color(bg, bg));
 }
 
 void RenderContext::beginRender() {

@@ -2,8 +2,21 @@
 
 namespace SwearJar {
 
-void Frame::refresh(const RenderContext& render) {
-    //
+Frame::Frame(const std::string& name) : LayoutWidget(name) {
+    alignment(LayoutWidget::Alignment::Vertical);
+    margin(1);
 }
 
+void Frame::refresh(const RenderContext& render) {
+    render.drawBorder(0, 0, width(), height(), fgColor(), bgColor());
+    render.drawText(2, 0, m_title, fgColor(), bgColor());
+
+    LayoutWidget::refresh(render); // render child widgets
+}
+
+void Frame::addWidget(WidgetP widget, unsigned int x, unsigned int y) {
+    widget->x(x);
+    widget->y(y);
+    CollectionWidget::addWidget(widget);
+}
 } // namespace SwearJar

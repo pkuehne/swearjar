@@ -1,0 +1,11 @@
+---
+language: cpp
+sudo: required
+services:
+    - docker
+before_install:
+    - docker build -t swearjar .
+jobs:
+    include:
+        - stage: build and test
+          script: docker run --rm swearjar
