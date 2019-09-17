@@ -19,6 +19,8 @@ target_sources(swearjarbase
     ${CMAKE_CURRENT_LIST_DIR}/button.cpp
     ${CMAKE_CURRENT_LIST_DIR}/frame.h
     ${CMAKE_CURRENT_LIST_DIR}/frame.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/progressbar.h
+    ${CMAKE_CURRENT_LIST_DIR}/progressbar.cpp
     ${CMAKE_CURRENT_LIST_DIR}/collection_widget.h
     ${CMAKE_CURRENT_LIST_DIR}/collection_widget.cpp
     ${CMAKE_CURRENT_LIST_DIR}/layout_widget.h
