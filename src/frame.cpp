@@ -7,11 +7,11 @@ Frame::Frame(const std::string& name) : LayoutWidget(name) {
     margin(1);
 }
 
-void Frame::refresh(const RenderContext& render) {
-    render.drawBorder(0, 0, width(), height(), fgColor(), bgColor());
-    render.drawText(2, 0, m_title, fgColor(), bgColor());
+void Frame::render(const RenderContextP& context) {
+    context->drawBorder(0, 0, width(), height(), fgColor(), bgColor());
+    context->drawText(2, 0, m_title, fgColor(), bgColor());
 
-    LayoutWidget::refresh(render); // render child widgets
+    LayoutWidget::render(context); // render child widgets
 }
 
 void Frame::addWidget(WidgetP widget, unsigned int x, unsigned int y) {
