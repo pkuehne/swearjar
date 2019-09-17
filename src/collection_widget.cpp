@@ -36,7 +36,7 @@ void CollectionWidget::addWidget(WidgetP widget) {
 }
 
 void CollectionWidget::render(const RenderContextP& context) {
-    spdlog::debug("WI: refresh called");
+    spdlog::debug("WI: render called");
 
     // Clear previous position for the widget
     for (auto widget : m_widgets) {
@@ -57,7 +57,6 @@ void CollectionWidget::render(const RenderContextP& context) {
         }
         context->addOffsets(widget->x(), widget->y());
         context->reverse(widget->focus());
-        widget->refresh(*context);
         widget->render(context);
         widget->dirty(false);
         context->reverse(false);

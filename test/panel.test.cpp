@@ -9,7 +9,7 @@ using namespace SwearJar;
 class MockWidget : public Widget {
 public:
     MockWidget() : Widget("") {}
-    MOCK_METHOD1(refresh, void(const RenderContext&));
+    MOCK_METHOD1(render, void(const RenderContextP&));
 };
 
 TEST(Panel, addWidgetIncreasesWidgetCount) {
@@ -68,8 +68,8 @@ TEST(Panel, refreshDirtyWidgetsOnlyRefreshesDirtyWidgets) {
     p.addWidget(w2);
 
     // Then
-    EXPECT_CALL(*w1, refresh(::testing::_)).Times(1);
-    EXPECT_CALL(*w2, refresh(::testing::_)).Times(0);
+    EXPECT_CALL(*w1, render(::testing::_)).Times(1);
+    EXPECT_CALL(*w2, render(::testing::_)).Times(0);
 
     // When
     p.refreshDirtyWidgets();

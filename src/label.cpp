@@ -12,7 +12,7 @@ void Label::text(const std::string& text) {
 }
 
 void Label::render(const RenderContextP& context) {
-    spdlog::debug("Refreshing with {}", m_text);
+    spdlog::debug("Rendering with {}", m_text);
     context->drawText(0, 0, std::string(width(), ' '), fgColor(), bgColor());
 
     unsigned int xStart = 0;

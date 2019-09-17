@@ -13,7 +13,7 @@ void Button::text(const std::string& text) {
 }
 
 void Button::render(const RenderContextP& context) {
-    spdlog::debug("Button: Refreshing with {}", m_text);
+    spdlog::debug("Button: Rendering with {}", m_text);
     context->drawText(0, 0, std::string(width(), ' '), fgColor(), bgColor());
 
     unsigned int xStart = (width() - m_text.length()) / 2;

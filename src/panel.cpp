@@ -30,7 +30,6 @@ void Panel::addWidget(std::shared_ptr<Widget> widget) {
 
 void Panel::refreshDirtyWidgets() {
     m_render->beginRender();
-    m_baseWidget->refresh(*m_render);
     m_baseWidget->render(m_render);
     m_render->endRender();
 }
