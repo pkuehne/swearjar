@@ -21,7 +21,7 @@ public:
                                     unsigned int y);
     void addWidget(WidgetP widget);
 
-    void refresh(const RenderContext& render) override;
+    void render(const RenderContext* context) override;
     bool moveFocusForward() override;
     bool handleKeyPress(int ch) override;
 

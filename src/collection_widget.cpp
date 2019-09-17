@@ -35,19 +35,19 @@ void CollectionWidget::addWidget(WidgetP widget) {
     m_focusWidget = m_widgets.end();
 }
 
-void CollectionWidget::refresh(const RenderContext& render) {
-    spdlog::debug("WI: refresh called");
+void CollectionWidget::render(const RenderContext* context) {
+    spdlog::debug("WI: render called");
 
     // Clear previous position for the widget
     for (auto widget : m_widgets) {
         if (!widget->dirty()) {
             continue;
         }
-        render.addOffsets(widget->x(), widget->y());
+        context->addOffsets(widget->x(), widget->y());
         Dimension d = widget->prevDimension();
-        render.clearArea(d.x, d.y, d.width, d.height, 7, 0);
+        context->clearArea(d.x, d.y, d.width, d.height, 7, 0);
         widget->clearPrevDimension();
-        render.clearOffsets(widget->x(), widget->y());
+        context->clearOffsets(widget->x(), widget->y());
     }
 
     // Re-render the widget
@@ -55,12 +55,12 @@ void CollectionWidget::refresh(const RenderContext& render) {
         if (!widget->dirty()) {
             continue;
         }
-        render.addOffsets(widget->x(), widget->y());
-        render.reverse(widget->focus());
-        widget->refresh(render);
+        context->addOffsets(widget->x(), widget->y());
+        context->reverse(widget->focus());
+        widget->render(context);
         widget->dirty(false);
-        render.reverse(false);
-        render.clearOffsets(widget->x(), widget->y());
+        context->reverse(false);
+        context->clearOffsets(widget->x(), widget->y());
     }
 }
 

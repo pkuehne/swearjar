@@ -2,6 +2,7 @@
 
 #include "dimension.h"
 #include "render_context.h"
+#include <functional>
 #include <memory>
 #include <vector>
 
@@ -10,6 +11,8 @@ namespace SwearJar {
 class Widget;
 using WidgetP = std::shared_ptr<Widget>;
 using WidgetV = std::vector<WidgetP>;
+
+using RenderContextP = std::unique_ptr<RenderContext>;
 
 enum Color {
     Red = 1,
@@ -53,7 +56,8 @@ public: // Overridable
 
     virtual std::string name() { return m_name; }
 
-    virtual void refresh(const RenderContext& render) {}
+    virtual void render(const RenderContext* context) {}
+
     virtual bool handleKeyPress(int ch) {}
 
 public: // Non-overridable

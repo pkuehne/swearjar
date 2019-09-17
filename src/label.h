@@ -14,7 +14,7 @@ public:
     virtual bool centred() { return m_centred; }
 
 protected:
-    void refresh(const RenderContext& render);
+    void render(const RenderContext* context) override;
 
 private:
     std::string m_text;

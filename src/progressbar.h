@@ -14,7 +14,7 @@ public:
     void increment() { value(value() + 1); }
     void decrement();
 
-    void refresh(const RenderContext& context) override;
+    void render(const RenderContext* context) override;
 
 private:
     unsigned int m_value = 0;

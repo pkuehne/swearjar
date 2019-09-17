@@ -38,7 +38,7 @@ public:
         m_yOffset -= y;
     }
 
-    void reverse(bool on) const;
+    virtual void reverse(bool on) const;
     virtual void beginRender();
     virtual void endRender();
     virtual void drawText(unsigned int x, unsigned int y,
