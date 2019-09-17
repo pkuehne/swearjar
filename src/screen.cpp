@@ -6,7 +6,7 @@
 namespace SwearJar {
 
 Screen::Screen(CIptr curses) : m_curses(curses) {
-    spdlog::info("Screen initialized");
+    spdlog::debug("Screen initialized");
 }
 
 Screen::~Screen() { m_curses->endwin(); }
@@ -30,7 +30,7 @@ void Screen::run() {
     while (!m_quit) {
         refreshDirtyWidgets();
         ch = m_curses->getchar();
-        // spdlog::info("Handling {}", ch);
+        spdlog::debug("Handling key {}", ch);
         if (ch == 9) {
             m_panels.begin()->second->baseWidget()->moveFocusForward();
             continue;
