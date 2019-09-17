@@ -29,7 +29,9 @@ enum Color {
 class Widget {
 public: // Overridable
     Widget(const std::string& name);
+    Widget(Widget&) = delete;
     virtual ~Widget() {}
+
     virtual void dirty(bool value) { m_dirty = value; }
     virtual bool dirty() { return m_dirty; }
 

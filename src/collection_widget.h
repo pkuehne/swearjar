@@ -7,7 +7,6 @@ namespace SwearJar {
 class CollectionWidget : public Widget {
 public:
     CollectionWidget(const std::string& name);
-    CollectionWidget(CollectionWidget&) = delete;
 
     bool dirty() override;
     void dirty(bool) override{};
