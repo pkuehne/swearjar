@@ -189,13 +189,13 @@ TEST(LayoutWidget, realignSetsXvalueOnWidgets) {
     EXPECT_EQ(12, c3->x());
 }
 
-TEST(LayoutWidget, refreshOnlyRealignsWhenDirty) {
+TEST(LayoutWidget, renderOnlyRealignsWhenDirty) {
     // Given
     auto curses = std::make_shared<NiceMock<MockCurses>>();
     unsigned int window = 1;
-    RenderContext context(curses, window);
-    context.width(80);
-    context.height(25);
+    RenderContextP context = std::make_unique<RenderContext>(curses, window);
+    context->width(80);
+    context->height(25);
 
     LayoutWidget base("");
     base.width(80);
@@ -210,7 +210,7 @@ TEST(LayoutWidget, refreshOnlyRealignsWhenDirty) {
     base.addWidget(c1);
 
     // When
-    base.refresh(context);
+    base.render(context);
 
     // Then
     EXPECT_EQ(c1->width(), c1->minWidth());

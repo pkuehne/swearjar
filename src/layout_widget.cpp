@@ -86,11 +86,11 @@ void LayoutWidget::realignVertically() {
     }
 }
 
-void LayoutWidget::refresh(const RenderContext& render) {
+void LayoutWidget::render(const RenderContextP& context) {
     if (dirty()) {
         realign();
     }
-    CollectionWidget::refresh(render);
+    CollectionWidget::render(context);
 }
 
 } // namespace SwearJar
