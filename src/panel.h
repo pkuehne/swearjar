@@ -44,6 +44,6 @@ private:
     std::shared_ptr<BaseWidget> m_baseWidget;
     unsigned int m_height = 1;
     unsigned int m_width = 1;
-    RenderContext m_render;
+    std::unique_ptr<RenderContext> m_render = 0;
 };
 }; // namespace SwearJar
