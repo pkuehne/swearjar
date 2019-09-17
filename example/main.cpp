@@ -11,59 +11,57 @@ void make_button_label_example(SwearJar::Screen& screen) {
     auto panel = screen.createPanel();
 
     // Grab the base widget and make layout its children horizontally
-    auto baseWidget = panel->baseWidget();
-    baseWidget->alignment(LayoutWidget::Alignment::Horizontal);
+    auto& baseWidget = panel->baseWidget();
+    baseWidget.alignment(LayoutWidget::Alignment::Horizontal);
 
     // Create a new Frame widget and put spacers either side for automatic
     // margin
-    baseWidget->addSpacer();
-    auto frame = panel->createWidget<Frame>("frmFrame");
-    baseWidget->addSpacer();
+    baseWidget.addSpacer();
+    auto& frame = baseWidget.createWidget<Frame>("frmFrame");
+    baseWidget.addSpacer();
 
     // The Frame has a Layout itself and by default its vertical
-    frame->title(" Button Example ");
-    frame->addSpacer();
+    frame.title(" Button Example ");
+    frame.addSpacer();
 
     // Add a centred label with some magenta on black text
-    auto lblDisplay = frame->createWidget<Label>("lblDisplay");
-    lblDisplay->centred(true);
-    lblDisplay->text("This is a label");
-    lblDisplay->fgColor(Color::Magenta);
-    lblDisplay->bgColor(Color::Black);
+    auto& lblDisplay = frame.createWidget<Label>("lblDisplay");
+    lblDisplay.centred(true);
+    lblDisplay.text("This is a label");
+    lblDisplay.fgColor(Color::Magenta);
+    lblDisplay.bgColor(Color::Black);
 
     // The order in which widgets and spacers are created matters!
-    frame->addSpacer();
-    auto buttonWrapper = frame->createWidget<LayoutWidget>("margin");
-    frame->addSpacer(2);
+    frame.addSpacer();
+    auto& buttonWrapper = frame.createWidget<LayoutWidget>("margin");
+    frame.addSpacer(2);
 
     // Wrap the buttons in a LayoutWidget so we can give them extra margin on
     // the sides inside the Frame
     // Then add the buttons inside a vertical LayoutWidget so they stack one on
     // top of the other
-    buttonWrapper->alignment(LayoutWidget::Alignment::Horizontal);
-    buttonWrapper->addSpacer();
-    auto buttonBox = buttonWrapper->createWidget<LayoutWidget>("buttons");
-    buttonBox->alignment(LayoutWidget::Alignment::Vertical);
-    buttonWrapper->addSpacer();
+    buttonWrapper.alignment(LayoutWidget::Alignment::Horizontal);
+    buttonWrapper.addSpacer();
+    auto& buttonBox = buttonWrapper.createWidget<LayoutWidget>("buttons");
+    buttonBox.alignment(LayoutWidget::Alignment::Vertical);
+    buttonWrapper.addSpacer();
 
     // The `pressed` property is called when ever the button is clicked either
     // by keyboard or mouse
-    auto btnRed = buttonBox->createWidget<Button>("btnRed");
-    btnRed->text("Red");
-    btnRed->pressed = [lblDisplay](Button*) {
-        lblDisplay->fgColor(Color::Red);
+    auto& btnRed = buttonBox.createWidget<Button>("btnRed");
+    btnRed.text("Red");
+    btnRed.pressed = [&lblDisplay](Button&) { lblDisplay.fgColor(Color::Red); };
+
+    auto& btnBlue = buttonBox.createWidget<Button>("btnBlue");
+    btnBlue.text("Blue");
+    btnBlue.pressed = [&lblDisplay](Button&) {
+        lblDisplay.fgColor(Color::Blue);
     };
 
-    auto btnBlue = buttonBox->createWidget<Button>("btnBlue");
-    btnBlue->text("Blue");
-    btnBlue->pressed = [lblDisplay](Button*) {
-        lblDisplay->fgColor(Color::Blue);
-    };
-
-    auto btnYellow = buttonBox->createWidget<Button>("btnYellow");
-    btnYellow->text("Yellow");
-    btnYellow->pressed = [lblDisplay](Button*) {
-        lblDisplay->fgColor(Color::Yellow);
+    auto& btnYellow = buttonBox.createWidget<Button>("btnYellow");
+    btnYellow.text("Yellow");
+    btnYellow.pressed = [&lblDisplay](Button&) {
+        lblDisplay.fgColor(Color::Yellow);
     };
 }
 
@@ -74,27 +72,27 @@ void make_progressbar_example(SwearJar::Screen& screen) {
     auto panel = screen.createPanel();
 
     // Grab the base widget and make layout its children horizontally
-    auto baseWidget = panel->baseWidget();
-    baseWidget->alignment(LayoutWidget::Alignment::Horizontal);
+    auto& baseWidget = panel->baseWidget();
+    baseWidget.alignment(LayoutWidget::Alignment::Horizontal);
 
-    baseWidget->addSpacer();
-    auto frame = panel->createWidget<Frame>("frmFrame");
-    baseWidget->addSpacer();
+    baseWidget.addSpacer();
+    auto& frame = baseWidget.createWidget<Frame>("frmFrame");
+    baseWidget.addSpacer();
 
-    frame->title("Progressbar");
-    frame->addSpacer();
+    frame.title("Progressbar");
+    frame.addSpacer();
 
-    auto label = frame->createWidget<Label>("lblText");
-    label->text("Value");
+    auto& label = frame.createWidget<Label>("lblText");
+    label.text("Value");
 
-    auto bar = frame->createWidget<Progressbar>("pgbProgress");
-    auto btnIncr = frame->createWidget<Button>("btnIncre");
-    btnIncr->text("Increment");
-    btnIncr->pressed = [bar](Button*) { bar->value(bar->value() + 10); };
-    auto btnDecr = frame->createWidget<Button>("btnDecr");
-    btnDecr->text("Decrement");
-    btnDecr->pressed = [bar](Button*) { bar->value(bar->value() - 10); };
-    frame->addSpacer();
+    auto& bar = frame.createWidget<Progressbar>("pgbProgress");
+    auto& btnIncr = frame.createWidget<Button>("btnIncre");
+    btnIncr.text("Increment");
+    btnIncr.pressed = [&bar](Button&) { bar.value(bar.value() + 10); };
+    auto& btnDecr = frame.createWidget<Button>("btnDecr");
+    btnDecr.text("Decrement");
+    btnDecr.pressed = [&bar](Button&) { bar.value(bar.value() - 10); };
+    frame.addSpacer();
 }
 
 void run() {

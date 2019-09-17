@@ -6,7 +6,7 @@ namespace SwearJar {
 
 class SpacerWidget : public Widget {
 public:
-    SpacerWidget() : Widget("spacer") { growthFactor(1); }
+    SpacerWidget(const std::string& name) : Widget(name) { growthFactor(1); }
 };
 
 class LayoutWidget : public CollectionWidget {

@@ -3,9 +3,8 @@
 namespace SwearJar {
 
 void LayoutWidget::addSpacer(unsigned int factor) {
-    auto widget = std::make_shared<SpacerWidget>();
-    widget->growthFactor(factor);
-    addWidget(widget);
+    SpacerWidget& widget = createWidget<SpacerWidget>("spacer");
+    widget.growthFactor(factor);
 }
 
 void LayoutWidget::realign() {

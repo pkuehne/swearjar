@@ -11,7 +11,6 @@ public:
     std::string title() { return m_title; }
 
     // Overriden Widget functions
-    void addWidget(WidgetP widget, unsigned int x, unsigned int y);
     void render(const RenderContext* context) override;
 
 private:

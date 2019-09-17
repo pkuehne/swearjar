@@ -9,97 +9,88 @@ using namespace ::testing;
 
 class RefreshableWidget : public Widget {
 public:
-    RefreshableWidget() : Widget("") {}
+    RefreshableWidget(const std::string& name) : Widget("") {}
     MOCK_METHOD1(render, void(const RenderContext*));
 };
 
 class TestWidget : public SwearJar::Widget {
 public:
-    TestWidget() : Widget("") { canTakeFocus(true); }
+    TestWidget(const std::string& name) : Widget("") { canTakeFocus(true); }
     void canTakeFocus(bool focus) { Widget::canTakeFocus(focus); }
     bool focus() { return Widget::focus(); }
 };
 
 class TestCollectionWidget : public CollectionWidget {
 public:
-    TestCollectionWidget() : CollectionWidget("") {}
+    TestCollectionWidget(const std::string& name) : CollectionWidget("") {}
     void canTakeFocus(bool focus) { Widget::canTakeFocus(focus); }
 };
 
 TEST(CollectionWidget, dirtyIsTrueIfDirtyChildWidgetExists) {
     // Given
-    TestCollectionWidget w;
-    WidgetP c = std::make_shared<Widget>("");
+    TestCollectionWidget base("");
 
     // When
-    w.addWidget(c);
+    Widget& c = base.createWidget<Widget>("");
 
     // Then
-    EXPECT_TRUE(w.dirty());
+    EXPECT_TRUE(base.dirty());
 }
 
 TEST(CollectionWidget, dirtyIsFalseIfNoDirtyChildWidgetExists) {
     // Given
-    TestCollectionWidget w;
-    WidgetP c = std::make_shared<Widget>("");
-    WidgetP d = std::make_shared<Widget>("");
-    w.addWidget(c);
-    w.addWidget(d);
+    TestCollectionWidget base("");
+    Widget& c = base.createWidget<Widget>("");
+    Widget& d = base.createWidget<Widget>("");
 
     // When
-    c->dirty(false);
-    d->dirty(false);
+    c.dirty(false);
+    d.dirty(false);
 
     // Then
-    EXPECT_FALSE(w.dirty());
+    EXPECT_FALSE(base.dirty());
 }
 
 TEST(CollectionWidget, initializesWithNoChildren) {
     // Given
-    TestCollectionWidget w;
+    TestCollectionWidget base("");
 
     // Then
-    EXPECT_TRUE(w.children().empty());
+    EXPECT_TRUE(base.children().empty());
 }
 
 TEST(CollectionWidget, addingWidgetIncreasesChildCount) {
     // Given
-    TestCollectionWidget w;
-    WidgetP c = std::make_shared<Widget>("");
+    TestCollectionWidget base("");
 
     // When
-    w.addWidget(c);
+    Widget& c = base.createWidget<Widget>("");
 
     // Then
-    EXPECT_FALSE(w.children().empty());
+    EXPECT_FALSE(base.children().empty());
 }
 
 TEST(CollectionWidget, moveFocusSetsFirstWidgetByDefault) {
     // Given
-    TestCollectionWidget base;
-    WidgetP c1 = std::make_shared<TestWidget>();
-    WidgetP c2 = std::make_shared<TestWidget>();
-
-    base.addWidget(c1);
-    base.addWidget(c2);
+    TestCollectionWidget base("");
+    Widget& c1 = base.createWidget<TestWidget>("");
+    Widget& c2 = base.createWidget<TestWidget>("");
 
     // When
     bool retval = base.moveFocusForward();
 
     // Then
     EXPECT_TRUE(retval);
-    EXPECT_TRUE(c1->focus());
-    EXPECT_FALSE(c2->focus());
+    EXPECT_TRUE(c1.focus());
+    EXPECT_FALSE(c2.focus());
 }
 
 TEST(CollectionWidget, moveFocusAdvancesSecondTime) {
     // Given
-    TestCollectionWidget base;
-    WidgetP c1 = std::make_shared<TestWidget>();
-    WidgetP c2 = std::make_shared<TestWidget>();
+    TestCollectionWidget base("");
+    Widget& c1 = base.createWidget<TestWidget>("");
+    Widget& c2 = base.createWidget<TestWidget>("");
 
-    base.addWidget(c1);
-    base.addWidget(c2);
     base.moveFocusForward();
 
     // When
@@ -107,18 +98,16 @@ TEST(CollectionWidget, moveFocusAdvancesSecondTime) {
 
     // Then
     EXPECT_TRUE(retval);
-    EXPECT_FALSE(c1->focus());
-    EXPECT_TRUE(c2->focus());
+    EXPECT_FALSE(c1.focus());
+    EXPECT_TRUE(c2.focus());
 }
 
 TEST(CollectionWidget, moveFocusReturnsFalseWhenNoMoreWidgets) {
     // Given
-    TestCollectionWidget base;
-    WidgetP c1 = std::make_shared<TestWidget>();
-    WidgetP c2 = std::make_shared<TestWidget>();
+    TestCollectionWidget base("");
+    Widget& c1 = base.createWidget<TestWidget>("");
+    Widget& c2 = base.createWidget<TestWidget>("");
 
-    base.addWidget(c1);
-    base.addWidget(c2);
     base.moveFocusForward();
     base.moveFocusForward();
 
@@ -127,21 +116,18 @@ TEST(CollectionWidget, moveFocusReturnsFalseWhenNoMoreWidgets) {
 
     // Then
     EXPECT_FALSE(retval);
-    EXPECT_FALSE(c1->focus());
-    EXPECT_FALSE(c2->focus());
+    EXPECT_FALSE(c1.focus());
+    EXPECT_FALSE(c2.focus());
 }
 
 TEST(CollectionWidget, moveFocusSkipsChildrenThatCantTakeFocus) {
     // Given
-    TestCollectionWidget base;
-    WidgetP c1 = std::make_shared<TestWidget>();
-    auto c2 = std::make_shared<TestWidget>();
-    c2->canTakeFocus(false);
-    WidgetP c3 = std::make_shared<TestWidget>();
+    TestCollectionWidget base("");
+    Widget& c1 = base.createWidget<TestWidget>("");
+    TestWidget& c2 = base.createWidget<TestWidget>("");
+    c2.canTakeFocus(false);
+    Widget& c3 = base.createWidget<TestWidget>("");
 
-    base.addWidget(c1);
-    base.addWidget(c2);
-    base.addWidget(c3);
     base.moveFocusForward();
 
     // When
@@ -149,14 +135,14 @@ TEST(CollectionWidget, moveFocusSkipsChildrenThatCantTakeFocus) {
 
     // Then
     EXPECT_TRUE(retval);
-    EXPECT_FALSE(c1->focus());
-    EXPECT_FALSE(c2->focus());
-    EXPECT_TRUE(c3->focus());
+    EXPECT_FALSE(c1.focus());
+    EXPECT_FALSE(c2.focus());
+    EXPECT_TRUE(c3.focus());
 }
 
 TEST(CollectionWidget, moveFocusReturnsFalseEvenIfItCouldTakeFocus) {
     // Given
-    TestCollectionWidget base;
+    TestCollectionWidget base("");
     base.canTakeFocus(true);
 
     // When
@@ -169,11 +155,10 @@ TEST(CollectionWidget, moveFocusReturnsFalseEvenIfItCouldTakeFocus) {
 
 TEST(CollectionWidget, moveFocusDoesNotFocusOnParentEvenIfItCanTakeFocus) {
     // Given
-    TestCollectionWidget base;
+    TestCollectionWidget base("");
     base.canTakeFocus(true);
 
-    WidgetP c1 = std::make_shared<TestWidget>();
-    base.addWidget(c1);
+    Widget& c1 = base.createWidget<TestWidget>("");
 
     // When
     bool retval = base.moveFocusForward();
@@ -181,38 +166,33 @@ TEST(CollectionWidget, moveFocusDoesNotFocusOnParentEvenIfItCanTakeFocus) {
     // Then
     EXPECT_TRUE(retval);
     EXPECT_FALSE(base.focus());
-    EXPECT_TRUE(c1->focus());
+    EXPECT_TRUE(c1.focus());
 }
 
 TEST(CollectionWidget, moveFocusWillCallSameChildAgainTillItReturnsFalse) {
     // Given
-    TestCollectionWidget base;
+    TestCollectionWidget base("");
     bool retval = false;
-    auto c1 = std::make_shared<TestCollectionWidget>();
-    auto c11 = std::make_shared<TestWidget>();
-    auto c12 = std::make_shared<TestWidget>();
-    auto c2 = std::make_shared<TestWidget>();
-
-    base.addWidget(c1);
-    base.addWidget(c2);
-    c1->addWidget(c11);
-    c1->addWidget(c12);
+    auto& c1 = base.createWidget<TestCollectionWidget>("");
+    auto& c11 = c1.createWidget<TestWidget>("");
+    auto& c12 = c1.createWidget<TestWidget>("");
+    auto& c2 = base.createWidget<TestWidget>("");
 
     // When
     retval = base.moveFocusForward();
 
     // Then
     EXPECT_TRUE(retval);
-    EXPECT_TRUE(c11->focus());
+    EXPECT_TRUE(c11.focus());
 
     retval = base.moveFocusForward();
     EXPECT_TRUE(retval);
-    EXPECT_TRUE(c12->focus());
+    EXPECT_TRUE(c12.focus());
 }
 
 TEST(CollectionWidget, handleKeysReturnsFalseIfNoChildrenByDefault) {
     // Given
-    TestCollectionWidget base;
+    TestCollectionWidget base("");
 
     // When
     bool retval = base.handleKeyPress('X');
@@ -223,9 +203,8 @@ TEST(CollectionWidget, handleKeysReturnsFalseIfNoChildrenByDefault) {
 
 TEST(CollectionWidget, handleKeysReturnsFalseIfNoChildrenHasFocus) {
     // Given
-    TestCollectionWidget base;
-    auto c1 = std::make_shared<Widget>("");
-    base.addWidget(c1);
+    TestCollectionWidget base("");
+    auto& c1 = base.createWidget<Widget>("");
 
     // When
     bool retval = base.handleKeyPress('X');
@@ -237,13 +216,13 @@ TEST(CollectionWidget, handleKeysReturnsFalseIfNoChildrenHasFocus) {
 TEST(CollectionWidget, handleKeysReturnsTrueIfChildSelectedHasHandled) {
     class KeyPressWidget : public TestWidget {
     public:
+        KeyPressWidget(const std::string& name) : TestWidget(name) {}
         bool handleKeyPress(int ch) { return true; }
     };
 
     // Given
-    TestCollectionWidget base;
-    auto c1 = std::make_shared<KeyPressWidget>();
-    base.addWidget(c1);
+    TestCollectionWidget base("");
+    auto& c1 = base.createWidget<KeyPressWidget>("");
     ASSERT_TRUE(base.moveFocusForward());
 
     // When
@@ -255,13 +234,11 @@ TEST(CollectionWidget, handleKeysReturnsTrueIfChildSelectedHasHandled) {
 
 TEST(CollectionWidget, minWidthReturnsTotalMinWidthOfChildren) {
     // Given
-    TestCollectionWidget base;
-    auto c1 = std::make_shared<Widget>("");
-    c1->minWidth(5);
-    auto c2 = std::make_shared<Widget>("");
-    c2->minWidth(7);
-    base.addWidget(c1);
-    base.addWidget(c2);
+    TestCollectionWidget base("");
+    auto& c1 = base.createWidget<Widget>("");
+    c1.minWidth(5);
+    auto& c2 = base.createWidget<Widget>("");
+    c2.minWidth(7);
 
     // When
     unsigned int width = base.minWidth();
@@ -272,13 +249,11 @@ TEST(CollectionWidget, minWidthReturnsTotalMinWidthOfChildren) {
 
 TEST(CollectionWidget, minHeightReturnsTotalMinHeightOfChildren) {
     // Given
-    TestCollectionWidget base;
-    auto c1 = std::make_shared<Widget>("");
-    c1->minHeight(5);
-    auto c2 = std::make_shared<Widget>("");
-    c2->minHeight(7);
-    base.addWidget(c1);
-    base.addWidget(c2);
+    TestCollectionWidget base("");
+    auto& c1 = base.createWidget<Widget>("");
+    c1.minHeight(5);
+    auto& c2 = base.createWidget<Widget>("");
+    c2.minHeight(7);
 
     // When
     unsigned int height = base.minHeight();
@@ -293,15 +268,13 @@ TEST(CollectionWidget, renderOnlyRendersDirtyWidgets) {
 
     CollectionWidget base("base");
 
-    auto c1 = std::make_shared<RefreshableWidget>();
-    c1->dirty(false);
-    base.addWidget(c1);
-    EXPECT_CALL(*c1, render(_)).Times(0);
+    auto& c1 = base.createWidget<RefreshableWidget>("");
+    c1.dirty(false);
+    EXPECT_CALL(c1, render(_)).Times(0);
 
-    auto c2 = std::make_shared<RefreshableWidget>();
-    c2->dirty(true);
-    base.addWidget(c2);
-    EXPECT_CALL(*c2, render(_)).Times(1);
+    auto& c2 = base.createWidget<RefreshableWidget>("");
+    c2.dirty(true);
+    EXPECT_CALL(c2, render(_)).Times(1);
 
     // When
     base.render(context.get());

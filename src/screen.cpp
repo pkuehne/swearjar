@@ -26,13 +26,13 @@ void Screen::run() {
     int ch = 0;
     m_curses->refresh();
 
-    m_panels.begin()->second->baseWidget()->moveFocusForward();
+    m_panels.begin()->second->baseWidget().moveFocusForward();
     while (!m_quit) {
         refreshDirtyWidgets();
         ch = m_curses->getchar();
         spdlog::debug("Handling key {}", ch);
         if (ch == 9) {
-            m_panels.begin()->second->baseWidget()->moveFocusForward();
+            m_panels.begin()->second->baseWidget().moveFocusForward();
             continue;
         }
         if (ch == 'q') {
@@ -40,7 +40,7 @@ void Screen::run() {
             continue;
         }
         bool handled =
-            m_panels.begin()->second->baseWidget()->handleKeyPress(ch);
+            m_panels.begin()->second->baseWidget().handleKeyPress(ch);
         if (!handled) {
             unhandledKeys(ch);
         }

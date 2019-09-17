@@ -2,13 +2,11 @@
 #include <spdlog/spdlog.h>
 
 namespace SwearJar {
-CollectionWidget::CollectionWidget(const std::string& name) : Widget(name) {
-    m_focusWidget = m_widgets.end();
-}
+CollectionWidget::CollectionWidget(const std::string& name) : Widget(name) {}
 
 unsigned int CollectionWidget::minHeight() {
     unsigned int min = 0;
-    for (auto w : m_widgets) {
+    for (const auto& w : m_widgets) {
         min += w->minHeight();
     }
     return min;
@@ -16,7 +14,7 @@ unsigned int CollectionWidget::minHeight() {
 
 unsigned int CollectionWidget::minWidth() {
     unsigned int min = 0;
-    for (auto w : m_widgets) {
+    for (const auto& w : m_widgets) {
         min += w->minWidth();
     }
     return min;
@@ -24,22 +22,17 @@ unsigned int CollectionWidget::minWidth() {
 
 bool CollectionWidget::dirty() {
     bool dirty = false;
-    for (auto w : m_widgets) {
+    for (const auto& w : m_widgets) {
         dirty |= w->dirty();
     }
     return dirty;
-}
-
-void CollectionWidget::addWidget(WidgetP widget) {
-    m_widgets.push_back(widget);
-    m_focusWidget = m_widgets.end();
 }
 
 void CollectionWidget::render(const RenderContext* context) {
     spdlog::debug("WI: render called");
 
     // Clear previous position for the widget
-    for (auto widget : m_widgets) {
+    for (auto& widget : m_widgets) {
         if (!widget->dirty()) {
             continue;
         }
@@ -51,7 +44,7 @@ void CollectionWidget::render(const RenderContext* context) {
     }
 
     // Re-render the widget
-    for (auto widget : m_widgets) {
+    for (auto& widget : m_widgets) {
         if (!widget->dirty()) {
             continue;
         }

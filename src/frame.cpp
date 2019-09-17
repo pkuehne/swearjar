@@ -14,9 +14,4 @@ void Frame::render(const RenderContext* context) {
     LayoutWidget::render(context); // render child widgets
 }
 
-void Frame::addWidget(WidgetP widget, unsigned int x, unsigned int y) {
-    widget->x(x);
-    widget->y(y);
-    CollectionWidget::addWidget(widget);
-}
 } // namespace SwearJar
