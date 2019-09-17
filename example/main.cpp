@@ -67,12 +67,42 @@ void make_button_label_example(SwearJar::Screen& screen) {
     };
 }
 
+void make_progressbar_example(SwearJar::Screen& screen) {
+    using namespace SwearJar;
+
+    // Create a Window for all our widgets
+    auto panel = screen.createPanel();
+
+    // Grab the base widget and make layout its children horizontally
+    auto baseWidget = panel->baseWidget();
+    baseWidget->alignment(LayoutWidget::Alignment::Horizontal);
+
+    baseWidget->addSpacer();
+    auto frame = panel->createWidget<Frame>("frmFrame");
+    baseWidget->addSpacer();
+
+    frame->title("Progressbar");
+    frame->addSpacer();
+
+    auto label = frame->createWidget<Label>("lblText");
+    label->text("Value");
+
+    auto bar = frame->createWidget<Progressbar>("pgbProgress");
+    auto btnIncr = frame->createWidget<Button>("btnIncre");
+    btnIncr->text("Increment");
+    btnIncr->pressed = [bar](Button*) { bar->value(bar->value() + 10); };
+    auto btnDecr = frame->createWidget<Button>("btnDecr");
+    btnDecr->text("Decrement");
+    btnDecr->pressed = [bar](Button*) { bar->value(bar->value() - 10); };
+    frame->addSpacer();
+}
+
 void run() {
     SwearJar::Screen screen(std::make_shared<SwearJar::CursesWrapper>());
     screen.initialize();
 
-    make_button_label_example(screen);
-
+    // make_button_label_example(screen);
+    make_progressbar_example(screen);
     screen.run();
 }
 

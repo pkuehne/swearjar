@@ -6,6 +6,7 @@ add_executable(unit_test
     render_context.test.cpp
     layout_widget.test.cpp
     button.test.cpp
+    progressbar.test.cpp
     )
 
 target_link_libraries(unit_test gtest_main gmock)
