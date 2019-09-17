@@ -52,49 +52,6 @@ TEST(Widget, createWidgetWithoutCoordinatesSetsThemToZero) {
     EXPECT_EQ(0, newWidget->y());
 }
 
-TEST(Panel, refreshDirtyWidgetsOnlyRefreshesDirtyWidgets) {
-    using namespace SwearJar;
-
-    // Given
-    auto curses = std::make_shared<::testing::NiceMock<MockCurses>>();
-    Panel p(0, curses, 1, 1);
-
-    auto w1 = std::make_shared<MockWidget>();
-    w1->dirty(true);
-    auto w2 = std::make_shared<MockWidget>();
-    w2->dirty(false);
-
-    p.addWidget(w1);
-    p.addWidget(w2);
-
-    // Then
-    EXPECT_CALL(*w1, render(::testing::_)).Times(1);
-    EXPECT_CALL(*w2, render(::testing::_)).Times(0);
-
-    // When
-    p.refreshDirtyWidgets();
-
-    // Then
-    EXPECT_FALSE(w1->dirty());
-}
-
-TEST(Panel, refreshDirtyWidgetsSetsWidgetClean) {
-    // Given
-    auto curses = std::make_shared<::testing::NiceMock<MockCurses>>();
-    Panel p(0, curses, 1, 1);
-
-    auto w1 = std::make_shared<::testing::NiceMock<MockWidget>>();
-    w1->dirty(true);
-
-    p.addWidget(w1);
-
-    // When
-    p.refreshDirtyWidgets();
-
-    // Then
-    EXPECT_FALSE(w1->dirty());
-}
-
 TEST(Panel, baseWidgetInitializedToHeightAndWidth) {
     // Given
     auto curses = std::make_shared<::testing::NiceMock<MockCurses>>();

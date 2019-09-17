@@ -12,7 +12,7 @@ public:
 
     // Overriden Widget functions
     void addWidget(WidgetP widget, unsigned int x, unsigned int y);
-    void render(const RenderContextP& context) override;
+    void render(const RenderContext* context) override;
 
 private:
     std::string m_title;

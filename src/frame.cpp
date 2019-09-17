@@ -7,7 +7,7 @@ Frame::Frame(const std::string& name) : LayoutWidget(name) {
     margin(1);
 }
 
-void Frame::render(const RenderContextP& context) {
+void Frame::render(const RenderContext* context) {
     context->drawBorder(0, 0, width(), height(), fgColor(), bgColor());
     context->drawText(2, 0, m_title, fgColor(), bgColor());
 

@@ -22,7 +22,7 @@ void Progressbar::decrement() {
     }
     value(value() - 1);
 }
-void Progressbar::render(const RenderContextP& context) {
+void Progressbar::render(const RenderContext* context) {
     if (m_value > m_maximum) {
         m_value = m_maximum;
     }

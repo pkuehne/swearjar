@@ -1,5 +1,5 @@
-#include "curses.mock.h"
 #include "layout_widget.h"
+#include "render_context.mock.h"
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
@@ -191,9 +191,7 @@ TEST(LayoutWidget, realignSetsXvalueOnWidgets) {
 
 TEST(LayoutWidget, renderOnlyRealignsWhenDirty) {
     // Given
-    auto curses = std::make_shared<NiceMock<MockCurses>>();
-    unsigned int window = 1;
-    RenderContextP context = std::make_unique<RenderContext>(curses, window);
+    auto context = std::make_unique<MockRenderContext>();
     context->width(80);
     context->height(25);
 
@@ -210,7 +208,7 @@ TEST(LayoutWidget, renderOnlyRealignsWhenDirty) {
     base.addWidget(c1);
 
     // When
-    base.render(context);
+    base.render(context.get());
 
     // Then
     EXPECT_EQ(c1->width(), c1->minWidth());

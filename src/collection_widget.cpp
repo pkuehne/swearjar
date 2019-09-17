@@ -35,7 +35,7 @@ void CollectionWidget::addWidget(WidgetP widget) {
     m_focusWidget = m_widgets.end();
 }
 
-void CollectionWidget::render(const RenderContextP& context) {
+void CollectionWidget::render(const RenderContext* context) {
     spdlog::debug("WI: render called");
 
     // Clear previous position for the widget

@@ -11,7 +11,7 @@ void Label::text(const std::string& text) {
     m_text = text;
 }
 
-void Label::render(const RenderContextP& context) {
+void Label::render(const RenderContext* context) {
     spdlog::debug("Rendering with {}", m_text);
     context->drawText(0, 0, std::string(width(), ' '), fgColor(), bgColor());
 

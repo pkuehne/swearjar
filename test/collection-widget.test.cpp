@@ -1,5 +1,5 @@
 #include "collection_widget.h"
-#include "curses.mock.h"
+#include "render_context.mock.h"
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <spdlog/spdlog.h>
@@ -10,8 +10,7 @@ using namespace ::testing;
 class RefreshableWidget : public Widget {
 public:
     RefreshableWidget() : Widget("") {}
-    MOCK_METHOD1(refresh, void(const RenderContext&));
-    MOCK_METHOD1(render, void(const RenderContextP&));
+    MOCK_METHOD1(render, void(const RenderContext*));
 };
 
 class TestWidget : public SwearJar::Widget {
@@ -290,9 +289,7 @@ TEST(CollectionWidget, minHeightReturnsTotalMinHeightOfChildren) {
 
 TEST(CollectionWidget, renderOnlyRendersDirtyWidgets) {
     // Given
-    auto curses = std::make_shared<::testing::NiceMock<MockCurses>>();
-    unsigned int window = 1;
-    RenderContextP context = std::make_unique<RenderContext>(curses, window);
+    auto context = std::make_unique<MockRenderContext>();
 
     CollectionWidget base("base");
 
@@ -307,5 +304,5 @@ TEST(CollectionWidget, renderOnlyRendersDirtyWidgets) {
     EXPECT_CALL(*c2, render(_)).Times(1);
 
     // When
-    base.render(context);
+    base.render(context.get());
 }

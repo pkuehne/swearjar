@@ -12,7 +12,7 @@ void Button::text(const std::string& text) {
     dirty(true);
 }
 
-void Button::render(const RenderContextP& context) {
+void Button::render(const RenderContext* context) {
     spdlog::debug("Button: Rendering with {}", m_text);
     context->drawText(0, 0, std::string(width(), ' '), fgColor(), bgColor());
 
