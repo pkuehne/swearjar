@@ -7,6 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
+      submodules: true
     - name: make build directory
       run: mkdir -p build
     - name: run cmake
