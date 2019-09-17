@@ -9,14 +9,14 @@ TEST(Progressbar, ZeroPercentRendersNothing) {
     // Given
     auto curses = std::make_shared<MockCurses>();
     unsigned int window = 1;
-    RenderContext context(curses, window);
+    RenderContextP context = std::make_unique<RenderContext>(curses, window);
 
     Progressbar bar("bar");
     bar.value(0);
     bar.maximum(100);
 
     // When
-    bar.refresh(context);
+    bar.render(context);
 
     // Then
 }
@@ -25,9 +25,9 @@ TEST(Progressbar, MaxValueRendersFullWidth) {
     // Given
     auto curses = std::make_shared<::testing::NiceMock<MockCurses>>();
     unsigned int window = 1;
-    RenderContext context(curses, window);
-    context.width(20);
-    context.height(5);
+    RenderContextP context = std::make_unique<RenderContext>(curses, window);
+    context->width(20);
+    context->height(5);
 
     EXPECT_CALL(*curses, mvaddch_(_, _, _)).Times(10);
 
@@ -37,16 +37,16 @@ TEST(Progressbar, MaxValueRendersFullWidth) {
     bar.width(10);
 
     // When
-    bar.refresh(context);
+    bar.render(context);
 }
 
 TEST(Progressbar, ValueAboveMaxRendersMax) {
     // Given
     auto curses = std::make_shared<::testing::NiceMock<MockCurses>>();
     unsigned int window = 1;
-    RenderContext context(curses, window);
-    context.width(20);
-    context.height(5);
+    RenderContextP context = std::make_unique<RenderContext>(curses, window);
+    context->width(20);
+    context->height(5);
 
     EXPECT_CALL(*curses, mvaddch_(_, _, _)).Times(10);
 
@@ -56,16 +56,16 @@ TEST(Progressbar, ValueAboveMaxRendersMax) {
     bar.width(10);
 
     // When
-    bar.refresh(context);
+    bar.render(context);
 }
 
 TEST(Progressbar, FiftyPercentRendersHalf) {
     // Given
     auto curses = std::make_shared<::testing::NiceMock<MockCurses>>();
     unsigned int window = 1;
-    RenderContext context(curses, window);
-    context.width(20);
-    context.height(5);
+    RenderContextP context = std::make_unique<RenderContext>(curses, window);
+    context->width(20);
+    context->height(5);
 
     EXPECT_CALL(*curses, mvaddch_(_, _, _)).Times(5);
 
@@ -75,7 +75,7 @@ TEST(Progressbar, FiftyPercentRendersHalf) {
     bar.width(10);
 
     // When
-    bar.refresh(context);
+    bar.render(context);
 }
 
 TEST(Progressbar, incrementAddsOneToValue) {
