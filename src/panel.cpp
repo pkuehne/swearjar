@@ -6,8 +6,8 @@ namespace SwearJar {
 
 Panel::Panel(unsigned int id, CIptr curses, unsigned int height,
              unsigned int width)
-    : m_id(id), m_curses(curses), m_baseWidget(std::make_shared<BaseWidget>()),
-      m_height(height), m_width(width) {
+    : m_id(id), m_curses(curses), m_height(height), m_width(width) {
+    m_baseWidget = std::make_unique<BaseWidget>();
     m_baseWidget->width(width);
     m_baseWidget->height(height);
 
@@ -19,14 +19,6 @@ Panel::Panel(unsigned int id, CIptr curses, unsigned int height,
 }
 
 Panel::~Panel() {}
-
-void Panel::addWidget(Widget* widget) {
-    addWidget(std::shared_ptr<Widget>(widget));
-}
-
-void Panel::addWidget(std::shared_ptr<Widget> widget) {
-    m_baseWidget->addWidget(widget);
-}
 
 void Panel::refreshDirtyWidgets() {
     m_render->beginRender();

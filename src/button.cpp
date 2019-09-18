@@ -28,7 +28,7 @@ bool Button::handleKeyPress(int ch) {
         return false;
     }
     if (pressed != 0) {
-        pressed(this);
+        pressed(*this);
     }
     return true;
 }

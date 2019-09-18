@@ -19,9 +19,9 @@ TEST(Screen, createPanelWithouthParamsMakesScreenSize) {
         .WillOnce(DoAll(SetArgReferee<0>(height), SetArgReferee<1>(width)));
 
     // When
-    auto panel = screen.createPanel();
+    auto& panel = screen.createPanel();
 
     // Then
-    EXPECT_EQ(panel->width(), width);
-    EXPECT_EQ(panel->height(), height);
+    EXPECT_EQ(panel.width(), width);
+    EXPECT_EQ(panel.height(), height);
 }
