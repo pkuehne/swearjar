@@ -1,6 +1,6 @@
 #include "curses.mock.h"
-#include "panel.h"
 #include "widget.h"
+#include "window.h"
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 

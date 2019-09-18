@@ -2,7 +2,7 @@ add_executable(unit_test
     screen.test.cpp
     widget.test.cpp
     collection-widget.test.cpp
-    panel.test.cpp
+    window.test.cpp
     render_context.test.cpp
     layout_widget.test.cpp
     button.test.cpp

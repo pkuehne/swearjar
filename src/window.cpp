@@ -1,4 +1,4 @@
-#include "panel.h"
+#include "window.h"
 #include <iostream>
 #include <spdlog/spdlog.h>
 
