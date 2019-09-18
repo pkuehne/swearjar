@@ -18,7 +18,7 @@ protected:
 
 private:
     std::string m_text;
-    bool m_centred;
+    bool m_centred = false;
 };
 
 } // namespace SwearJar

@@ -53,7 +53,7 @@ public: // Overridable
     virtual short fgColor() { return m_fg; }
     virtual void bgColor(short bg);
     virtual short bgColor() { return m_bg; }
-    virtual void growthFactor(unsigned int factor) { m_growthFactor = factor; }
+    virtual void growthFactor(unsigned int factor);
     virtual unsigned int growthFactor() { return m_growthFactor; }
 
     virtual std::string name() { return m_name; }

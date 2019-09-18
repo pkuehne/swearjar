@@ -11,6 +11,11 @@ void Label::text(const std::string& text) {
     m_text = text;
 }
 
+void Label::centred(bool centred) {
+    m_centred = centred;
+    invalidate();
+}
+
 void Label::render(const RenderContext* context) {
     spdlog::debug("Rendering with {}", m_text);
     context->drawText(0, 0, std::string(width(), ' '), fgColor(), bgColor());
@@ -20,11 +25,6 @@ void Label::render(const RenderContext* context) {
         xStart = (width() - m_text.length()) / 2;
     }
     context->drawText(xStart, 0, m_text, fgColor(), bgColor());
-}
-
-void Label::centred(bool centred) {
-    m_centred = centred;
-    dirty(true);
 }
 
 } // namespace SwearJar
