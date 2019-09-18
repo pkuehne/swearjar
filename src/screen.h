@@ -16,9 +16,9 @@ public:
     void initialize();
     void run();
     void clearScreen();
-    std::shared_ptr<Panel> createPanel();
-    std::shared_ptr<Panel> createPanel(unsigned int x, unsigned int y,
-                                       unsigned int width, unsigned int height);
+    Panel& createPanel();
+    Panel& createPanel(unsigned int x, unsigned int y, unsigned int width,
+                       unsigned int height);
     void quit() { m_quit = true; }
     std::function<void(char)> unhandledKeys = [](char) {};
 
@@ -27,7 +27,7 @@ private:
 
 private:
     std::shared_ptr<CursesInterface> m_curses;
-    std::map<unsigned int, std::shared_ptr<Panel>> m_panels;
+    std::map<unsigned int, std::unique_ptr<Panel>> m_panels;
     bool m_quit = false;
 };
 

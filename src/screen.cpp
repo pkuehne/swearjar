@@ -63,25 +63,23 @@ void Screen::clearScreen() {
     m_curses->refresh();
 }
 
-std::shared_ptr<Panel> Screen::createPanel() {
+Panel& Screen::createPanel() {
     int height = 0, width = 0;
     m_curses->get_screen_size(height, width);
 
     return createPanel(0, 0, width, height);
 }
 
-std::shared_ptr<Panel> Screen::createPanel(unsigned int x, unsigned int y,
-                                           unsigned int width,
-                                           unsigned int height) {
+Panel& Screen::createPanel(unsigned int x, unsigned int y, unsigned int width,
+                           unsigned int height) {
     unsigned int id = m_curses->newwin(height, width, y, x);
-    auto panel = std::make_shared<Panel>(id, m_curses, height, width);
-    m_panels[id] = panel;
-    return panel;
+    m_panels[id] = std::make_unique<Panel>(id, m_curses, height, width);
+    return *m_panels[id];
 }
 
 void Screen::refreshDirtyWidgets() {
-    for (auto iter : m_panels) {
-        auto panel = iter.second;
+    for (auto& iter : m_panels) {
+        auto& panel = iter.second;
         panel->refreshDirtyWidgets();
     }
     m_curses->refresh();
