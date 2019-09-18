@@ -50,17 +50,19 @@ void make_button_label_example(SwearJar::Screen& screen) {
     // by keyboard or mouse
     auto& btnRed = buttonBox.createWidget<Button>("btnRed");
     btnRed.text("Red");
-    btnRed.pressed = [&lblDisplay](Button&) { lblDisplay.fgColor(Color::Red); };
+    btnRed.onPressed = [&lblDisplay](Button&) {
+        lblDisplay.fgColor(Color::Red);
+    };
 
     auto& btnBlue = buttonBox.createWidget<Button>("btnBlue");
     btnBlue.text("Blue");
-    btnBlue.pressed = [&lblDisplay](Button&) {
+    btnBlue.onPressed = [&lblDisplay](Button&) {
         lblDisplay.fgColor(Color::Blue);
     };
 
     auto& btnYellow = buttonBox.createWidget<Button>("btnYellow");
     btnYellow.text("Yellow");
-    btnYellow.pressed = [&lblDisplay](Button&) {
+    btnYellow.onPressed = [&lblDisplay](Button&) {
         lblDisplay.fgColor(Color::Yellow);
     };
 }
@@ -82,16 +84,24 @@ void make_progressbar_example(SwearJar::Screen& screen) {
     frame.title("Progressbar");
     frame.addSpacer();
 
+    auto& checkbox = frame.createWidget<Checkbox>("chkBox");
+    checkbox.text("Decrement");
+
     auto& label = frame.createWidget<Label>("lblText");
     label.text("Value");
 
     auto& bar = frame.createWidget<Progressbar>("pgbProgress");
+
     auto& btnIncr = frame.createWidget<Button>("btnIncre");
     btnIncr.text("Increment");
-    btnIncr.pressed = [&bar](Button&) { bar.value(bar.value() + 10); };
-    auto& btnDecr = frame.createWidget<Button>("btnDecr");
-    btnDecr.text("Decrement");
-    btnDecr.pressed = [&bar](Button&) { bar.value(bar.value() - 10); };
+    btnIncr.onPressed = [&bar, &checkbox](Button& me) {
+        int val = checkbox.enabled() ? -10 : 10;
+        bar.value(bar.value() + val);
+    };
+    checkbox.onToggle = [&btnIncr](Checkbox& me) {
+        btnIncr.text(me.enabled() ? "Decrement" : "Increment");
+    };
+
     frame.addSpacer();
 }
 

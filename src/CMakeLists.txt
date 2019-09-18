@@ -25,6 +25,8 @@ target_sources(swearjarbase
     ${CMAKE_CURRENT_LIST_DIR}/collection_widget.cpp
     ${CMAKE_CURRENT_LIST_DIR}/layout_widget.h
     ${CMAKE_CURRENT_LIST_DIR}/layout_widget.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/checkbox.h
+    ${CMAKE_CURRENT_LIST_DIR}/checkbox.cpp
     )
 target_link_libraries(swearjarbase PRIVATE spdlog)
 
