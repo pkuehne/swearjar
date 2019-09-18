@@ -82,16 +82,24 @@ void make_progressbar_example(SwearJar::Screen& screen) {
     frame.title("Progressbar");
     frame.addSpacer();
 
+    auto& checkbox = frame.createWidget<Checkbox>("chkBox");
+    checkbox.text("Decrement");
+
     auto& label = frame.createWidget<Label>("lblText");
     label.text("Value");
 
     auto& bar = frame.createWidget<Progressbar>("pgbProgress");
+
     auto& btnIncr = frame.createWidget<Button>("btnIncre");
     btnIncr.text("Increment");
-    btnIncr.pressed = [&bar](Button&) { bar.value(bar.value() + 10); };
-    auto& btnDecr = frame.createWidget<Button>("btnDecr");
-    btnDecr.text("Decrement");
-    btnDecr.pressed = [&bar](Button&) { bar.value(bar.value() - 10); };
+    btnIncr.pressed = [&bar, &checkbox](Button& me) {
+        int val = checkbox.enabled() ? -10 : 10;
+        bar.value(bar.value() + val);
+    };
+    checkbox.onToggle = [&btnIncr](Checkbox& me) {
+        btnIncr.text(me.enabled() ? "Decrement" : "Increment");
+    };
+
     frame.addSpacer();
 }
 
