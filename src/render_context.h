@@ -8,14 +8,14 @@ namespace SwearJar {
 class RenderContext {
 
 public:
-    RenderContext(const CIptr& curses, unsigned int panel)
-        : m_curses(curses), m_panel(panel) {
-        spdlog::debug("Created RenderContext for {}", panel);
+    RenderContext(const CIptr& curses, unsigned int window)
+        : m_curses(curses), m_window(window) {
+        spdlog::debug("Created RenderContext for {}", window);
     }
     virtual ~RenderContext() {}
 
-    void panel(unsigned int panel) { m_panel = panel; }
-    unsigned int panel() { return m_panel; }
+    void window(unsigned int window) { m_window = window; }
+    unsigned int window() { return m_window; }
 
     void width(unsigned int width) { m_width = width; }
     unsigned int width() { return m_width; }
@@ -53,7 +53,7 @@ public:
 
 private:
     CIptr m_curses;
-    unsigned int m_panel = 0;
+    unsigned int m_window = 0;
     unsigned int m_width = 0;
     unsigned int m_height = 0;
     mutable unsigned int m_xOffset = 0;

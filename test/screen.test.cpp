@@ -1,13 +1,13 @@
 #include "curses.mock.h"
-#include "panel.h"
 #include "screen.h"
+#include "window.h"
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 using namespace ::testing;
 using namespace SwearJar;
 
-TEST(Screen, createPanelWithouthParamsMakesScreenSize) {
+TEST(Screen, createWindowWithouthParamsMakesScreenSize) {
     // Given
     auto curses = std::make_shared<::testing::NiceMock<MockCurses>>();
     Screen screen(curses);
@@ -19,9 +19,9 @@ TEST(Screen, createPanelWithouthParamsMakesScreenSize) {
         .WillOnce(DoAll(SetArgReferee<0>(height), SetArgReferee<1>(width)));
 
     // When
-    auto& panel = screen.createPanel();
+    auto& window = screen.createWindow();
 
     // Then
-    EXPECT_EQ(panel.width(), width);
-    EXPECT_EQ(panel.height(), height);
+    EXPECT_EQ(window.width(), width);
+    EXPECT_EQ(window.height(), height);
 }

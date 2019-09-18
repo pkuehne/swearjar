@@ -41,8 +41,8 @@ void RenderContext::clearArea(unsigned int x, unsigned int y,
 
     spdlog::debug("RC: clearing area {}x{} @ ({},{})", width, height, x, y);
     if (width == 0 || height == 0) {
-        spdlog::debug("RC: Invalid clear area {}x{} @ ({},{})", width, height, x,
-                     y);
+        spdlog::debug("RC: Invalid clear area {}x{} @ ({},{})", width, height,
+                      x, y);
         return;
     }
     m_curses->color_on(m_curses->get_color(fg, bg));
@@ -98,12 +98,12 @@ void RenderContext::drawBorder(unsigned int x, unsigned int y,
 }
 
 void RenderContext::beginRender() {
-    spdlog::debug("Begin render for {}", m_panel);
-    m_curses->currentWindow(m_panel);
+    spdlog::debug("Begin render for {}", m_window);
+    m_curses->currentWindow(m_window);
 }
 
 void RenderContext::endRender() {
-    spdlog::debug("End render for {}", m_panel);
+    spdlog::debug("End render for {}", m_window);
     m_curses->wrefresh();
 }
 

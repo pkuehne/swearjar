@@ -7,8 +7,8 @@ target_sources(swearjarbase
     PRIVATE
     ${CMAKE_CURRENT_LIST_DIR}/screen.h
     ${CMAKE_CURRENT_LIST_DIR}/screen.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/panel.h
-    ${CMAKE_CURRENT_LIST_DIR}/panel.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/window.h
+    ${CMAKE_CURRENT_LIST_DIR}/window.cpp
     ${CMAKE_CURRENT_LIST_DIR}/widget.h
     ${CMAKE_CURRENT_LIST_DIR}/widget.cpp
     ${CMAKE_CURRENT_LIST_DIR}/render_context.h

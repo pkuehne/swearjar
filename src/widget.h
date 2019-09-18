@@ -80,7 +80,6 @@ protected: // Internal widget functions
 
 private:
     std::string m_name;
-    unsigned int m_panel;
     bool m_dirty = true;
     Dimension m_prevDimension;
     unsigned int m_height = 1;

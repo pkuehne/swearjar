@@ -7,7 +7,7 @@
 
 namespace SwearJar {
 
-class Panel;
+class Window;
 
 class Screen {
 public:
@@ -16,9 +16,9 @@ public:
     void initialize();
     void run();
     void clearScreen();
-    Panel& createPanel();
-    Panel& createPanel(unsigned int x, unsigned int y, unsigned int width,
-                       unsigned int height);
+    Window& createWindow();
+    Window& createWindow(unsigned int x, unsigned int y, unsigned int width,
+                         unsigned int height);
     void quit() { m_quit = true; }
     std::function<void(char)> unhandledKeys = [](char) {};
 
@@ -27,7 +27,7 @@ private:
 
 private:
     std::shared_ptr<CursesInterface> m_curses;
-    std::map<unsigned int, std::unique_ptr<Panel>> m_panels;
+    std::map<unsigned int, std::unique_ptr<Window>> m_windows;
     bool m_quit = false;
 };
 
