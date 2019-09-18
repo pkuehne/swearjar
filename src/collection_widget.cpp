@@ -28,7 +28,7 @@ bool CollectionWidget::dirty() {
     return dirty;
 }
 
-void CollectionWidget::render(const RenderContext* context) {
+void CollectionWidget::render(const RenderContext& context) {
     spdlog::debug("WI: render called");
 
     // Clear previous position for the widget
@@ -36,11 +36,11 @@ void CollectionWidget::render(const RenderContext* context) {
         if (!widget->dirty()) {
             continue;
         }
-        context->addOffsets(widget->x(), widget->y());
+        context.addOffsets(widget->x(), widget->y());
         Dimension d = widget->prevDimension();
-        context->clearArea(d.x, d.y, d.width, d.height, 7, 0);
+        context.clearArea(d.x, d.y, d.width, d.height, 7, 0);
         widget->clearPrevDimension();
-        context->clearOffsets(widget->x(), widget->y());
+        context.clearOffsets(widget->x(), widget->y());
     }
 
     // Re-render the widget
@@ -48,12 +48,12 @@ void CollectionWidget::render(const RenderContext* context) {
         if (!widget->dirty()) {
             continue;
         }
-        context->addOffsets(widget->x(), widget->y());
-        context->reverse(widget->focus());
+        context.addOffsets(widget->x(), widget->y());
+        context.reverse(widget->focus());
         widget->render(context);
         widget->dirty(false);
-        context->reverse(false);
-        context->clearOffsets(widget->x(), widget->y());
+        context.reverse(false);
+        context.clearOffsets(widget->x(), widget->y());
     }
 }
 

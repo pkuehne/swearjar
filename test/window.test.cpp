@@ -9,7 +9,7 @@ using namespace SwearJar;
 class MockWidget : public Widget {
 public:
     MockWidget() : Widget("") {}
-    MOCK_METHOD1(render, void(const RenderContextP&));
+    MOCK_METHOD1(render, void(const RenderContext&));
 };
 
 TEST(Window, baseWidgetInitializedToHeightAndWidth) {

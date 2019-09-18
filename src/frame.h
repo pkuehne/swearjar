@@ -11,7 +11,7 @@ public:
     std::string title() { return m_title; }
 
     // Overriden Widget functions
-    void render(const RenderContext* context) override;
+    void render(const RenderContext& context) override;
 
 private:
     std::string m_title;

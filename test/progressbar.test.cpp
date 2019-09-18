@@ -14,7 +14,7 @@ TEST(Progressbar, ZeroPercentRendersNothing) {
     bar.maximum(100);
 
     // When
-    bar.render(context.get());
+    bar.render(*context);
 
     // Then
 }
@@ -33,7 +33,7 @@ TEST(Progressbar, MaxValueRendersFullWidth) {
     bar.width(10);
 
     // When
-    bar.render(context.get());
+    bar.render(*context);
 }
 
 TEST(Progressbar, ValueAboveMaxRendersMax) {
@@ -50,7 +50,7 @@ TEST(Progressbar, ValueAboveMaxRendersMax) {
     bar.width(10);
 
     // When
-    bar.render(context.get());
+    bar.render(*context);
 }
 
 TEST(Progressbar, FiftyPercentRendersHalf) {
@@ -67,7 +67,7 @@ TEST(Progressbar, FiftyPercentRendersHalf) {
     bar.width(10);
 
     // When
-    bar.render(context.get());
+    bar.render(*context);
 }
 
 TEST(Progressbar, incrementAddsOneToValue) {

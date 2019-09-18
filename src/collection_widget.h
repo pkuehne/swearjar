@@ -21,7 +21,7 @@ public:
     template <class T>
     T& createWidget(const std::string& name, unsigned int x, unsigned int y);
 
-    void render(const RenderContext* context) override;
+    void render(const RenderContext& context) override;
     bool moveFocusForward() override;
     bool handleKeyPress(int ch) override;
 

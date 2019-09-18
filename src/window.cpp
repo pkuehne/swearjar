@@ -22,7 +22,7 @@ Window::~Window() {}
 
 void Window::refreshDirtyWidgets() {
     m_render->beginRender();
-    m_baseWidget->render(m_render.get());
+    m_baseWidget->render(*m_render);
     m_render->endRender();
 }
 

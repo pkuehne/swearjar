@@ -58,7 +58,7 @@ public: // Overridable
 
     virtual std::string name() { return m_name; }
 
-    virtual void render(const RenderContext* context) {}
+    virtual void render(const RenderContext& context) {}
 
     virtual bool handleKeyPress(int ch) {}
 

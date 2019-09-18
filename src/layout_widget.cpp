@@ -85,7 +85,7 @@ void LayoutWidget::realignVertically() {
     }
 }
 
-void LayoutWidget::render(const RenderContext* context) {
+void LayoutWidget::render(const RenderContext& context) {
     if (dirty()) {
         realign();
     }

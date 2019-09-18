@@ -12,9 +12,9 @@ void Frame::title(const std::string& title) {
     invalidate();
 }
 
-void Frame::render(const RenderContext* context) {
-    context->drawBorder(0, 0, width(), height(), fgColor(), bgColor());
-    context->drawText(2, 0, m_title, fgColor(), bgColor());
+void Frame::render(const RenderContext& context) {
+    context.drawBorder(0, 0, width(), height(), fgColor(), bgColor());
+    context.drawText(2, 0, m_title, fgColor(), bgColor());
 
     LayoutWidget::render(context); // render child widgets
 }

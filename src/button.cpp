@@ -12,14 +12,14 @@ void Button::text(const std::string& text) {
     dirty(true);
 }
 
-void Button::render(const RenderContext* context) {
+void Button::render(const RenderContext& context) {
     spdlog::debug("Button: Rendering with {}", m_text);
-    context->drawText(0, 0, std::string(width(), ' '), fgColor(), bgColor());
+    context.drawText(0, 0, std::string(width(), ' '), fgColor(), bgColor());
 
     unsigned int xStart = (width() - m_text.length()) / 2;
-    context->drawText(xStart, 0, m_text, fgColor(), bgColor());
-    context->drawChar(0, 0, '<', fgColor(), bgColor());
-    context->drawChar(width() - 1, 0, '>', fgColor(), bgColor());
+    context.drawText(xStart, 0, m_text, fgColor(), bgColor());
+    context.drawChar(0, 0, '<', fgColor(), bgColor());
+    context.drawChar(width() - 1, 0, '>', fgColor(), bgColor());
 }
 
 bool Button::handleKeyPress(int ch) {
