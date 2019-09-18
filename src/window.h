@@ -12,16 +12,16 @@ public:
     BaseWidget() : LayoutWidget("base") {}
 };
 
-class Panel {
+class Window {
 public:
-    Panel(unsigned int id, CIptr curses, unsigned int height,
-          unsigned int width);
-    virtual ~Panel();
+    Window(unsigned int id, CIptr curses, unsigned int height,
+           unsigned int width);
+    virtual ~Window();
 
     BaseWidget& baseWidget() { return *m_baseWidget; }
 
     void refreshDirtyWidgets();
-    void clearPanel();
+    void clearWindow();
 
     unsigned int width() { return m_width; }
     unsigned int height() { return m_height; }

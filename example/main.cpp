@@ -8,10 +8,10 @@ void make_button_label_example(SwearJar::Screen& screen) {
     using namespace SwearJar;
 
     // Create a Window for all our widgets
-    auto& panel = screen.createPanel();
+    auto& window = screen.createWindow();
 
     // Grab the base widget and make layout its children horizontally
-    auto& baseWidget = panel.baseWidget();
+    auto& baseWidget = window.baseWidget();
     baseWidget.alignment(LayoutWidget::Alignment::Horizontal);
 
     // Create a new Frame widget and put spacers either side for automatic
@@ -69,10 +69,10 @@ void make_progressbar_example(SwearJar::Screen& screen) {
     using namespace SwearJar;
 
     // Create a Window for all our widgets
-    auto& panel = screen.createPanel();
+    auto& window = screen.createWindow();
 
     // Grab the base widget and make layout its children horizontally
-    auto& baseWidget = panel.baseWidget();
+    auto& baseWidget = window.baseWidget();
     baseWidget.alignment(LayoutWidget::Alignment::Horizontal);
 
     baseWidget.addSpacer();
