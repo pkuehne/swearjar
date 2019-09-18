@@ -45,6 +45,11 @@ void Widget::bgColor(short bg) {
     m_bg = bg;
 }
 
+void Widget::growthFactor(unsigned int factor) {
+    m_growthFactor = factor;
+    invalidate();
+}
+
 void Widget::invalidate() {
     if (dirty()) {
         return;
