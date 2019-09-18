@@ -194,7 +194,7 @@ TEST(LayoutWidget, renderOnlyRealignsWhenDirty) {
     c1.dirty(false);
 
     // When
-    base.render(context.get());
+    base.render(*context);
 
     // Then
     EXPECT_EQ(c1.width(), c1.minWidth());

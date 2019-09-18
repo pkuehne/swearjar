@@ -27,7 +27,7 @@ public:
     void margin(unsigned int margin) { m_margin = margin; }
     unsigned int margin() { return m_margin; }
 
-    void render(const RenderContext* context) override;
+    void render(const RenderContext& context) override;
 
 private:
     Alignment m_alignment = Alignment::Fixed;

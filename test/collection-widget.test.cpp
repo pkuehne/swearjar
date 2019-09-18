@@ -10,7 +10,7 @@ using namespace ::testing;
 class RefreshableWidget : public Widget {
 public:
     RefreshableWidget(const std::string& name) : Widget("") {}
-    MOCK_METHOD1(render, void(const RenderContext*));
+    MOCK_METHOD1(render, void(const RenderContext&));
 };
 
 class TestWidget : public SwearJar::Widget {
@@ -264,7 +264,7 @@ TEST(CollectionWidget, minHeightReturnsTotalMinHeightOfChildren) {
 
 TEST(CollectionWidget, renderOnlyRendersDirtyWidgets) {
     // Given
-    auto context = std::make_unique<MockRenderContext>();
+    auto context = std::make_unique<::testing::NiceMock<MockRenderContext>>();
 
     CollectionWidget base("base");
 
@@ -277,5 +277,5 @@ TEST(CollectionWidget, renderOnlyRendersDirtyWidgets) {
     EXPECT_CALL(c2, render(_)).Times(1);
 
     // When
-    base.render(context.get());
+    base.render(*context);
 }

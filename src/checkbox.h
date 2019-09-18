@@ -8,7 +8,7 @@ class Checkbox : public Widget {
 public:
     Checkbox(const std::string& name);
 
-    void render(const RenderContext* context) override;
+    void render(const RenderContext& context) override;
     bool handleKeyPress(int ch) override;
 
     std::function<void(Checkbox&)> onToggle;
