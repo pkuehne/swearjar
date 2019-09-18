@@ -9,7 +9,7 @@ public:
     virtual void text(const std::string& text);
     virtual const std::string& text() { return m_text; }
 
-    std::function<void(Button&)> pressed;
+    std::function<void(Button&)> onPressed;
 
     void render(const RenderContext* context) override;
     bool handleKeyPress(int ch) override;

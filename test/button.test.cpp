@@ -9,7 +9,7 @@ TEST(Button, keyPressCallsCallbackOnEnter) {
     bool pressed = false;
 
     Button b("testButton");
-    b.pressed = [&pressed](Button&) { pressed = true; };
+    b.onPressed = [&pressed](Button&) { pressed = true; };
 
     // When
     bool handled = b.handleKeyPress(10);
@@ -24,7 +24,7 @@ TEST(Button, keyPressDoesNothingIfNotEnter) {
     bool pressed = false;
 
     Button b("testButton");
-    b.pressed = [&pressed](Button&) { pressed = true; };
+    b.onPressed = [&pressed](Button&) { pressed = true; };
 
     // When
     bool handled = b.handleKeyPress('f');
@@ -37,7 +37,7 @@ TEST(Button, keyPressDoesNothingIfNotEnter) {
 TEST(Button, keyPressDoesNotThrowIfNoFunctionIsSet) {
     // Given
     Button b("testButton");
-    b.pressed = nullptr;
+    b.onPressed = nullptr;
 
     // When
     EXPECT_NO_THROW(b.handleKeyPress('f'));
