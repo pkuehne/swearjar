@@ -125,14 +125,43 @@ void make_overlapping_window(SwearJar::Screen& screen) {
     btnClose.text("Close");
 }
 
+void make_example_menu(SwearJar::Screen& screen) {
+    using namespace SwearJar;
+
+    auto& window = screen.createWindow();
+    auto& baseWidget = window.baseWidget();
+
+    baseWidget.alignment(LayoutWidget::Alignment::Horizontal);
+
+    baseWidget.addSpacer();
+    auto& frame = baseWidget.createWidget<Frame>("frmFrame");
+    baseWidget.addSpacer();
+
+    frame.addSpacer();
+    auto& btnLabel = frame.createWidget<Button>("btnLabel");
+    auto& btnProgress = frame.createWidget<Button>("btnProgress");
+    auto& btnPopup = frame.createWidget<Button>("btnPopup");
+    frame.addSpacer();
+
+    btnLabel.text("Labels & Buttons");
+    btnLabel.onPressed = [&screen](Button&) {
+        make_button_label_example(screen);
+    };
+    btnProgress.text("Checkbox & Progressbar");
+    btnProgress.onPressed = [&screen](Button&) {
+        make_progressbar_example(screen);
+    };
+    btnPopup.text("Popup");
+    btnPopup.onPressed = [&screen](Button&) {
+        make_overlapping_window(screen);
+    };
+}
+
 void run() {
     SwearJar::Screen screen(std::make_shared<SwearJar::CursesWrapper>());
+
     screen.initialize();
-
-    // make_button_label_example(screen);
-    make_progressbar_example(screen);
-    make_overlapping_window(screen);
-
+    make_example_menu(screen);
     screen.run();
 }
 
