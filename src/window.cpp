@@ -4,14 +4,17 @@
 
 namespace SwearJar {
 
-Window::Window(unsigned int id, CIptr curses, unsigned int height,
-               unsigned int width)
-    : m_id(id), m_curses(curses), m_height(height), m_width(width) {
+Window::Window(CIptr curses, unsigned int x, unsigned int y, unsigned int width,
+               unsigned int height)
+    : m_id(0), m_curses(curses), m_height(height), m_width(width) {
+
+    m_id = m_curses->newwin(height, width, y, x);
+
     m_baseWidget = std::make_unique<BaseWidget>();
     m_baseWidget->width(width);
     m_baseWidget->height(height);
 
-    m_render = std::make_unique<RenderContext>(curses, id);
+    m_render = std::make_unique<RenderContext>(curses, m_id);
     m_render->width(width);
     m_render->height(height);
 }

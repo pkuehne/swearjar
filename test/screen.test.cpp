@@ -19,7 +19,7 @@ TEST(Screen, createWindowWithouthParamsMakesScreenSize) {
         .WillOnce(DoAll(SetArgReferee<0>(height), SetArgReferee<1>(width)));
 
     // When
-    auto& window = screen.createWindow();
+    auto& window = screen.createWindow<Window>();
 
     // Then
     EXPECT_EQ(window.width(), width);

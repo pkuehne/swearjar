@@ -15,7 +15,7 @@ public:
 TEST(Window, baseWidgetInitializedToHeightAndWidth) {
     // Given
     auto curses = std::make_shared<::testing::NiceMock<MockCurses>>();
-    Window w(0, curses, 10, 20);
+    Window w(curses, 0, 0, 10, 20);
 
     // When
     auto& base = w.baseWidget();

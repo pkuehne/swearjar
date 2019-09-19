@@ -8,7 +8,7 @@ void make_button_label_example(SwearJar::Screen& screen) {
     using namespace SwearJar;
 
     // Create a Window for all our widgets
-    auto& window = screen.createWindow();
+    auto& window = screen.createWindow<Window>();
 
     // Grab the base widget and make layout its children horizontally
     auto& baseWidget = window.baseWidget();
@@ -71,7 +71,7 @@ void make_progressbar_example(SwearJar::Screen& screen) {
     using namespace SwearJar;
 
     // Create a Window for all our widgets
-    auto& window = screen.createWindow();
+    auto& window = screen.createWindow<Window>();
 
     // Grab the base widget and make layout its children horizontally
     auto& baseWidget = window.baseWidget();
@@ -108,7 +108,7 @@ void make_progressbar_example(SwearJar::Screen& screen) {
 void make_overlapping_window(SwearJar::Screen& screen) {
     using namespace SwearJar;
 
-    auto& window = screen.createWindow(10, 10);
+    auto& window = screen.createWindow<Window>(10, 10);
     auto& baseWidget = window.baseWidget();
 
     baseWidget.alignment(LayoutWidget::Alignment::Vertical);
@@ -128,7 +128,7 @@ void make_overlapping_window(SwearJar::Screen& screen) {
 void make_example_menu(SwearJar::Screen& screen) {
     using namespace SwearJar;
 
-    auto& window = screen.createWindow();
+    auto& window = screen.createWindow<Window>();
     auto& baseWidget = window.baseWidget();
 
     baseWidget.alignment(LayoutWidget::Alignment::Horizontal);

@@ -68,30 +68,6 @@ void Screen::clearScreen() {
     m_curses->refresh();
 }
 
-Window& Screen::createWindow() {
-    int screenHeight = 0, screenWidth = 0;
-    m_curses->get_screen_size(screenHeight, screenWidth);
-
-    return createWindow(0, 0, screenWidth, screenHeight);
-}
-
-Window& Screen::createWindow(unsigned int width, unsigned int height) {
-    int screenHeight = 0, screenWidth = 0;
-    m_curses->get_screen_size(screenHeight, screenWidth);
-
-    unsigned int x = (screenWidth / 2) - (width / 2);
-    unsigned int y = (screenHeight / 2) - (height / 2);
-
-    return createWindow(x, y, width, height);
-}
-
-Window& Screen::createWindow(unsigned int x, unsigned int y, unsigned int width,
-                             unsigned int height) {
-    unsigned int id = m_curses->newwin(height, width, y, x);
-    m_windows.push_back(std::make_unique<Window>(id, m_curses, height, width));
-    return *m_windows.back();
-}
-
 void Screen::popWindow() {
     if (m_windows.size() == 0) {
         return;

@@ -14,8 +14,8 @@ public:
 
 class Window {
 public:
-    Window(unsigned int id, CIptr curses, unsigned int height,
-           unsigned int width);
+    Window(CIptr curses, unsigned int x, unsigned int y, unsigned int width,
+           unsigned int height);
     virtual ~Window();
 
     BaseWidget& baseWidget() { return *m_baseWidget; }
@@ -27,7 +27,7 @@ public:
     unsigned int height() { return m_height; }
 
 private:
-    unsigned int m_id;
+    unsigned int m_id = 0;
     std::shared_ptr<CursesInterface> m_curses;
     std::unique_ptr<BaseWidget> m_baseWidget;
     unsigned int m_height = 1;
