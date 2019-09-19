@@ -56,6 +56,7 @@ void CursesWrapper::wbkgd(short pair) {
     ::wbkgd(m_windows[m_currentWindow], COLOR_PAIR(pair));
     ::touchwin(m_windows[m_currentWindow]);
 }
+
 void CursesWrapper::get_screen_size(int& height, int& width) {
     getmaxyx(stdscr, height, width);
 }

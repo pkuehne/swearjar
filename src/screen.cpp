@@ -24,20 +24,20 @@ void Screen::initialize() {
     if (m_curses->has_colors()) {
         m_curses->start_color();
     }
-    // clearScreen();
+    clearScreen();
 }
 
 void Screen::run() {
     int ch = 0;
     m_curses->refresh();
 
-    m_windows.begin()->second->baseWidget().moveFocusForward();
+    m_windows.rbegin()->second->baseWidget().moveFocusForward();
     while (!m_quit) {
         refreshDirtyWidgets();
         ch = m_curses->getchar();
         spdlog::debug("Handling key {}", ch);
         if (ch == KEY_TAB) {
-            m_windows.begin()->second->baseWidget().moveFocusForward();
+            m_windows.rbegin()->second->baseWidget().moveFocusForward();
             continue;
         }
         if (ch == 'q') {
@@ -45,7 +45,7 @@ void Screen::run() {
             continue;
         }
         bool handled =
-            m_windows.begin()->second->baseWidget().handleKeyPress(ch);
+            m_windows.rbegin()->second->baseWidget().handleKeyPress(ch);
         if (!handled) {
             unhandledKeys(ch);
         }
@@ -95,6 +95,7 @@ Window& Screen::createWindow(unsigned int x, unsigned int y, unsigned int width,
 void Screen::refreshDirtyWidgets() {
     for (auto& iter : m_windows) {
         auto& window = iter.second;
+        window->clearWindow();
         window->refreshDirtyWidgets();
     }
     m_curses->refresh();
