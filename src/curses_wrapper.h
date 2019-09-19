@@ -34,6 +34,7 @@ public:
     int getchar();
     void refresh();
     void wrefresh();
+    void touchwin_();
 
     void currentWindow(unsigned int newWin) { m_currentWindow = newWin; }
     unsigned int currentWindow() { return m_currentWindow; }

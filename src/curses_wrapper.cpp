@@ -80,4 +80,6 @@ int CursesWrapper::getchar() { return ::wgetch(stdscr); }
 
 void CursesWrapper::refresh() { ::refresh(); }
 void CursesWrapper::wrefresh() { ::wrefresh(m_windows[m_currentWindow]); }
+void CursesWrapper::touchwin_() { ::touchwin(m_windows[m_currentWindow]); }
+
 } // namespace SwearJar
