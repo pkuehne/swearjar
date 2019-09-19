@@ -15,7 +15,6 @@ public:
     ~Screen();
     void initialize();
     void run();
-    void clearScreen();
 
     template <typename T> T& createWindow();
     template <typename T>
