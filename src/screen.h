@@ -20,6 +20,8 @@ public:
     Window& createWindow(unsigned int width, unsigned int height);
     Window& createWindow(unsigned int x, unsigned int y, unsigned int width,
                          unsigned int height);
+    void popWindow();
+
     void quit() { m_quit = true; }
     std::function<void(char)> unhandledKeys = [](char) {};
 
@@ -28,7 +30,7 @@ private:
 
 private:
     std::shared_ptr<CursesInterface> m_curses;
-    std::map<unsigned int, std::unique_ptr<Window>> m_windows;
+    std::vector<std::unique_ptr<Window>> m_windows;
     bool m_quit = false;
 };
 

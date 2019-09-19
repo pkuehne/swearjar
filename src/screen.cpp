@@ -31,21 +31,20 @@ void Screen::run() {
     int ch = 0;
     m_curses->refresh();
 
-    m_windows.rbegin()->second->baseWidget().moveFocusForward();
+    (*m_windows.rbegin())->baseWidget().moveFocusForward();
     while (!m_quit) {
         refreshWindows();
         ch = m_curses->getchar();
         spdlog::debug("Handling key {}", ch);
         if (ch == KEY_TAB) {
-            m_windows.rbegin()->second->baseWidget().moveFocusForward();
+            (*m_windows.rbegin())->baseWidget().moveFocusForward();
             continue;
         }
         if (ch == 'q') {
             m_quit = true;
             continue;
         }
-        bool handled =
-            m_windows.rbegin()->second->baseWidget().handleKeyPress(ch);
+        bool handled = (*m_windows.rbegin())->baseWidget().handleKeyPress(ch);
         if (!handled) {
             unhandledKeys(ch);
         }
@@ -85,16 +84,23 @@ Window& Screen::createWindow(unsigned int width, unsigned int height) {
 
     return createWindow(x, y, width, height);
 }
+
 Window& Screen::createWindow(unsigned int x, unsigned int y, unsigned int width,
                              unsigned int height) {
     unsigned int id = m_curses->newwin(height, width, y, x);
-    m_windows[id] = std::make_unique<Window>(id, m_curses, height, width);
-    return *m_windows[id];
+    m_windows.push_back(std::make_unique<Window>(id, m_curses, height, width));
+    return *m_windows.back();
+}
+
+void Screen::popWindow() {
+    if (m_windows.size() == 0) {
+        return;
+    }
+    m_windows.pop_back();
 }
 
 void Screen::refreshWindows() {
-    for (auto& iter : m_windows) {
-        auto& window = iter.second;
+    for (auto& window : m_windows) {
         window->refresh();
     }
     m_curses->refresh();

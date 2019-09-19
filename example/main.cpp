@@ -121,9 +121,7 @@ void make_overlapping_window(SwearJar::Screen& screen) {
     baseWidget.addSpacer();
 
     auto& btnClose = baseWidget.createWidget<Button>("btnClose");
-    btnClose.onPressed = [&lblPopup](Button&) {
-        lblPopup.text(lblPopup.text() == "Popup" ? "No" : "Popup");
-    };
+    btnClose.onPressed = [&screen](Button&) { screen.popWindow(); };
     btnClose.text("Close");
 }
 
