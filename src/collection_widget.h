@@ -40,6 +40,7 @@ T& CollectionWidget::createWidget(const std::string& name, unsigned int x,
     auto widget = std::make_unique<T>(name);
     widget->x(x);
     widget->y(y);
+    widget->bgColor(bgColor());
 
     T& retval = *widget;
     m_widgets.push_back(std::move(widget));

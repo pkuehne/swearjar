@@ -279,3 +279,15 @@ TEST(CollectionWidget, renderOnlyRendersDirtyWidgets) {
     // When
     base.render(*context);
 }
+
+TEST(CollectionWidget, creatingWidgetSetsSameBackgroundColor) {
+    // Given
+    CollectionWidget base("base");
+    base.bgColor(12);
+
+    // When
+    auto& c1 = base.createWidget<RefreshableWidget>("");
+
+    // Then
+    EXPECT_EQ(base.bgColor(), c1.bgColor());
+}

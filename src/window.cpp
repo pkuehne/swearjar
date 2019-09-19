@@ -30,7 +30,8 @@ void Window::refreshDirtyWidgets() {
 void Window::clearWindow() {
     spdlog::debug("clearWindow called for {}", m_id);
     m_curses->currentWindow(m_id);
-    m_curses->wbkgd(m_curses->get_color(m_fg, m_bg));
+    m_curses->wbkgd(
+        m_curses->get_color(m_baseWidget->fgColor(), m_baseWidget->bgColor()));
 }
 
 } // namespace SwearJar

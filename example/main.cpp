@@ -109,10 +109,18 @@ void make_overlapping_window(SwearJar::Screen& screen) {
     using namespace SwearJar;
 
     auto& window = screen.createWindow(10, 10);
-    window.bgColor(4);
+    auto& baseWidget = window.baseWidget();
 
-    auto& lblPopup = window.baseWidget().createWidget<Label>("lblPopup");
+    baseWidget.alignment(LayoutWidget::Alignment::Vertical);
+    baseWidget.bgColor(4);
+
+    auto& lblPopup = baseWidget.createWidget<Label>("lblPopup");
     lblPopup.text("Popup");
+
+    baseWidget.addSpacer();
+
+    auto& btnClose = baseWidget.createWidget<Button>("btnClose");
+    btnClose.text("Close");
 }
 
 void run() {
