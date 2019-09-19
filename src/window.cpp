@@ -14,8 +14,6 @@ Window::Window(unsigned int id, CIptr curses, unsigned int height,
     m_render = std::make_unique<RenderContext>(curses, id);
     m_render->width(width);
     m_render->height(height);
-
-    // clearWindow();
 }
 
 Window::~Window() {}

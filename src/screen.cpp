@@ -24,7 +24,7 @@ void Screen::initialize() {
     if (m_curses->has_colors()) {
         m_curses->start_color();
     }
-    clearScreen();
+    // clearScreen();
 }
 
 void Screen::run() {
