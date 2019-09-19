@@ -3,6 +3,11 @@
 #include <iostream>
 #include <spdlog/spdlog.h>
 
+namespace {
+const int KEY_TAB = 9;
+const int KEY_ENTER = 10;
+} // namespace
+
 namespace SwearJar {
 
 Screen::Screen(CIptr curses) : m_curses(curses) {
@@ -19,7 +24,7 @@ void Screen::initialize() {
     if (m_curses->has_colors()) {
         m_curses->start_color();
     }
-    clearScreen();
+    // clearScreen();
 }
 
 void Screen::run() {
@@ -31,7 +36,7 @@ void Screen::run() {
         refreshDirtyWidgets();
         ch = m_curses->getchar();
         spdlog::debug("Handling key {}", ch);
-        if (ch == 9) {
+        if (ch == KEY_TAB) {
             m_windows.begin()->second->baseWidget().moveFocusForward();
             continue;
         }
@@ -47,6 +52,7 @@ void Screen::run() {
     }
 }
 
+/// @note potentially unused
 void Screen::clearScreen() {
     m_curses->currentWindow(0);
     int height, width;
@@ -64,12 +70,21 @@ void Screen::clearScreen() {
 }
 
 Window& Screen::createWindow() {
-    int height = 0, width = 0;
-    m_curses->get_screen_size(height, width);
+    int screenHeight = 0, screenWidth = 0;
+    m_curses->get_screen_size(screenHeight, screenWidth);
 
-    return createWindow(0, 0, width, height);
+    return createWindow(0, 0, screenWidth, screenHeight);
 }
 
+Window& Screen::createWindow(unsigned int width, unsigned int height) {
+    int screenHeight = 0, screenWidth = 0;
+    m_curses->get_screen_size(screenHeight, screenWidth);
+
+    unsigned int x = (screenWidth / 2) - (width / 2);
+    unsigned int y = (screenHeight / 2) - (height / 2);
+
+    return createWindow(x, y, width, height);
+}
 Window& Screen::createWindow(unsigned int x, unsigned int y, unsigned int width,
                              unsigned int height) {
     unsigned int id = m_curses->newwin(height, width, y, x);

@@ -105,12 +105,20 @@ void make_progressbar_example(SwearJar::Screen& screen) {
     frame.addSpacer();
 }
 
+void make_overlapping_window(SwearJar::Screen& screen) {
+    using namespace SwearJar;
+
+    auto& window = screen.createWindow(10, 10);
+}
+
 void run() {
     SwearJar::Screen screen(std::make_shared<SwearJar::CursesWrapper>());
     screen.initialize();
 
     // make_button_label_example(screen);
     make_progressbar_example(screen);
+    make_overlapping_window(screen);
+
     screen.run();
 }
 

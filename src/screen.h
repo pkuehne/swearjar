@@ -17,6 +17,7 @@ public:
     void run();
     void clearScreen();
     Window& createWindow();
+    Window& createWindow(unsigned int width, unsigned int height);
     Window& createWindow(unsigned int x, unsigned int y, unsigned int width,
                          unsigned int height);
     void quit() { m_quit = true; }
