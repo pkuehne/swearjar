@@ -58,7 +58,9 @@ T& Screen::createWindow(unsigned int width, unsigned int height) {
 template <typename T>
 T& Screen::createWindow(unsigned int x, unsigned int y, unsigned int width,
                         unsigned int height) {
-    m_windows.push_back(std::make_unique<T>(m_curses, x, y, width, height));
-    return *m_windows.back();
+    auto win = std::make_unique<T>(m_curses, x, y, width, height);
+    auto& retval = *win;
+    m_windows.push_back(std::move(win));
+    return retval;
 }
 } // namespace SwearJar

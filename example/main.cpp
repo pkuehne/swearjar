@@ -67,42 +67,51 @@ void make_button_label_example(SwearJar::Screen& screen) {
     };
 }
 
+// This time, instead of creating a basic Window and assigning all the widgets
+// to it, we create a re-usable class that we instantiate instead
+// The baseWidget() function can be used just the same to attach more widgets
+// and it can then be created via the screen.createWindow() calls.
+class ProgressBarExampleWindow : public SwearJar::Window {
+public:
+    ProgressBarExampleWindow(SwearJar::CIptr curses, unsigned int x,
+                             unsigned int y, unsigned int width,
+                             unsigned int height)
+        : Window(curses, x, y, width, height) {
+        using namespace SwearJar;
+
+        baseWidget().alignment(LayoutWidget::Alignment::Horizontal);
+
+        baseWidget().addSpacer();
+        auto& frame = baseWidget().createWidget<Frame>("frmFrame");
+        baseWidget().addSpacer();
+
+        frame.title("Progressbar");
+        frame.addSpacer();
+
+        auto& checkbox = frame.createWidget<Checkbox>("chkBox");
+        checkbox.text("Decrement");
+
+        auto& label = frame.createWidget<Label>("lblText");
+        label.text("Value");
+
+        auto& bar = frame.createWidget<Progressbar>("pgbProgress");
+
+        auto& btnIncr = frame.createWidget<Button>("btnIncre");
+        btnIncr.text("Increment");
+        btnIncr.onPressed = [&bar, &checkbox](Button& me) {
+            int val = checkbox.enabled() ? -10 : 10;
+            bar.value(bar.value() + val);
+        };
+        checkbox.onToggle = [&btnIncr](Checkbox& me) {
+            btnIncr.text(me.enabled() ? "Decrement" : "Increment");
+        };
+
+        frame.addSpacer();
+    }
+};
+
 void make_progressbar_example(SwearJar::Screen& screen) {
-    using namespace SwearJar;
-
-    // Create a Window for all our widgets
-    auto& window = screen.createWindow<Window>();
-
-    // Grab the base widget and make layout its children horizontally
-    auto& baseWidget = window.baseWidget();
-    baseWidget.alignment(LayoutWidget::Alignment::Horizontal);
-
-    baseWidget.addSpacer();
-    auto& frame = baseWidget.createWidget<Frame>("frmFrame");
-    baseWidget.addSpacer();
-
-    frame.title("Progressbar");
-    frame.addSpacer();
-
-    auto& checkbox = frame.createWidget<Checkbox>("chkBox");
-    checkbox.text("Decrement");
-
-    auto& label = frame.createWidget<Label>("lblText");
-    label.text("Value");
-
-    auto& bar = frame.createWidget<Progressbar>("pgbProgress");
-
-    auto& btnIncr = frame.createWidget<Button>("btnIncre");
-    btnIncr.text("Increment");
-    btnIncr.onPressed = [&bar, &checkbox](Button& me) {
-        int val = checkbox.enabled() ? -10 : 10;
-        bar.value(bar.value() + val);
-    };
-    checkbox.onToggle = [&btnIncr](Checkbox& me) {
-        btnIncr.text(me.enabled() ? "Decrement" : "Increment");
-    };
-
-    frame.addSpacer();
+    auto& window = screen.createWindow<ProgressBarExampleWindow>();
 }
 
 void make_overlapping_window(SwearJar::Screen& screen) {
