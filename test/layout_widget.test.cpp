@@ -176,30 +176,6 @@ TEST(LayoutWidget, realignSetsXvalueOnWidgets) {
     EXPECT_EQ(12, c3.x());
 }
 
-TEST(LayoutWidget, renderOnlyRealignsWhenDirty) {
-    // Given
-    auto context = std::make_unique<MockRenderContext>();
-    context->width(80);
-    context->height(25);
-
-    LayoutWidget base("");
-    base.width(80);
-    base.height(25);
-    base.alignment(LayoutWidget::Alignment::Horizontal);
-
-    auto& c1 = base.createWidget<Widget>("");
-    c1.minWidth(4);
-    c1.width(4);
-    c1.growthFactor(1);
-    c1.dirty(false);
-
-    // When
-    base.render(*context);
-
-    // Then
-    EXPECT_EQ(c1.width(), c1.minWidth());
-}
-
 TEST(LayoutWidget, realignSetsXvalueWithMargin) {
     // Given
     LayoutWidget base("");

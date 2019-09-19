@@ -9,13 +9,9 @@ Checkbox::Checkbox(const std::string& name) : Widget(name) {
 void Checkbox::text(const std::string& text) {
     m_text = text;
     width(text.size() + 4);
-    invalidate();
 }
 
-void Checkbox::enabled(bool enabled) {
-    m_enabled = enabled;
-    invalidate();
-}
+void Checkbox::enabled(bool enabled) { m_enabled = enabled; }
 
 void Checkbox::render(const RenderContext& context) {
     context.drawText(0, 0, "[ ] ", fgColor(), bgColor());

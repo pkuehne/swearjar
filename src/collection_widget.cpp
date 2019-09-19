@@ -20,14 +20,6 @@ unsigned int CollectionWidget::minWidth() {
     return min;
 }
 
-bool CollectionWidget::dirty() {
-    bool dirty = false;
-    for (const auto& w : m_widgets) {
-        dirty |= w->dirty();
-    }
-    return dirty;
-}
-
 void CollectionWidget::render(const RenderContext& context) {
     spdlog::debug("WI: render called");
 
@@ -36,7 +28,6 @@ void CollectionWidget::render(const RenderContext& context) {
         context.addOffsets(widget->x(), widget->y());
         context.reverse(widget->focus());
         widget->render(context);
-        widget->dirty(false);
         context.reverse(false);
         context.clearOffsets(widget->x(), widget->y());
     }

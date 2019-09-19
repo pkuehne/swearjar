@@ -8,13 +8,9 @@ void Progressbar::value(unsigned int value) {
         value = m_maximum;
     }
     m_value = value;
-    invalidate();
 }
 
-void Progressbar::maximum(unsigned int maximum) {
-    m_maximum = maximum;
-    invalidate();
-}
+void Progressbar::maximum(unsigned int maximum) { m_maximum = maximum; }
 
 void Progressbar::decrement() {
     if (value() == 0) {
