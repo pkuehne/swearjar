@@ -20,16 +20,17 @@ Window::~Window() {}
 
 void Window::refreshDirtyWidgets() {
     spdlog::debug("refreshDirty called for {}", m_id);
+
     m_render->beginRender();
+    m_render->clearBackground(m_baseWidget->fgColor(), m_baseWidget->bgColor());
+    m_render->clearArea(m_baseWidget->x(), m_baseWidget->y(),
+                        m_baseWidget->width(), m_baseWidget->height(),
+                        m_baseWidget->fgColor(), m_baseWidget->bgColor());
     m_baseWidget->render(*m_render);
+    m_curses->touchwin_();
     m_render->endRender();
 }
 
-void Window::clearWindow() {
-    spdlog::debug("clearWindow called for {}", m_id);
-    m_curses->currentWindow(m_id);
-    m_curses->wbkgd(
-        m_curses->get_color(m_baseWidget->fgColor(), m_baseWidget->bgColor()));
-}
+void Window::clearWindow() { spdlog::debug("clearWindow called for {}", m_id); }
 
 } // namespace SwearJar

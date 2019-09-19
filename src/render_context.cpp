@@ -3,6 +3,10 @@
 
 namespace SwearJar {
 
+void RenderContext::clearBackground(short fg, short bg) const {
+    m_curses->wbkgd(m_curses->get_color(fg, bg));
+}
+
 void RenderContext::drawText(unsigned int x, unsigned int y,
                              const std::string& text, short fg,
                              short bg) const {

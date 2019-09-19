@@ -95,7 +95,6 @@ Window& Screen::createWindow(unsigned int x, unsigned int y, unsigned int width,
 void Screen::refreshDirtyWidgets() {
     for (auto& iter : m_windows) {
         auto& window = iter.second;
-        window->clearWindow();
         window->refreshDirtyWidgets();
     }
     m_curses->refresh();

@@ -76,6 +76,7 @@ void make_progressbar_example(SwearJar::Screen& screen) {
     // Grab the base widget and make layout its children horizontally
     auto& baseWidget = window.baseWidget();
     baseWidget.alignment(LayoutWidget::Alignment::Horizontal);
+    baseWidget.bgColor(5);
 
     baseWidget.addSpacer();
     auto& frame = baseWidget.createWidget<Frame>("frmFrame");
@@ -116,10 +117,14 @@ void make_overlapping_window(SwearJar::Screen& screen) {
 
     auto& lblPopup = baseWidget.createWidget<Label>("lblPopup");
     lblPopup.text("Popup");
+    lblPopup.centred(true);
 
     baseWidget.addSpacer();
 
     auto& btnClose = baseWidget.createWidget<Button>("btnClose");
+    btnClose.onPressed = [&lblPopup](Button&) {
+        lblPopup.text(lblPopup.text() == "Popup" ? "No" : "Popup");
+    };
     btnClose.text("Close");
 }
 

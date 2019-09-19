@@ -41,6 +41,7 @@ public:
     virtual void reverse(bool on) const;
     virtual void beginRender();
     virtual void endRender();
+    virtual void clearBackground(short fg, short bg) const;
     virtual void drawText(unsigned int x, unsigned int y,
                           const std::string& text, short fg, short bg) const;
     virtual void drawChar(unsigned int x, unsigned int y, char ch) const;
