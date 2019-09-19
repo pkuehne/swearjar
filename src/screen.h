@@ -24,7 +24,7 @@ public:
     std::function<void(char)> unhandledKeys = [](char) {};
 
 private:
-    void refreshDirtyWidgets();
+    void refreshWindows();
 
 private:
     std::shared_ptr<CursesInterface> m_curses;

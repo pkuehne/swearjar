@@ -108,6 +108,7 @@ void RenderContext::beginRender() {
 
 void RenderContext::endRender() {
     spdlog::debug("End render for {}", m_window);
+    m_curses->touchwin_();
     m_curses->wrefresh();
 }
 

@@ -20,7 +20,7 @@ public:
 
     BaseWidget& baseWidget() { return *m_baseWidget; }
 
-    void refreshDirtyWidgets();
+    void refresh();
     void clearWindow();
 
     unsigned int width() { return m_width; }

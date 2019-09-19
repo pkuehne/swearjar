@@ -33,7 +33,7 @@ void Screen::run() {
 
     m_windows.rbegin()->second->baseWidget().moveFocusForward();
     while (!m_quit) {
-        refreshDirtyWidgets();
+        refreshWindows();
         ch = m_curses->getchar();
         spdlog::debug("Handling key {}", ch);
         if (ch == KEY_TAB) {
@@ -92,10 +92,10 @@ Window& Screen::createWindow(unsigned int x, unsigned int y, unsigned int width,
     return *m_windows[id];
 }
 
-void Screen::refreshDirtyWidgets() {
+void Screen::refreshWindows() {
     for (auto& iter : m_windows) {
         auto& window = iter.second;
-        window->refreshDirtyWidgets();
+        window->refresh();
     }
     m_curses->refresh();
 }

@@ -18,8 +18,8 @@ Window::Window(unsigned int id, CIptr curses, unsigned int height,
 
 Window::~Window() {}
 
-void Window::refreshDirtyWidgets() {
-    spdlog::debug("refreshDirty called for {}", m_id);
+void Window::refresh() {
+    spdlog::debug("refresh called for {}", m_id);
 
     m_render->beginRender();
     m_render->clearBackground(m_baseWidget->fgColor(), m_baseWidget->bgColor());
@@ -27,10 +27,7 @@ void Window::refreshDirtyWidgets() {
                         m_baseWidget->width(), m_baseWidget->height(),
                         m_baseWidget->fgColor(), m_baseWidget->bgColor());
     m_baseWidget->render(*m_render);
-    m_curses->touchwin_();
     m_render->endRender();
 }
-
-void Window::clearWindow() { spdlog::debug("clearWindow called for {}", m_id); }
 
 } // namespace SwearJar

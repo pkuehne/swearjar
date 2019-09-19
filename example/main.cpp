@@ -76,7 +76,6 @@ void make_progressbar_example(SwearJar::Screen& screen) {
     // Grab the base widget and make layout its children horizontally
     auto& baseWidget = window.baseWidget();
     baseWidget.alignment(LayoutWidget::Alignment::Horizontal);
-    baseWidget.bgColor(5);
 
     baseWidget.addSpacer();
     auto& frame = baseWidget.createWidget<Frame>("frmFrame");
