@@ -34,19 +34,7 @@ void Screen::run() {
     while (!m_quit) {
         refreshWindows();
         ch = m_curses->getchar();
-        spdlog::debug("Handling key {}", ch);
-        if (ch == KEY_TAB) {
-            (*m_windows.rbegin())->baseWidget().moveFocusForward();
-            continue;
-        }
-        if (ch == 'q') {
-            m_quit = true;
-            continue;
-        }
-        bool handled = (*m_windows.rbegin())->baseWidget().handleKeyPress(ch);
-        if (!handled) {
-            unhandledKeys(ch);
-        }
+        handleKeys(ch);
     }
 }
 
@@ -62,6 +50,18 @@ void Screen::refreshWindows() {
         window->refresh();
     }
     m_curses->refresh();
+}
+
+void Screen::handleKeys(int ch) {
+    spdlog::debug("Handling key {}", ch);
+    if (ch == KEY_TAB) {
+        (*m_windows.rbegin())->baseWidget().moveFocusForward();
+        return;
+    }
+    bool handled = (*m_windows.rbegin())->baseWidget().handleKeyPress(ch);
+    if (!handled) {
+        unhandledKeys(ch);
+    }
 }
 
 } // namespace SwearJar

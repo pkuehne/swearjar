@@ -147,6 +147,12 @@ void make_overlapping_window(SwearJar::Screen& screen) {
 void make_example_menu(SwearJar::Screen& screen) {
     using namespace SwearJar;
 
+    // screen.unhandledKeys = [&screen](int ch) {
+    // if (ch == 'q') {
+    // screen.quit();
+    // }
+    // };
+
     auto& window = screen.createWindow<Window>();
     auto& baseWidget = window.baseWidget();
 

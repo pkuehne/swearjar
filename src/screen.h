@@ -32,6 +32,7 @@ public:
     std::function<void(char)> unhandledKeys = [](char) {};
 
 private:
+    void handleKeys(int ch);
     void refreshWindows();
 
 private:
