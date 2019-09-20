@@ -17,7 +17,8 @@ TEST(Window, baseWidgetInitializedToHeightAndWidth) {
     unsigned int width = 10;
     unsigned int height = 20;
     auto curses = std::make_shared<::testing::NiceMock<MockCurses>>();
-    Window w(curses, 0, 0, width, height);
+    Screen screen(curses);
+    Window w(screen, 0, 0, width, height);
 
     // When
     auto& base = w.baseWidget();

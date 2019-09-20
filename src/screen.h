@@ -16,6 +16,7 @@ public:
     void initialize();
     void run();
 
+    CursesInterface& curses() { return *m_curses; }
     template <typename T> T& createWindow();
     template <typename T>
     T& createWindow(unsigned int width, unsigned int height);
@@ -60,7 +61,7 @@ T& Screen::createWindow(unsigned int width, unsigned int height) {
 template <typename T>
 T& Screen::createWindow(unsigned int x, unsigned int y, unsigned int width,
                         unsigned int height) {
-    auto win = std::make_unique<T>(m_curses, x, y, width, height);
+    auto win = std::make_unique<T>(*this, x, y, width, height);
     auto& retval = *win;
     m_windows.push_back(std::move(win));
     return retval;

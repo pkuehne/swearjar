@@ -1,3 +1,4 @@
+#include "curses.mock.h"
 #include "progressbar.h"
 #include "render_context.mock.h"
 #include <gtest/gtest.h>
@@ -7,7 +8,8 @@ using namespace ::testing;
 
 TEST(Progressbar, ZeroPercentRendersNothing) {
     // Given
-    auto context = std::make_unique<MockRenderContext>();
+    auto curses = std::make_shared<::testing::NiceMock<MockCurses>>();
+    auto context = std::make_unique<MockRenderContext>(*curses);
 
     Progressbar bar("bar");
     bar.value(0);
@@ -21,7 +23,8 @@ TEST(Progressbar, ZeroPercentRendersNothing) {
 
 TEST(Progressbar, MaxValueRendersFullWidth) {
     // Given
-    auto context = std::make_unique<MockRenderContext>();
+    auto curses = std::make_shared<::testing::NiceMock<MockCurses>>();
+    auto context = std::make_unique<MockRenderContext>(*curses);
     context->width(20);
     context->height(5);
 
@@ -38,7 +41,8 @@ TEST(Progressbar, MaxValueRendersFullWidth) {
 
 TEST(Progressbar, ValueAboveMaxRendersMax) {
     // Given
-    auto context = std::make_unique<MockRenderContext>();
+    auto curses = std::make_shared<::testing::NiceMock<MockCurses>>();
+    auto context = std::make_unique<MockRenderContext>(*curses);
     context->width(20);
     context->height(5);
 
@@ -55,7 +59,8 @@ TEST(Progressbar, ValueAboveMaxRendersMax) {
 
 TEST(Progressbar, FiftyPercentRendersHalf) {
     // Given
-    auto context = std::make_unique<MockRenderContext>();
+    auto curses = std::make_shared<::testing::NiceMock<MockCurses>>();
+    auto context = std::make_unique<MockRenderContext>(*curses);
     context->width(20);
     context->height(5);
 

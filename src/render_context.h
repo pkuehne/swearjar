@@ -8,7 +8,7 @@ namespace SwearJar {
 class RenderContext {
 
 public:
-    RenderContext(const CIptr& curses, unsigned int window)
+    RenderContext(CursesInterface& curses, unsigned int window)
         : m_curses(curses), m_window(window) {
         spdlog::debug("Created RenderContext for {}", window);
     }
@@ -53,7 +53,7 @@ public:
                             unsigned int height, short fg, short bg) const;
 
 private:
-    CIptr m_curses;
+    CursesInterface& m_curses;
     unsigned int m_window = 0;
     unsigned int m_width = 0;
     unsigned int m_height = 0;

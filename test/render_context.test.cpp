@@ -10,7 +10,7 @@ TEST(RenderContext, clearAreaWritesSpaces) {
     // Given
     auto curses = std::make_shared<::testing::NiceMock<MockCurses>>();
     unsigned int window = 1;
-    RenderContext context(curses, window);
+    RenderContext context(*curses, window);
     context.width(80);
     context.height(25);
 
@@ -27,7 +27,7 @@ TEST(RenderContext, drawTextOnlySetsColorOnce) {
     // Given
     auto curses = std::make_shared<::testing::NiceMock<MockCurses>>();
     unsigned int window = 1;
-    RenderContext context(curses, window);
+    RenderContext context(*curses, window);
     context.width(80);
     context.height(25);
 

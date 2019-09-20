@@ -73,10 +73,10 @@ void make_button_label_example(SwearJar::Screen& screen) {
 // and it can then be created via the screen.createWindow() calls.
 class ProgressBarExampleWindow : public SwearJar::Window {
 public:
-    ProgressBarExampleWindow(SwearJar::CIptr curses, unsigned int x,
+    ProgressBarExampleWindow(SwearJar::Screen& screen, unsigned int x,
                              unsigned int y, unsigned int width,
                              unsigned int height)
-        : Window(curses, x, y, width, height) {
+        : Window(screen, x, y, width, height) {
         using namespace SwearJar;
 
         baseWidget().alignment(LayoutWidget::Alignment::Horizontal);

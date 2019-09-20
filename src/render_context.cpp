@@ -4,7 +4,7 @@
 namespace SwearJar {
 
 void RenderContext::clearBackground(short fg, short bg) const {
-    m_curses->wbkgd(m_curses->get_color(fg, bg));
+    m_curses.wbkgd(m_curses.get_color(fg, bg));
 }
 
 void RenderContext::drawText(unsigned int x, unsigned int y,
@@ -12,11 +12,11 @@ void RenderContext::drawText(unsigned int x, unsigned int y,
                              short bg) const {
 
     spdlog::debug("RC: drawing text {}", text);
-    m_curses->color_on(m_curses->get_color(fg, bg));
+    m_curses.color_on(m_curses.get_color(fg, bg));
     for (unsigned int offset = 0; offset < text.length(); offset++) {
         drawChar(x + offset, y, text[offset]);
     }
-    m_curses->color_off(m_curses->get_color(fg, bg));
+    m_curses.color_off(m_curses.get_color(fg, bg));
 }
 
 void RenderContext::drawChar(unsigned int x, unsigned int y, char ch) const {
@@ -29,14 +29,14 @@ void RenderContext::drawChar(unsigned int x, unsigned int y, char ch) const {
                      m_height);
         return;
     }
-    m_curses->mvaddch_(yPos, xPos, ch);
+    m_curses.mvaddch_(yPos, xPos, ch);
 }
 
 void RenderContext::drawChar(unsigned int x, unsigned int y, char ch, short fg,
                              short bg) const {
-    m_curses->color_on(m_curses->get_color(fg, bg));
+    m_curses.color_on(m_curses.get_color(fg, bg));
     drawChar(x, y, ch);
-    m_curses->color_off(m_curses->get_color(fg, bg));
+    m_curses.color_off(m_curses.get_color(fg, bg));
 }
 
 void RenderContext::clearArea(unsigned int x, unsigned int y,
@@ -49,13 +49,13 @@ void RenderContext::clearArea(unsigned int x, unsigned int y,
                       x, y);
         return;
     }
-    m_curses->color_on(m_curses->get_color(fg, bg));
+    m_curses.color_on(m_curses.get_color(fg, bg));
     for (unsigned int y = 0; y < height; y++) {
         for (unsigned int x = 0; x < width; x++) {
             drawChar(x, y, ' ');
         }
     }
-    m_curses->color_off(m_curses->get_color(fg, bg));
+    m_curses.color_off(m_curses.get_color(fg, bg));
 }
 
 void RenderContext::drawBorder(unsigned int x, unsigned int y,
@@ -84,7 +84,7 @@ void RenderContext::drawBorder(unsigned int x, unsigned int y,
     width -= 1;
     height -= 1;
 
-    m_curses->color_on(m_curses->get_color(fg, bg));
+    m_curses.color_on(m_curses.get_color(fg, bg));
     for (unsigned int yPos = 1; yPos < height; yPos++) {
         drawChar(x, yPos + y, verticalBorder);
         drawChar(x + width, yPos + y, verticalBorder);
@@ -98,25 +98,25 @@ void RenderContext::drawBorder(unsigned int x, unsigned int y,
     drawChar(x + width, y, cornerNE);
     drawChar(x, y + height, cornerSW);
     drawChar(x + width, y + height, cornerSE);
-    m_curses->color_off(m_curses->get_color(bg, bg));
+    m_curses.color_off(m_curses.get_color(bg, bg));
 }
 
 void RenderContext::beginRender() {
     spdlog::debug("Begin render for {}", m_window);
-    m_curses->currentWindow(m_window);
+    m_curses.currentWindow(m_window);
 }
 
 void RenderContext::endRender() {
     spdlog::debug("End render for {}", m_window);
-    m_curses->touchwin_();
-    m_curses->wrefresh();
+    m_curses.touchwin_();
+    m_curses.wrefresh();
 }
 
 void RenderContext::reverse(bool on) const {
     if (on) {
-        m_curses->reverse_on();
+        m_curses.reverse_on();
     } else {
-        m_curses->reverse_off();
+        m_curses.reverse_off();
     }
 }
 
