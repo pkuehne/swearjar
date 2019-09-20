@@ -65,6 +65,12 @@ void make_button_label_example(SwearJar::Screen& screen) {
     btnYellow.onPressed = [&lblDisplay](Button&) {
         lblDisplay.fgColor(Color::Yellow);
     };
+
+    buttonBox.addSpacer();
+
+    auto& btnClose = buttonBox.createWidget<Button>("btnClose");
+    btnClose.text("Close");
+    btnClose.onPressed = [&screen](Button&) { screen.popWindow(); };
 }
 
 // This time, instead of creating a basic Window and assigning all the widgets
@@ -107,6 +113,10 @@ public:
         };
 
         frame.addSpacer();
+
+        auto& btnClose = frame.createWidget<Button>("btnClose");
+        btnClose.text("Close");
+        btnClose.onPressed = [&screen](Button&) { screen.popWindow(); };
     }
 };
 
@@ -130,8 +140,8 @@ void make_overlapping_window(SwearJar::Screen& screen) {
     baseWidget.addSpacer();
 
     auto& btnClose = baseWidget.createWidget<Button>("btnClose");
-    btnClose.onPressed = [&screen](Button&) { screen.popWindow(); };
     btnClose.text("Close");
+    btnClose.onPressed = [&screen](Button&) { screen.popWindow(); };
 }
 
 void make_example_menu(SwearJar::Screen& screen) {
@@ -146,11 +156,13 @@ void make_example_menu(SwearJar::Screen& screen) {
     auto& frame = baseWidget.createWidget<Frame>("frmFrame");
     baseWidget.addSpacer();
 
-    frame.addSpacer();
+    frame.addSpacer(2);
     auto& btnLabel = frame.createWidget<Button>("btnLabel");
     auto& btnProgress = frame.createWidget<Button>("btnProgress");
     auto& btnPopup = frame.createWidget<Button>("btnPopup");
     frame.addSpacer();
+    auto& btnQuit = frame.createWidget<Button>("btnQuit");
+    frame.addSpacer(2);
 
     btnLabel.text("Labels & Buttons");
     btnLabel.onPressed = [&screen](Button&) {
@@ -164,6 +176,9 @@ void make_example_menu(SwearJar::Screen& screen) {
     btnPopup.onPressed = [&screen](Button&) {
         make_overlapping_window(screen);
     };
+
+    btnQuit.text("Quit");
+    btnQuit.onPressed = [&screen](Button&) { screen.quit(); };
 }
 
 void run() {
