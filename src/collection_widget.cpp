@@ -20,38 +20,14 @@ unsigned int CollectionWidget::minWidth() {
     return min;
 }
 
-bool CollectionWidget::dirty() {
-    bool dirty = false;
-    for (const auto& w : m_widgets) {
-        dirty |= w->dirty();
-    }
-    return dirty;
-}
-
 void CollectionWidget::render(const RenderContext& context) {
     spdlog::debug("WI: render called");
 
-    // Clear previous position for the widget
+    // Render the widgets
     for (auto& widget : m_widgets) {
-        if (!widget->dirty()) {
-            continue;
-        }
-        context.addOffsets(widget->x(), widget->y());
-        Dimension d = widget->prevDimension();
-        context.clearArea(d.x, d.y, d.width, d.height, 7, 0);
-        widget->clearPrevDimension();
-        context.clearOffsets(widget->x(), widget->y());
-    }
-
-    // Re-render the widget
-    for (auto& widget : m_widgets) {
-        if (!widget->dirty()) {
-            continue;
-        }
         context.addOffsets(widget->x(), widget->y());
         context.reverse(widget->focus());
         widget->render(context);
-        widget->dirty(false);
         context.reverse(false);
         context.clearOffsets(widget->x(), widget->y());
     }

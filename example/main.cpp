@@ -8,7 +8,7 @@ void make_button_label_example(SwearJar::Screen& screen) {
     using namespace SwearJar;
 
     // Create a Window for all our widgets
-    auto& window = screen.createWindow();
+    auto& window = screen.createWindow<Window>();
 
     // Grab the base widget and make layout its children horizontally
     auto& baseWidget = window.baseWidget();
@@ -65,52 +65,133 @@ void make_button_label_example(SwearJar::Screen& screen) {
     btnYellow.onPressed = [&lblDisplay](Button&) {
         lblDisplay.fgColor(Color::Yellow);
     };
+
+    buttonBox.addSpacer();
+
+    auto& btnClose = buttonBox.createWidget<Button>("btnClose");
+    btnClose.text("Close");
+    btnClose.onPressed = [&screen](Button&) { screen.popWindow(); };
 }
 
+// This time, instead of creating a basic Window and assigning all the widgets
+// to it, we create a re-usable class that we instantiate instead
+// The baseWidget() function can be used just the same to attach more widgets
+// and it can then be created via the screen.createWindow() calls.
+class ProgressBarExampleWindow : public SwearJar::Window {
+public:
+    ProgressBarExampleWindow(SwearJar::Screen& screen, unsigned int x,
+                             unsigned int y, unsigned int width,
+                             unsigned int height)
+        : Window(screen, x, y, width, height) {
+        using namespace SwearJar;
+
+        baseWidget().alignment(LayoutWidget::Alignment::Horizontal);
+
+        baseWidget().addSpacer();
+        auto& frame = baseWidget().createWidget<Frame>("frmFrame");
+        baseWidget().addSpacer();
+
+        frame.title("Progressbar");
+        frame.addSpacer();
+
+        auto& checkbox = frame.createWidget<Checkbox>("chkBox");
+        checkbox.text("Decrement");
+
+        auto& label = frame.createWidget<Label>("lblText");
+        label.text("Value");
+
+        auto& bar = frame.createWidget<Progressbar>("pgbProgress");
+
+        auto& btnIncr = frame.createWidget<Button>("btnIncre");
+        btnIncr.text("Increment");
+        btnIncr.onPressed = [&bar, &checkbox](Button& me) {
+            int val = checkbox.enabled() ? -10 : 10;
+            bar.value(bar.value() + val);
+        };
+        checkbox.onToggle = [&btnIncr](Checkbox& me) {
+            btnIncr.text(me.enabled() ? "Decrement" : "Increment");
+        };
+
+        frame.addSpacer();
+
+        auto& btnClose = frame.createWidget<Button>("btnClose");
+        btnClose.text("Close");
+        btnClose.onPressed = [&screen](Button&) { screen.popWindow(); };
+    }
+};
+
 void make_progressbar_example(SwearJar::Screen& screen) {
+    auto& window = screen.createWindow<ProgressBarExampleWindow>();
+}
+
+void make_overlapping_window(SwearJar::Screen& screen) {
     using namespace SwearJar;
 
-    // Create a Window for all our widgets
-    auto& window = screen.createWindow();
-
-    // Grab the base widget and make layout its children horizontally
+    auto& window = screen.createWindow<Window>(10, 10);
     auto& baseWidget = window.baseWidget();
+
+    baseWidget.alignment(LayoutWidget::Alignment::Vertical);
+    baseWidget.bgColor(4);
+
+    auto& lblPopup = baseWidget.createWidget<Label>("lblPopup");
+    lblPopup.text("Popup");
+    lblPopup.centred(true);
+
+    baseWidget.addSpacer();
+
+    auto& btnClose = baseWidget.createWidget<Button>("btnClose");
+    btnClose.text("Close");
+    btnClose.onPressed = [&screen](Button&) { screen.popWindow(); };
+}
+
+void make_example_menu(SwearJar::Screen& screen) {
+    using namespace SwearJar;
+
+    // screen.unhandledKeys = [&screen](int ch) {
+    // if (ch == 'q') {
+    // screen.quit();
+    // }
+    // };
+
+    auto& window = screen.createWindow<Window>();
+    auto& baseWidget = window.baseWidget();
+
     baseWidget.alignment(LayoutWidget::Alignment::Horizontal);
 
     baseWidget.addSpacer();
     auto& frame = baseWidget.createWidget<Frame>("frmFrame");
     baseWidget.addSpacer();
 
-    frame.title("Progressbar");
+    frame.addSpacer(2);
+    auto& btnLabel = frame.createWidget<Button>("btnLabel");
+    auto& btnProgress = frame.createWidget<Button>("btnProgress");
+    auto& btnPopup = frame.createWidget<Button>("btnPopup");
     frame.addSpacer();
+    auto& btnQuit = frame.createWidget<Button>("btnQuit");
+    frame.addSpacer(2);
 
-    auto& checkbox = frame.createWidget<Checkbox>("chkBox");
-    checkbox.text("Decrement");
-
-    auto& label = frame.createWidget<Label>("lblText");
-    label.text("Value");
-
-    auto& bar = frame.createWidget<Progressbar>("pgbProgress");
-
-    auto& btnIncr = frame.createWidget<Button>("btnIncre");
-    btnIncr.text("Increment");
-    btnIncr.onPressed = [&bar, &checkbox](Button& me) {
-        int val = checkbox.enabled() ? -10 : 10;
-        bar.value(bar.value() + val);
+    btnLabel.text("Labels & Buttons");
+    btnLabel.onPressed = [&screen](Button&) {
+        make_button_label_example(screen);
     };
-    checkbox.onToggle = [&btnIncr](Checkbox& me) {
-        btnIncr.text(me.enabled() ? "Decrement" : "Increment");
+    btnProgress.text("Checkbox & Progressbar");
+    btnProgress.onPressed = [&screen](Button&) {
+        make_progressbar_example(screen);
+    };
+    btnPopup.text("Popup");
+    btnPopup.onPressed = [&screen](Button&) {
+        make_overlapping_window(screen);
     };
 
-    frame.addSpacer();
+    btnQuit.text("Quit");
+    btnQuit.onPressed = [&screen](Button&) { screen.quit(); };
 }
 
 void run() {
     SwearJar::Screen screen(std::make_shared<SwearJar::CursesWrapper>());
-    screen.initialize();
 
-    // make_button_label_example(screen);
-    make_progressbar_example(screen);
+    screen.initialize();
+    make_example_menu(screen);
     screen.run();
 }
 

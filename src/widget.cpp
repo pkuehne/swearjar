@@ -5,58 +5,23 @@ namespace SwearJar {
 
 Widget::Widget(const std::string& name) : m_name(name) {}
 
-void Widget::height(unsigned int height) {
-    invalidate();
-    m_height = height;
-}
+void Widget::height(unsigned int height) { m_height = height; }
 
-void Widget::minHeight(unsigned int height) {
-    invalidate();
-    m_minHeight = height;
-}
+void Widget::minHeight(unsigned int height) { m_minHeight = height; }
 
-void Widget::width(unsigned int width) {
-    invalidate();
-    m_width = width;
-}
+void Widget::width(unsigned int width) { m_width = width; }
 
-void Widget::minWidth(unsigned int width) {
-    invalidate();
-    m_minWidth = width;
-}
+void Widget::minWidth(unsigned int width) { m_minWidth = width; }
 
-void Widget::x(unsigned int x) {
-    invalidate();
-    m_x = x;
-}
+void Widget::x(unsigned int x) { m_x = x; }
 
-void Widget::y(unsigned int y) {
-    invalidate();
-    m_y = y;
-}
+void Widget::y(unsigned int y) { m_y = y; }
 
-void Widget::fgColor(short fg) {
-    invalidate();
-    m_fg = fg;
-}
+void Widget::fgColor(short fg) { m_fg = fg; }
 
-void Widget::bgColor(short bg) {
-    invalidate();
-    m_bg = bg;
-}
+void Widget::bgColor(short bg) { m_bg = bg; }
 
-void Widget::growthFactor(unsigned int factor) {
-    m_growthFactor = factor;
-    invalidate();
-}
-
-void Widget::invalidate() {
-    if (dirty()) {
-        return;
-    }
-    dirty(true);
-    m_prevDimension = Dimension{m_x, m_y, m_width, m_height};
-}
+void Widget::growthFactor(unsigned int factor) { m_growthFactor = factor; }
 
 void Widget::focus(bool focus) {
     m_hasFocus = focus;
@@ -70,7 +35,6 @@ void Widget::focus(bool focus) {
 
 bool Widget::moveFocusForward() {
     if (canTakeFocus()) {
-        invalidate();
         focus(!focus());
         return focus();
     }

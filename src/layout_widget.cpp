@@ -86,9 +86,7 @@ void LayoutWidget::realignVertically() {
 }
 
 void LayoutWidget::render(const RenderContext& context) {
-    if (dirty()) {
-        realign();
-    }
+    realign();
     CollectionWidget::render(context);
 }
 

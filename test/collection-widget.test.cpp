@@ -26,31 +26,6 @@ public:
     void canTakeFocus(bool focus) { Widget::canTakeFocus(focus); }
 };
 
-TEST(CollectionWidget, dirtyIsTrueIfDirtyChildWidgetExists) {
-    // Given
-    TestCollectionWidget base("");
-
-    // When
-    Widget& c = base.createWidget<Widget>("");
-
-    // Then
-    EXPECT_TRUE(base.dirty());
-}
-
-TEST(CollectionWidget, dirtyIsFalseIfNoDirtyChildWidgetExists) {
-    // Given
-    TestCollectionWidget base("");
-    Widget& c = base.createWidget<Widget>("");
-    Widget& d = base.createWidget<Widget>("");
-
-    // When
-    c.dirty(false);
-    d.dirty(false);
-
-    // Then
-    EXPECT_FALSE(base.dirty());
-}
-
 TEST(CollectionWidget, initializesWithNoChildren) {
     // Given
     TestCollectionWidget base("");
@@ -262,20 +237,14 @@ TEST(CollectionWidget, minHeightReturnsTotalMinHeightOfChildren) {
     EXPECT_EQ(12, height);
 }
 
-TEST(CollectionWidget, renderOnlyRendersDirtyWidgets) {
+TEST(CollectionWidget, creatingWidgetSetsSameBackgroundColor) {
     // Given
-    auto context = std::make_unique<::testing::NiceMock<MockRenderContext>>();
-
     CollectionWidget base("base");
-
-    auto& c1 = base.createWidget<RefreshableWidget>("");
-    c1.dirty(false);
-    EXPECT_CALL(c1, render(_)).Times(0);
-
-    auto& c2 = base.createWidget<RefreshableWidget>("");
-    c2.dirty(true);
-    EXPECT_CALL(c2, render(_)).Times(1);
+    base.bgColor(12);
 
     // When
-    base.render(*context);
+    auto& c1 = base.createWidget<RefreshableWidget>("");
+
+    // Then
+    EXPECT_EQ(base.bgColor(), c1.bgColor());
 }

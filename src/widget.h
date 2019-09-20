@@ -1,6 +1,5 @@
 #pragma once
 
-#include "dimension.h"
 #include "render_context.h"
 #include <functional>
 #include <memory>
@@ -32,9 +31,6 @@ public: // Overridable
     Widget(Widget&) = delete;
     virtual ~Widget() {}
 
-    virtual void dirty(bool value) { m_dirty = value; }
-    virtual bool dirty() { return m_dirty; }
-
     virtual void height(unsigned int height);
     virtual unsigned int height() { return m_height; }
     virtual void minHeight(unsigned int height);
@@ -63,9 +59,6 @@ public: // Overridable
     virtual bool handleKeyPress(int ch) {}
 
 public: // Non-overridable
-    void clearPrevDimension() { m_prevDimension = Dimension(); }
-    Dimension prevDimension() const { return m_prevDimension; }
-
     virtual bool moveFocusForward();
 
     bool focus() { return m_hasFocus; }
@@ -74,14 +67,11 @@ public: // Non-overridable
     std::function<void(Widget*)> loseFocus = 0;
 
 protected: // Internal widget functions
-    void invalidate();
     void focus(bool focus);
     void canTakeFocus(bool can) { m_canTakeFocus = can; }
 
 private:
     std::string m_name;
-    bool m_dirty = true;
-    Dimension m_prevDimension;
     unsigned int m_height = 1;
     unsigned int m_width = 1;
     unsigned int m_minHeight = 1;

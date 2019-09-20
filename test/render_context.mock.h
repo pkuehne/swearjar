@@ -3,7 +3,8 @@
 
 class MockRenderContext : public SwearJar::RenderContext {
 public:
-    MockRenderContext() : RenderContext(nullptr, 0) {}
+    MockRenderContext(SwearJar::CursesInterface& curses)
+        : RenderContext(curses, 0) {}
     MOCK_METHOD0(beginRender, void());
     MOCK_METHOD0(endRender, void());
     MOCK_CONST_METHOD1(reverse, void(bool));

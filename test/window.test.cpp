@@ -14,13 +14,16 @@ public:
 
 TEST(Window, baseWidgetInitializedToHeightAndWidth) {
     // Given
+    unsigned int width = 10;
+    unsigned int height = 20;
     auto curses = std::make_shared<::testing::NiceMock<MockCurses>>();
-    Window w(0, curses, 10, 20);
+    Screen screen(curses);
+    Window w(screen, 0, 0, width, height);
 
     // When
     auto& base = w.baseWidget();
 
     // Then
-    EXPECT_EQ(base.width(), w.width());
-    EXPECT_EQ(base.height(), w.height());
+    EXPECT_EQ(base.width(), width);
+    EXPECT_EQ(base.height(), height);
 }

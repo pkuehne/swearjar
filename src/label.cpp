@@ -11,10 +11,7 @@ void Label::text(const std::string& text) {
     m_text = text;
 }
 
-void Label::centred(bool centred) {
-    m_centred = centred;
-    invalidate();
-}
+void Label::centred(bool centred) { m_centred = centred; }
 
 void Label::render(const RenderContext& context) {
     spdlog::debug("Rendering with {}", m_text);

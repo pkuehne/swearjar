@@ -32,6 +32,7 @@ public:
     virtual unsigned int newwin(int h, int w, int y, int x) = 0;
     virtual void refresh() {}
     virtual void wrefresh() {}
+    virtual void touchwin_() {}
     virtual void currentWindow(unsigned int newWin){};
     virtual unsigned int currentWindow() = 0;
 };

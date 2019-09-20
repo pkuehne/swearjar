@@ -2,6 +2,7 @@
 #include "curses_interface.h"
 #include "layout_widget.h"
 #include "render_context.h"
+#include "screen.h"
 #include <memory>
 #include <vector>
 
@@ -12,26 +13,24 @@ public:
     BaseWidget() : LayoutWidget("base") {}
 };
 
+class Screen;
+
 class Window {
 public:
-    Window(unsigned int id, CIptr curses, unsigned int height,
-           unsigned int width);
+    Window(Screen& screen, unsigned int x, unsigned int y, unsigned int width,
+           unsigned int height);
     virtual ~Window();
 
     BaseWidget& baseWidget() { return *m_baseWidget; }
+    Screen& screen() { return m_screen; }
 
-    void refreshDirtyWidgets();
-    void clearWindow();
-
-    unsigned int width() { return m_width; }
-    unsigned int height() { return m_height; }
+    void refresh();
 
 private:
-    unsigned int m_id;
+    unsigned int m_id = 0;
+    Screen& m_screen;
     std::shared_ptr<CursesInterface> m_curses;
     std::unique_ptr<BaseWidget> m_baseWidget;
-    unsigned int m_height = 1;
-    unsigned int m_width = 1;
     std::unique_ptr<RenderContext> m_render = 0;
 };
 }; // namespace SwearJar
