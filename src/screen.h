@@ -23,6 +23,9 @@ public:
     T& createWindow(unsigned int x, unsigned int y, unsigned int width,
                     unsigned int height);
     void popWindow();
+    const std::vector<std::unique_ptr<Window>>& windows() const {
+        return m_windows;
+    }
 
     void quit() { m_quit = true; }
     std::function<void(char)> unhandledKeys = [](char) {};

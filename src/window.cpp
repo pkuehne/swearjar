@@ -6,7 +6,7 @@ namespace SwearJar {
 
 Window::Window(CIptr curses, unsigned int x, unsigned int y, unsigned int width,
                unsigned int height)
-    : m_id(0), m_curses(curses), m_height(height), m_width(width) {
+    : m_id(0), m_curses(curses) {
 
     m_id = m_curses->newwin(height, width, y, x);
 
