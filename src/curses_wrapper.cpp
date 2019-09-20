@@ -24,6 +24,24 @@ void CursesWrapper::start_color() { ::start_color(); }
 void CursesWrapper::init_pair(short pair, short fore, short back) {
     ::init_pair(pair, fore, back);
 }
+void CursesWrapper::enable_mouse() {
+    mousemask(BUTTON1_CLICKED | BUTTON2_CLICKED | REPORT_MOUSE_POSITION, 0);
+}
+MouseEvent CursesWrapper::mouse_event() {
+    MouseEvent event;
+
+    MEVENT mouse;
+    if (getmouse(&mouse) != OK) {
+        return event;
+    }
+
+    event.device = mouse.id;
+    event.x = mouse.x;
+    event.y = mouse.y;
+    event.leftClicked = mouse.bstate & BUTTON1_CLICKED;
+    event.rightClicked = mouse.bstate & BUTTON2_CLICKED;
+    return event;
+}
 
 short CursesWrapper::get_color(short fg, short bg) {
     auto pair = std::make_pair(fg, bg);

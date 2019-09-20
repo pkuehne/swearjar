@@ -6,6 +6,7 @@
 namespace {
 const int KEY_TAB = 9;
 const int KEY_ENTER = 10;
+const int KEY_MOUSE = 409;
 } // namespace
 
 namespace SwearJar {
@@ -24,6 +25,7 @@ void Screen::initialize() {
     if (m_curses->has_colors()) {
         m_curses->start_color();
     }
+    m_curses->enable_mouse();
 }
 
 void Screen::run() {
@@ -34,6 +36,10 @@ void Screen::run() {
     while (!m_quit) {
         refreshWindows();
         ch = m_curses->getchar();
+        if (ch == KEY_MOUSE) {
+            handleMouse();
+            continue;
+        }
         handleKeys(ch);
     }
 }
@@ -61,6 +67,19 @@ void Screen::handleKeys(int ch) {
     bool handled = (*m_windows.rbegin())->baseWidget().handleKeyPress(ch);
     if (!handled) {
         unhandledKeys(ch);
+    }
+}
+
+void Screen::handleMouse() {
+    spdlog::info("Handling mouse");
+    MouseEvent event = m_curses->mouse_event();
+    spdlog::info("device: {} x = {} y = {} l = {} r = {}", event.device,
+                 event.x, event.y, event.leftClicked, event.rightClicked);
+    if (event.leftClicked) {
+        spdlog::info("left button clicked");
+    }
+    if (event.rightClicked) {
+        spdlog::info("right button clicked");
     }
 }
 

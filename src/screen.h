@@ -33,6 +33,7 @@ public:
 
 private:
     void handleKeys(int ch);
+    void handleMouse();
     void refreshWindows();
 
 private:
