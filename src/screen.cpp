@@ -81,7 +81,10 @@ void Screen::handleMouse() {
     spdlog::info("left button clicked");
     auto& topWin = *(*m_windows.rbegin());
     if (topWin.contains(event.x, event.y)) {
-        spdlog::info("inside window");
+        // Convert from scren coordinates to window coordinates
+        event.x -= topWin.x() - 1;
+        event.y -= topWin.y() - 1;
+        topWin.baseWidget().handleMouseClick(event);
     }
 }
 } // namespace SwearJar

@@ -13,6 +13,7 @@ public:
 
     void render(const RenderContext& context) override;
     bool handleKeyPress(int ch) override;
+    bool handleMouseClick(const MouseEvent& event);
 
 private:
     std::string m_text;

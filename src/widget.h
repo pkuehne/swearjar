@@ -56,7 +56,8 @@ public: // Overridable
 
     virtual void render(const RenderContext& context) {}
 
-    virtual bool handleKeyPress(int ch) {}
+    virtual bool handleKeyPress(int ch) { return true; }
+    virtual bool handleMouseClick(const MouseEvent& event) { return true; }
 
 public: // Non-overridable
     virtual bool moveFocusForward();

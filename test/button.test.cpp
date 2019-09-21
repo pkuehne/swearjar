@@ -42,3 +42,27 @@ TEST(Button, keyPressDoesNotThrowIfNoFunctionIsSet) {
     // When
     EXPECT_NO_THROW(b.handleKeyPress('f'));
 }
+
+TEST(Button, handleMouseClickCallsCallbackOnEnter) {
+    // Given
+    bool pressed = false;
+
+    Button b("testButton");
+    b.onPressed = [&pressed](Button&) { pressed = true; };
+
+    // When
+    bool handled = b.handleMouseClick(MouseEvent());
+
+    // Then
+    EXPECT_TRUE(handled);
+    EXPECT_TRUE(pressed);
+}
+
+TEST(Button, handleMouseClickDoesNotThrowIfNoFunctionIsSet) {
+    // Given
+    Button b("testButton");
+    b.onPressed = nullptr;
+
+    // When
+    EXPECT_NO_THROW(b.handleMouseClick(MouseEvent()));
+}

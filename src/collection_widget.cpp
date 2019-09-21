@@ -67,4 +67,19 @@ bool CollectionWidget::handleKeyPress(int ch) {
     return false;
 }
 
+bool CollectionWidget::handleMouseClick(const MouseEvent& event) {
+    if (m_widgets.empty()) {
+        return false;
+    }
+    for (auto& widget : m_widgets) {
+        if (event.x >= widget->x() &&
+            event.x <= (widget->x() + widget->width())) {
+            if (event.y >= widget->y() &&
+                event.y <= (widget->y() + widget->height())) {
+                return widget->handleMouseClick(event);
+            }
+        }
+    }
+    return false;
+}
 } // namespace SwearJar

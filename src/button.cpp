@@ -32,4 +32,12 @@ bool Button::handleKeyPress(int ch) {
     return true;
 }
 
+bool Button::handleMouseClick(const MouseEvent& event) {
+    spdlog::info("Button '{}' clicked", name());
+    if (onPressed != 0) {
+        onPressed(*this);
+    }
+    return true;
+}
+
 } // namespace SwearJar
