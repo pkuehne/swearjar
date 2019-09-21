@@ -75,12 +75,13 @@ void Screen::handleMouse() {
     MouseEvent event = m_curses->mouse_event();
     spdlog::info("device: {} x = {} y = {} l = {} r = {}", event.device,
                  event.x, event.y, event.leftClicked, event.rightClicked);
-    if (event.leftClicked) {
-        spdlog::info("left button clicked");
+    if (!event.leftClicked) {
+        return;
     }
-    if (event.rightClicked) {
-        spdlog::info("right button clicked");
+    spdlog::info("left button clicked");
+    auto& topWin = *(*m_windows.rbegin());
+    if (topWin.contains(event.x, event.y)) {
+        spdlog::info("inside window");
     }
 }
-
 } // namespace SwearJar
