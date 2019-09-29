@@ -71,12 +71,19 @@ bool CollectionWidget::handleMouseClick(const MouseEvent& event) {
     if (m_widgets.empty()) {
         return false;
     }
+
+    MouseEvent l_event(event);
+    l_event.x -= this->x();
+    l_event.y -= this->y();
+    spdlog::debug("Check against ({}, {})", l_event.x, l_event.y);
     for (auto& widget : m_widgets) {
-        if (event.x >= widget->x() &&
-            event.x <= (widget->x() + widget->width())) {
-            if (event.y >= widget->y() &&
-                event.y <= (widget->y() + widget->height())) {
-                return widget->handleMouseClick(event);
+        spdlog::debug("click on {} at ({}, {})", widget->name(), widget->x(),
+                      widget->y());
+        if (l_event.x >= widget->x() &&
+            l_event.x <= (widget->x() + widget->width())) {
+            if (l_event.y >= widget->y() &&
+                l_event.y <= (widget->y() + widget->height())) {
+                return widget->handleMouseClick(l_event);
             }
         }
     }

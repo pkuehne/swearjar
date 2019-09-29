@@ -71,19 +71,18 @@ void Screen::handleKeys(int ch) {
 }
 
 void Screen::handleMouse() {
-    spdlog::info("Handling mouse");
     MouseEvent event = m_curses->mouse_event();
-    spdlog::info("device: {} x = {} y = {} l = {} r = {}", event.device,
-                 event.x, event.y, event.leftClicked, event.rightClicked);
+    spdlog::debug("device: {} x = {} y = {} l = {} r = {}", event.device,
+                  event.x, event.y, event.leftClicked, event.rightClicked);
     if (!event.leftClicked) {
         return;
     }
-    spdlog::info("left button clicked");
     auto& topWin = *(*m_windows.rbegin());
     if (topWin.contains(event.x, event.y)) {
         // Convert from scren coordinates to window coordinates
         event.x -= topWin.x() - 1;
         event.y -= topWin.y() - 1;
+        spdlog::info("handling button click @ ({}, {})", event.x, event.y);
         topWin.baseWidget().handleMouseClick(event);
     }
 }
