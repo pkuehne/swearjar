@@ -13,6 +13,10 @@ struct MouseEvent {
     bool rightClicked = false;
 };
 
+struct KeyEvent {
+    int key = 0;
+};
+
 class CursesInterface {
 public:
     virtual ~CursesInterface(){};

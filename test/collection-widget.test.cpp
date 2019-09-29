@@ -168,9 +168,11 @@ TEST(CollectionWidget, moveFocusWillCallSameChildAgainTillItReturnsFalse) {
 TEST(CollectionWidget, handleKeysReturnsFalseIfNoChildrenByDefault) {
     // Given
     TestCollectionWidget base("");
+    KeyEvent e;
+    e.key = 'X';
 
     // When
-    bool retval = base.handleKeyPress('X');
+    bool retval = base.handleKeyPress(e);
 
     // Then
     EXPECT_FALSE(retval);
@@ -180,9 +182,11 @@ TEST(CollectionWidget, handleKeysReturnsFalseIfNoChildrenHasFocus) {
     // Given
     TestCollectionWidget base("");
     auto& c1 = base.createWidget<Widget>("");
+    KeyEvent e;
+    e.key = 'X';
 
     // When
-    bool retval = base.handleKeyPress('X');
+    bool retval = base.handleKeyPress(e);
 
     // Then
     EXPECT_FALSE(retval);
@@ -192,16 +196,18 @@ TEST(CollectionWidget, handleKeysReturnsTrueIfChildSelectedHasHandled) {
     class KeyPressWidget : public TestWidget {
     public:
         KeyPressWidget(const std::string& name) : TestWidget(name) {}
-        bool handleKeyPress(int ch) { return true; }
+        bool handleKeyPress(const KeyEvent&) override { return true; }
     };
 
     // Given
     TestCollectionWidget base("");
     auto& c1 = base.createWidget<KeyPressWidget>("");
     ASSERT_TRUE(base.moveFocusForward());
+    KeyEvent e;
+    e.key = 'X';
 
     // When
-    bool retval = base.handleKeyPress('X');
+    bool retval = base.handleKeyPress(e);
 
     // Then
     EXPECT_TRUE(retval);

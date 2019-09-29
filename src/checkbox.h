@@ -9,7 +9,7 @@ public:
     Checkbox(const std::string& name);
 
     void render(const RenderContext& context) override;
-    bool handleKeyPress(int ch) override;
+    bool handleKeyPress(const KeyEvent& event) override;
     bool handleMouseClick(const MouseEvent& event) override;
 
     std::function<void(Checkbox&)> onToggle;

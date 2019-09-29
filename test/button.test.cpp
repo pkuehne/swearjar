@@ -11,8 +11,11 @@ TEST(Button, keyPressCallsCallbackOnEnter) {
     Button b("testButton");
     b.onPressed = [&pressed](Button&) { pressed = true; };
 
+    KeyEvent e;
+    e.key = 10;
+
     // When
-    bool handled = b.handleKeyPress(10);
+    bool handled = b.handleKeyPress(e);
 
     // Then
     EXPECT_TRUE(handled);
@@ -26,8 +29,11 @@ TEST(Button, keyPressDoesNothingIfNotEnter) {
     Button b("testButton");
     b.onPressed = [&pressed](Button&) { pressed = true; };
 
+    KeyEvent e;
+    e.key = 'f';
+
     // When
-    bool handled = b.handleKeyPress('f');
+    bool handled = b.handleKeyPress(e);
 
     // Then
     EXPECT_FALSE(handled);
@@ -39,8 +45,11 @@ TEST(Button, keyPressDoesNotThrowIfNoFunctionIsSet) {
     Button b("testButton");
     b.onPressed = nullptr;
 
+    KeyEvent e;
+    e.key = 'f';
+
     // When
-    EXPECT_NO_THROW(b.handleKeyPress('f'));
+    EXPECT_NO_THROW(b.handleKeyPress(e));
 }
 
 TEST(Button, handleMouseClickCallsCallbackOnEnter) {

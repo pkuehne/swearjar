@@ -22,9 +22,9 @@ void Checkbox::render(const RenderContext& context) {
     }
 }
 
-bool Checkbox::handleKeyPress(int ch) {
+bool Checkbox::handleKeyPress(const KeyEvent& event) {
     spdlog::debug("Checkbox '{}' toggled", name());
-    if (ch != 10) {
+    if (event.key != 10) {
         return false;
     }
 

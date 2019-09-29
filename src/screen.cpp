@@ -37,10 +37,13 @@ void Screen::run() {
         refreshWindows();
         ch = m_curses->getchar();
         if (ch == KEY_MOUSE) {
-            handleMouse();
+            MouseEvent event = m_curses->mouse_event();
+            handleMouse(event);
             continue;
         }
-        handleKeys(ch);
+        KeyEvent event;
+        event.key = ch;
+        handleKeys(event);
     }
 }
 
@@ -58,20 +61,19 @@ void Screen::refreshWindows() {
     m_curses->refresh();
 }
 
-void Screen::handleKeys(int ch) {
-    spdlog::debug("Handling key {}", ch);
-    if (ch == KEY_TAB) {
+void Screen::handleKeys(const KeyEvent& event) {
+    spdlog::debug("Handling key {}", event.key);
+    if (event.key == KEY_TAB) {
         (*m_windows.rbegin())->baseWidget().moveFocusForward();
         return;
     }
-    bool handled = (*m_windows.rbegin())->baseWidget().handleKeyPress(ch);
+    bool handled = (*m_windows.rbegin())->baseWidget().handleKeyPress(event);
     if (!handled) {
-        unhandledKeys(ch);
+        unhandledKeys(event);
     }
 }
 
-void Screen::handleMouse() {
-    MouseEvent event = m_curses->mouse_event();
+void Screen::handleMouse(const MouseEvent& event) {
     spdlog::debug("device: {} x = {} y = {} l = {} r = {}", event.device,
                   event.x, event.y, event.leftClicked, event.rightClicked);
     if (!event.leftClicked) {
@@ -80,10 +82,11 @@ void Screen::handleMouse() {
     auto& topWin = *(*m_windows.rbegin());
     if (topWin.contains(event.x, event.y)) {
         // Convert from scren coordinates to window coordinates
-        event.x -= topWin.x() - 1;
-        event.y -= topWin.y() - 1;
-        spdlog::info("handling button click @ ({}, {})", event.x, event.y);
-        topWin.baseWidget().handleMouseClick(event);
+        MouseEvent l_event(event);
+        l_event.x -= topWin.x() - 1;
+        l_event.y -= topWin.y() - 1;
+        spdlog::info("handling button click @ ({}, {})", l_event.x, l_event.y);
+        topWin.baseWidget().handleMouseClick(l_event);
     }
 }
 } // namespace SwearJar

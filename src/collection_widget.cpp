@@ -56,13 +56,13 @@ bool CollectionWidget::moveFocusForward() {
     return false;
 }
 
-bool CollectionWidget::handleKeyPress(int ch) {
+bool CollectionWidget::handleKeyPress(const KeyEvent& event) {
     if (m_widgets.empty()) {
         return false;
     }
     if (m_focusWidget != m_widgets.end()) {
         spdlog::debug("Sending keyPress to {}", (*m_focusWidget)->name());
-        return (*m_focusWidget)->handleKeyPress(ch);
+        return (*m_focusWidget)->handleKeyPress(event);
     }
     return false;
 }

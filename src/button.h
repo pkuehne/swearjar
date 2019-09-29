@@ -12,8 +12,8 @@ public:
     std::function<void(Button&)> onPressed;
 
     void render(const RenderContext& context) override;
-    bool handleKeyPress(int ch) override;
-    bool handleMouseClick(const MouseEvent& event);
+    bool handleKeyPress(const KeyEvent& event) override;
+    bool handleMouseClick(const MouseEvent& event) override;
 
 private:
     std::string m_text;
