@@ -36,14 +36,19 @@ void Screen::run() {
     while (!m_quit) {
         refreshWindows();
         ch = m_curses->getchar();
-        if (ch == KEY_MOUSE) {
-            MouseEvent event = m_curses->mouse_event();
-            handleMouse(event);
-            continue;
+        switch (ch) {
+            case KEY_MOUSE: {
+                MouseEvent event = m_curses->mouse_event();
+                handleMouse(event);
+                break;
+            }
+            default: {
+                KeyEvent event;
+                event.key = ch;
+                handleKeys(event);
+                break;
+            }
         }
-        KeyEvent event;
-        event.key = ch;
-        handleKeys(event);
     }
 }
 
@@ -85,7 +90,7 @@ void Screen::handleMouse(const MouseEvent& event) {
         MouseEvent l_event(event);
         l_event.x -= topWin.x() - 1;
         l_event.y -= topWin.y() - 1;
-        spdlog::info("handling button click @ ({}, {})", l_event.x, l_event.y);
+        spdlog::debug("handling button click @ ({}, {})", l_event.x, l_event.y);
         topWin.baseWidget().handleMouseClick(l_event);
     }
 }
