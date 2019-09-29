@@ -8,6 +8,7 @@ add_executable(unit_test
     button.test.cpp
     progressbar.test.cpp
     list.test.cpp
+    checkbox.test.cpp
     )
 
 target_link_libraries(unit_test gtest_main gmock)
