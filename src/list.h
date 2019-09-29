@@ -11,6 +11,8 @@ public:
     void addItem(std::string item);
     const std::vector<std::string>& items() { return m_items; }
 
+    void render(const RenderContext& context) override;
+
 private:
     std::vector<std::string> m_items;
 };
