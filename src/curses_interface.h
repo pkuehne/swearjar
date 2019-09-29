@@ -5,6 +5,18 @@
 
 namespace SwearJar {
 
+struct MouseEvent {
+    unsigned int device = 0;
+    unsigned int x = 0;
+    unsigned int y = 0;
+    bool leftClicked = false;
+    bool rightClicked = false;
+};
+
+struct KeyEvent {
+    int key = 0;
+};
+
 class CursesInterface {
 public:
     virtual ~CursesInterface(){};
@@ -15,6 +27,8 @@ public:
     virtual void endwin() {}
     virtual bool has_colors() = 0;
     virtual void start_color() {}
+    virtual void enable_mouse() {}
+    virtual MouseEvent mouse_event() { return MouseEvent(); }
     virtual void init_pair(short pair, short fore, short back) {}
     virtual void color_on(short pair) {}
     virtual void color_off(short pair) {}

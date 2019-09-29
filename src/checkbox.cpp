@@ -22,9 +22,9 @@ void Checkbox::render(const RenderContext& context) {
     }
 }
 
-bool Checkbox::handleKeyPress(int ch) {
+bool Checkbox::handleKeyPress(const KeyEvent& event) {
     spdlog::debug("Checkbox '{}' toggled", name());
-    if (ch != 10) {
+    if (event.key != 10) {
         return false;
     }
 
@@ -35,4 +35,15 @@ bool Checkbox::handleKeyPress(int ch) {
     }
     return true;
 }
+
+bool Checkbox::handleMouseClick(const MouseEvent& event) {
+    spdlog::info("Checkbox '{}' clicked", name());
+    toggle();
+
+    if (onToggle != 0) {
+        onToggle(*this);
+    }
+    return true;
+}
+
 } // namespace SwearJar

@@ -21,11 +21,19 @@ void Button::render(const RenderContext& context) {
     context.drawChar(width() - 1, 0, '>', fgColor(), bgColor());
 }
 
-bool Button::handleKeyPress(int ch) {
+bool Button::handleKeyPress(const KeyEvent& event) {
     spdlog::debug("Button '{}' pressed", name());
-    if (ch != 10) {
+    if (event.key != 10) {
         return false;
     }
+    if (onPressed != 0) {
+        onPressed(*this);
+    }
+    return true;
+}
+
+bool Button::handleMouseClick(const MouseEvent& event) {
+    spdlog::info("Button '{}' clicked", name());
     if (onPressed != 0) {
         onPressed(*this);
     }

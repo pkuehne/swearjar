@@ -168,9 +168,11 @@ TEST(CollectionWidget, moveFocusWillCallSameChildAgainTillItReturnsFalse) {
 TEST(CollectionWidget, handleKeysReturnsFalseIfNoChildrenByDefault) {
     // Given
     TestCollectionWidget base("");
+    KeyEvent e;
+    e.key = 'X';
 
     // When
-    bool retval = base.handleKeyPress('X');
+    bool retval = base.handleKeyPress(e);
 
     // Then
     EXPECT_FALSE(retval);
@@ -180,9 +182,11 @@ TEST(CollectionWidget, handleKeysReturnsFalseIfNoChildrenHasFocus) {
     // Given
     TestCollectionWidget base("");
     auto& c1 = base.createWidget<Widget>("");
+    KeyEvent e;
+    e.key = 'X';
 
     // When
-    bool retval = base.handleKeyPress('X');
+    bool retval = base.handleKeyPress(e);
 
     // Then
     EXPECT_FALSE(retval);
@@ -192,16 +196,18 @@ TEST(CollectionWidget, handleKeysReturnsTrueIfChildSelectedHasHandled) {
     class KeyPressWidget : public TestWidget {
     public:
         KeyPressWidget(const std::string& name) : TestWidget(name) {}
-        bool handleKeyPress(int ch) { return true; }
+        bool handleKeyPress(const KeyEvent&) override { return true; }
     };
 
     // Given
     TestCollectionWidget base("");
     auto& c1 = base.createWidget<KeyPressWidget>("");
     ASSERT_TRUE(base.moveFocusForward());
+    KeyEvent e;
+    e.key = 'X';
 
     // When
-    bool retval = base.handleKeyPress('X');
+    bool retval = base.handleKeyPress(e);
 
     // Then
     EXPECT_TRUE(retval);
@@ -247,4 +253,53 @@ TEST(CollectionWidget, creatingWidgetSetsSameBackgroundColor) {
 
     // Then
     EXPECT_EQ(base.bgColor(), c1.bgColor());
+}
+
+TEST(CollectionWidget, handleMouseEventReturnsFalseIfNoWidgets) {
+    // Given
+    CollectionWidget base("base");
+
+    // When
+    bool handled = base.handleMouseClick(MouseEvent());
+
+    // Then
+    EXPECT_FALSE(handled);
+}
+
+TEST(CollectionWidget, handleMouseEventReturnsTrueIfCoordInWidget) {
+    // Given
+    CollectionWidget base("base");
+    auto& c1 = base.createWidget<RefreshableWidget>("");
+    c1.x(10);
+    c1.y(10);
+    c1.width(20);
+    c1.height(20);
+
+    // When
+    MouseEvent event;
+    event.x = 15;
+    event.y = 15;
+    bool handled = base.handleMouseClick(event);
+
+    // Then
+    EXPECT_TRUE(handled);
+}
+
+TEST(CollectionWidget, handleMouseEventReturnsFalseIfNoneMatch) {
+    // Given
+    CollectionWidget base("base");
+    auto& c1 = base.createWidget<RefreshableWidget>("");
+    c1.x(10);
+    c1.y(10);
+    c1.width(20);
+    c1.height(20);
+
+    // When
+    MouseEvent event;
+    event.x = 5;
+    event.y = 5;
+    bool handled = base.handleMouseClick(event);
+
+    // Then
+    EXPECT_FALSE(handled);
 }

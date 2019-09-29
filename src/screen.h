@@ -29,10 +29,11 @@ public:
     }
 
     void quit() { m_quit = true; }
-    std::function<void(char)> unhandledKeys = [](char) {};
+    std::function<void(const KeyEvent&)> unhandledKeys = [](const KeyEvent&) {};
 
 private:
-    void handleKeys(int ch);
+    void handleKeys(const KeyEvent& event);
+    void handleMouse(const MouseEvent& event);
     void refreshWindows();
 
 private:

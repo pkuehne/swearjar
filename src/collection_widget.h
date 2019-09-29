@@ -21,7 +21,8 @@ public:
 
     void render(const RenderContext& context) override;
     bool moveFocusForward() override;
-    bool handleKeyPress(int ch) override;
+    bool handleKeyPress(const KeyEvent& event) override;
+    bool handleMouseClick(const MouseEvent& event) override;
 
 private:
     std::vector<std::unique_ptr<Widget>> m_widgets;

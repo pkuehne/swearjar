@@ -56,15 +56,37 @@ bool CollectionWidget::moveFocusForward() {
     return false;
 }
 
-bool CollectionWidget::handleKeyPress(int ch) {
+bool CollectionWidget::handleKeyPress(const KeyEvent& event) {
     if (m_widgets.empty()) {
         return false;
     }
     if (m_focusWidget != m_widgets.end()) {
         spdlog::debug("Sending keyPress to {}", (*m_focusWidget)->name());
-        return (*m_focusWidget)->handleKeyPress(ch);
+        return (*m_focusWidget)->handleKeyPress(event);
     }
     return false;
 }
 
+bool CollectionWidget::handleMouseClick(const MouseEvent& event) {
+    if (m_widgets.empty()) {
+        return false;
+    }
+
+    MouseEvent l_event(event);
+    l_event.x -= this->x();
+    l_event.y -= this->y();
+    spdlog::debug("Check against ({}, {})", l_event.x, l_event.y);
+    for (auto& widget : m_widgets) {
+        spdlog::debug("click on {} at ({}, {})", widget->name(), widget->x(),
+                      widget->y());
+        if (l_event.x >= widget->x() &&
+            l_event.x <= (widget->x() + widget->width())) {
+            if (l_event.y >= widget->y() &&
+                l_event.y <= (widget->y() + widget->height())) {
+                return widget->handleMouseClick(l_event);
+            }
+        }
+    }
+    return false;
+}
 } // namespace SwearJar

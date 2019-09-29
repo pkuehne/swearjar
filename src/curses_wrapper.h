@@ -18,6 +18,8 @@ public:
     void endwin();
     bool has_colors();
     void start_color();
+    void enable_mouse();
+    MouseEvent mouse_event();
     void init_pair(short pair, short fore, short back);
     void color_on(short pair);
     void color_off(short pair);
