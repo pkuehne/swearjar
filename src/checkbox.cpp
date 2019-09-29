@@ -35,4 +35,15 @@ bool Checkbox::handleKeyPress(int ch) {
     }
     return true;
 }
+
+bool Checkbox::handleMouseClick(const MouseEvent& event) {
+    spdlog::info("Checkbox '{}' clicked", name());
+    toggle();
+
+    if (onToggle != 0) {
+        onToggle(*this);
+    }
+    return true;
+}
+
 } // namespace SwearJar
