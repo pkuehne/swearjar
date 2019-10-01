@@ -3,12 +3,6 @@
 #include <iostream>
 #include <spdlog/spdlog.h>
 
-namespace {
-const int KEY_TAB = 9;
-const int KEY_ENTER = 10;
-const int KEY_MOUSE = 409;
-} // namespace
-
 namespace SwearJar {
 
 Screen::Screen(CIptr curses) : m_curses(curses) {
