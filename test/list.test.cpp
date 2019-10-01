@@ -18,6 +18,8 @@ public:
         list.addItem(item3);
         list.addItem(item4);
         list.addItem(item5);
+
+        EXPECT_CALL(*context, reverse(Eq(false))).Times(AnyNumber());
     }
 
 protected:
@@ -91,6 +93,20 @@ TEST_F(ListWidget, settingItemOffsetRendersNextItem) {
     list.render(*context);
 }
 
+TEST_F(ListWidget, renderSetsFocusFlagIfHasFocus) {
+    // Given
+    EXPECT_CALL(*context, drawText(_, _, _, _, _)).Times(3);
+    EXPECT_CALL(*context, reverse(Eq(true))).Times(1);
+
+    list.moveFocusForward();
+
+    // When
+    list.render(*context);
+
+    // Then
+    EXPECT_TRUE(list.focus());
+}
+
 TEST_F(ListWidget, settingItemOffsetDoesNotGoBeyondItems) {
     // When
     list.itemOffset(10);
@@ -99,10 +115,10 @@ TEST_F(ListWidget, settingItemOffsetDoesNotGoBeyondItems) {
     EXPECT_EQ(list.itemOffset(), 2);
 }
 
-TEST_F(ListWidget, downArrowIncreasesItemOffset) {
+TEST_F(ListWidget, pageDownIncreasesItemOffset) {
     // Given
     KeyEvent event;
-    event.key = KEY_DOWN;
+    event.key = KEY_PGDOWN;
 
     // When
     list.handleKeyPress(event);
@@ -111,10 +127,10 @@ TEST_F(ListWidget, downArrowIncreasesItemOffset) {
     EXPECT_EQ(list.itemOffset(), 1);
 }
 
-TEST_F(ListWidget, upArrowDecreasesItemOffset) {
+TEST_F(ListWidget, pageUpDecreasesItemOffset) {
     // Given
     KeyEvent event;
-    event.key = KEY_UP;
+    event.key = KEY_PGUP;
 
     list.itemOffset(2);
 
@@ -125,10 +141,10 @@ TEST_F(ListWidget, upArrowDecreasesItemOffset) {
     EXPECT_EQ(list.itemOffset(), 1);
 }
 
-TEST_F(ListWidget, upArrowDoesNotGoBeyondZero) {
+TEST_F(ListWidget, pageUpDoesNotGoBeyondZero) {
     // Given
     KeyEvent event;
-    event.key = KEY_UP;
+    event.key = KEY_PGUP;
 
     list.itemOffset(0);
 
@@ -137,4 +153,195 @@ TEST_F(ListWidget, upArrowDoesNotGoBeyondZero) {
 
     // Then
     EXPECT_EQ(list.itemOffset(), 0);
+}
+
+TEST_F(ListWidget, selectedItemClampsToMax) {
+    // Given
+
+    // When
+    list.selectedItem(10);
+
+    // Then
+    EXPECT_EQ(list.selectedItem(), 4);
+}
+
+TEST_F(ListWidget, selectedItemSetToArgument) {
+    // Given
+
+    // When
+    list.selectedItem(3);
+
+    // Then
+    EXPECT_EQ(list.selectedItem(), 3);
+}
+
+TEST_F(ListWidget, selectedItemSetToZeroIfNoItems) {
+    // Given
+
+    // When
+    emptyList.selectedItem(3);
+
+    // Then
+    EXPECT_EQ(emptyList.selectedItem(), 0);
+}
+
+TEST_F(ListWidget, upArrowDecreasesSelectedItem) {
+    // Given
+    KeyEvent event;
+    event.key = KEY_UP;
+
+    list.selectedItem(2);
+
+    // When
+    list.handleKeyPress(event);
+
+    // Then
+    EXPECT_EQ(list.selectedItem(), 1);
+}
+
+TEST_F(ListWidget, upArrowDoesntDecreaseBeyondZero) {
+    // Given
+    KeyEvent event;
+    event.key = KEY_UP;
+
+    list.selectedItem(0);
+
+    // When
+    list.handleKeyPress(event);
+
+    // Then
+    EXPECT_EQ(list.selectedItem(), 0);
+}
+
+TEST_F(ListWidget, downArrowIncreasesSelectedItem) {
+    // Given
+    KeyEvent event;
+    event.key = KEY_DOWN;
+
+    list.selectedItem(2);
+
+    // When
+    list.handleKeyPress(event);
+
+    // Then
+    EXPECT_EQ(list.selectedItem(), 3);
+}
+
+TEST_F(ListWidget, settingSelectedItemSmallerThanOffsetAdjustsOffset) {
+    // Given
+    list.selectedItem(2);
+    list.itemOffset(2);
+    ASSERT_EQ(list.selectedItem(), 2);
+    ASSERT_EQ(list.itemOffset(), 2);
+
+    // When
+    list.selectedItem(1);
+
+    // Then
+    ASSERT_EQ(list.selectedItem(), 1);
+    EXPECT_EQ(list.itemOffset(), 1);
+}
+
+TEST_F(ListWidget, settingSelectedItemLargerThanOffsetPlusWidthAdjustsOffset) {
+    // Given
+    list.selectedItem(1);
+    list.itemOffset(1);
+    ASSERT_EQ(list.selectedItem(), 1);
+    ASSERT_EQ(list.itemOffset(), 1);
+
+    // When
+    list.selectedItem(4);
+
+    // Then
+    ASSERT_EQ(list.selectedItem(), 4);
+    EXPECT_EQ(list.itemOffset(), 2);
+}
+
+TEST_F(ListWidget, settingItemOffsetSmallerThanSelectedItemAdjustsIt) {
+    // Given
+    list.selectedItem(4);
+    list.itemOffset(2);
+    ASSERT_EQ(list.selectedItem(), 4);
+    ASSERT_EQ(list.itemOffset(), 2);
+
+    // When
+    list.itemOffset(0);
+
+    // Then
+    EXPECT_EQ(list.itemOffset(), 0);
+    EXPECT_EQ(list.selectedItem(), 2);
+}
+
+TEST_F(ListWidget, settingItemOffsetBeyondSelectedItemAdjustsSelectedItem) {
+    // Given
+    list.selectedItem(0);
+    list.itemOffset(0);
+    ASSERT_EQ(list.selectedItem(), 0);
+    ASSERT_EQ(list.itemOffset(), 0);
+
+    // When
+    list.itemOffset(2);
+
+    // Then
+    EXPECT_EQ(list.itemOffset(), 2);
+    EXPECT_EQ(list.selectedItem(), 2);
+}
+
+TEST_F(ListWidget, settingSelectedItemTriggersCallback) {
+    // Given
+    bool selected = false;
+    list.onSelected = [&selected](List&) { selected = true; };
+
+    // When
+    list.selectedItem(2);
+
+    // Then
+    EXPECT_TRUE(selected);
+}
+
+TEST_F(ListWidget, onSelectedOnlyTriggeredIfSelectionChanges) {
+    // Given
+    list.selectedItem(2);
+    bool selected = false;
+    list.onSelected = [&selected](List&) { selected = true; };
+
+    // When
+    list.selectedItem(2);
+
+    // Then
+    EXPECT_FALSE(selected);
+}
+
+TEST_F(ListWidget, onSelectedNotTriggeredIfNotSet) {
+    // Given
+    list.onSelected = nullptr;
+
+    // When
+    EXPECT_NO_THROW(list.selectedItem(2));
+}
+
+TEST_F(ListWidget, pressingEnterTriggersCallback) {
+    // Given
+    bool triggered = false;
+    list.onTriggered = [&triggered](List&) { triggered = true; };
+
+    KeyEvent event;
+    event.key = 10;
+
+    // When
+    list.handleKeyPress(event);
+
+    // Then
+    EXPECT_TRUE(triggered);
+}
+
+TEST_F(ListWidget, pressingEnterTriggersCallbackIfSet) {
+    // Given
+    list.onTriggered = nullptr;
+
+    KeyEvent event;
+    event.key = 10;
+
+    // When
+    EXPECT_NO_THROW(list.handleKeyPress(event));
 }
