@@ -120,10 +120,6 @@ public:
     }
 };
 
-void make_progressbar_example(SwearJar::Screen& screen) {
-    auto& window = screen.createWindow<ProgressBarExampleWindow>();
-}
-
 void make_overlapping_window(SwearJar::Screen& screen) {
     using namespace SwearJar;
 
@@ -143,6 +139,38 @@ void make_overlapping_window(SwearJar::Screen& screen) {
     btnClose.text("Close");
     btnClose.onPressed = [&screen](Button&) { screen.popWindow(); };
 }
+
+class ListExampleWindow : public SwearJar::Window {
+public:
+    ListExampleWindow(SwearJar::Screen& screen, unsigned int x, unsigned int y,
+                      unsigned int width, unsigned int height)
+        : Window(screen, x, y, width, height) {
+        using namespace SwearJar;
+
+        baseWidget().alignment(LayoutWidget::Alignment::Horizontal);
+
+        baseWidget().addSpacer();
+        auto& frame = baseWidget().createWidget<Frame>("frmFrame");
+        baseWidget().addSpacer();
+
+        frame.title("List");
+        frame.addSpacer();
+
+        auto& list = frame.createWidget<List>("lstExample");
+        list.addItem("Item 1");
+        list.addItem("Item 2");
+        list.addItem("Item 3");
+        list.addItem("Item 4");
+        list.addItem("Item 5");
+        list.growthFactor(0);
+        list.minHeight(3);
+
+        frame.addSpacer();
+        auto& btnClose = frame.createWidget<Button>("btnClose");
+        btnClose.text("Close");
+        btnClose.onPressed = [&screen](Button&) { screen.popWindow(); };
+    }
+};
 
 void make_example_menu(SwearJar::Screen& screen) {
     using namespace SwearJar;
@@ -166,6 +194,7 @@ void make_example_menu(SwearJar::Screen& screen) {
     auto& btnLabel = frame.createWidget<Button>("btnLabel");
     auto& btnProgress = frame.createWidget<Button>("btnProgress");
     auto& btnPopup = frame.createWidget<Button>("btnPopup");
+    auto& btnList = frame.createWidget<Button>("btnList");
     frame.addSpacer();
     auto& btnQuit = frame.createWidget<Button>("btnQuit");
     frame.addSpacer(2);
@@ -176,11 +205,15 @@ void make_example_menu(SwearJar::Screen& screen) {
     };
     btnProgress.text("Checkbox & Progressbar");
     btnProgress.onPressed = [&screen](Button&) {
-        make_progressbar_example(screen);
+        screen.createWindow<ProgressBarExampleWindow>();
     };
     btnPopup.text("Popup");
     btnPopup.onPressed = [&screen](Button&) {
         make_overlapping_window(screen);
+    };
+    btnList.text("List");
+    btnList.onPressed = [&screen](Button&) {
+        screen.createWindow<ListExampleWindow>();
     };
 
     btnQuit.text("Quit");
