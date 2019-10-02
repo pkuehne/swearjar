@@ -275,9 +275,101 @@ TEST_F(TextEntryWidget, typingRightDoesntMoveCursorAtEnd) {
     EXPECT_EQ(3, entry.cursor());
 }
 
-// when text empty, cursor cant move
-// typing when curor in middle of text inserts at that pos
-// typing enter calls callback if set
-// typing enter does nothing if callback not set
-// typing a key calls callback if set
-// typing a key does nothing if callback not set
+TEST_F(TextEntryWidget, pressingKeyWhenCursorInWordAddsCharAtThatPosition) {
+    // Given
+    entry.text("Bar");
+    entry.cursor(2);
+    kevent.key = 'b';
+
+    // When
+    bool handled = entry.handleKeyPress(kevent);
+
+    // Then
+    EXPECT_TRUE(handled);
+    EXPECT_EQ(3, entry.cursor());
+    EXPECT_EQ("Babr", entry.text());
+}
+
+TEST_F(TextEntryWidget, pressingBackspaceWhenCursorInWordDeletesThatCharacter) {
+    // Given
+    entry.text("Bar");
+    entry.cursor(2);
+    kevent.key = KEY_BACKSPACE;
+
+    // When
+    bool handled = entry.handleKeyPress(kevent);
+
+    // Then
+    EXPECT_TRUE(handled);
+    EXPECT_EQ(1, entry.cursor());
+    EXPECT_EQ("Br", entry.text());
+}
+
+TEST_F(TextEntryWidget, settingTextFiresCallback) {
+    // Given
+    bool called = false;
+    entry.onTextChanged = [&called](TextEntry&) { called = true; };
+
+    // When
+    entry.text("Bar");
+
+    // Then
+    EXPECT_TRUE(called);
+}
+
+TEST_F(TextEntryWidget, typingPrintableCharFiresCallback) {
+    // Given
+    bool called = false;
+    entry.onTextChanged = [&called](TextEntry&) { called = true; };
+
+    kevent.key = 'a';
+
+    // When
+    entry.handleKeyPress(kevent);
+
+    // Then
+    EXPECT_TRUE(called);
+}
+
+TEST_F(TextEntryWidget, erasingCharacterFiresCallback) {
+    // Given
+    bool called = false;
+    entry.onTextChanged = [&called](TextEntry&) { called = true; };
+
+    entry.text("Bar");
+    kevent.key = KEY_BACKSPACE;
+
+    // When
+    entry.handleKeyPress(kevent);
+
+    // Then
+    EXPECT_TRUE(called);
+}
+
+TEST_F(TextEntryWidget, pressingEnterCallsCallbackIfSet) {
+    // Given
+    bool called = false;
+    entry.onSubmit = [&called](TextEntry&) { called = true; };
+
+    kevent.key = KEY_ENTER;
+
+    // When
+    entry.handleKeyPress(kevent);
+
+    // Then
+    EXPECT_TRUE(called);
+}
+
+TEST_F(TextEntryWidget, pressingEnterIgnoresCallbackIfNotSet) {
+    // Given
+    entry.onSubmit = nullptr;
+    kevent.key = KEY_ENTER;
+
+    // When
+    bool handled = entry.handleKeyPress(kevent);
+
+    // Then
+    EXPECT_TRUE(handled);
+}
+
+// Pressing mouse, moves cursor

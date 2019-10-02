@@ -14,6 +14,9 @@ std::string TextEntry::text() {
 void TextEntry::text(std::string text) {
     m_text = text;
     m_cursor = text.size();
+    if (onTextChanged) {
+        onTextChanged(*this);
+    }
 }
 
 unsigned int TextEntry::cursor() {
@@ -41,8 +44,11 @@ bool TextEntry::handleKeyPress(const KeyEvent& event) {
         if (!text().size()) {
             return true;
         }
-        m_text.pop_back();
+        m_text.erase(m_cursor - 1, 1);
         m_cursor -= 1;
+        if (onTextChanged) {
+            onTextChanged(*this);
+        }
         return true;
     }
     if (event.key == KEY_LEFT) {
@@ -53,9 +59,18 @@ bool TextEntry::handleKeyPress(const KeyEvent& event) {
         m_cursor += m_cursor != text().size() ? 1 : 0;
         return true;
     }
+    if (event.key == KEY_ENTER) {
+        if (onSubmit) {
+            onSubmit(*this);
+        }
+        return true;
+    }
     if (std::isprint(event.key)) {
-        m_text += event.key;
+        m_text.insert(m_cursor, 1, event.key);
         m_cursor += 1;
+        if (onTextChanged) {
+            onTextChanged(*this);
+        }
         return true;
     }
     return false;

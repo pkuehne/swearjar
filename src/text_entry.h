@@ -1,6 +1,7 @@
 #pragma once
 
 #include "widget.h"
+#include <functional>
 
 namespace SwearJar {
 
@@ -17,6 +18,9 @@ public:
     void render(const RenderContext& context) override;
     bool handleKeyPress(const KeyEvent& event) override;
     bool handleMouseClick(const MouseEvent& event) override;
+
+    std::function<void(TextEntry&)> onTextChanged = nullptr;
+    std::function<void(TextEntry&)> onSubmit = nullptr;
 
 private:
     std::string m_text;
