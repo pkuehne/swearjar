@@ -156,6 +156,20 @@ public:
         frame.title("List");
         frame.addSpacer();
 
+        auto& buttonOne = frame.createWidget<RadioButton>("btnOne");
+        buttonOne.text("Button 1");
+        auto& buttonTwo = frame.createWidget<RadioButton>("btnTwo");
+        buttonTwo.text("Button 2");
+        auto& buttonThree = frame.createWidget<RadioButton>("btnThree");
+        buttonThree.text("Button 3");
+
+        RadioButtonGroup buttonGroup;
+        buttonGroup.add(&buttonOne);
+        buttonGroup.add(&buttonTwo);
+        buttonGroup.add(&buttonThree);
+        assert(buttonOne.enabled());
+
+        frame.addSpacer();
         auto& list = frame.createWidget<List>("lstExample");
         list.addItem("Item 1");
         list.addItem("Item 2");
