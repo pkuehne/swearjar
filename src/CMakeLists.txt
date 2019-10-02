@@ -31,6 +31,8 @@ target_sources(swearjarbase
     ${CMAKE_CURRENT_LIST_DIR}/list.cpp
     ${CMAKE_CURRENT_LIST_DIR}/radio_button.h
     ${CMAKE_CURRENT_LIST_DIR}/radio_button.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/text_entry.h
+    ${CMAKE_CURRENT_LIST_DIR}/text_entry.cpp
     )
 target_link_libraries(swearjarbase PRIVATE spdlog)
 
