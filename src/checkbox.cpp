@@ -17,7 +17,7 @@ void Checkbox::render(const RenderContext& context) {
     context.drawText(0, 0, "[ ] ", fgColor(), bgColor());
     context.drawText(4, 0, m_text, fgColor(), bgColor());
 
-    if (m_enabled) {
+    if (enabled()) {
         context.drawChar(1, 0, 'X', fgColor(), bgColor());
     }
 }
