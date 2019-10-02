@@ -12,6 +12,7 @@ void CursesWrapper::initscr() {
     ::initscr();
     m_windows.push_back(stdscr);
     ::color_set(get_color(7, 0), 0);
+    ::curs_set(0);
     ::refresh();
 }
 
