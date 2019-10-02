@@ -6,28 +6,48 @@
 namespace SwearJar {
 
 class RenderContext {
-
 public:
     RenderContext(CursesInterface& curses, unsigned int window)
         : m_curses(curses), m_window(window) {
         spdlog::debug("Created RenderContext for {}", window);
     }
-    virtual ~RenderContext() {}
+    virtual ~RenderContext() {
+    }
 
-    void window(unsigned int window) { m_window = window; }
-    unsigned int window() { return m_window; }
+    void window(unsigned int window) {
+        m_window = window;
+    }
+    unsigned int window() {
+        return m_window;
+    }
 
-    void width(unsigned int width) { m_width = width; }
-    unsigned int width() { return m_width; }
+    void width(unsigned int width) {
+        m_width = width;
+    }
+    unsigned int width() {
+        return m_width;
+    }
 
-    void height(unsigned int height) { m_height = height; }
-    unsigned int height() { return m_height; }
+    void height(unsigned int height) {
+        m_height = height;
+    }
+    unsigned int height() {
+        return m_height;
+    }
 
-    void xOffset(unsigned int xOffset) { m_xOffset = xOffset; }
-    unsigned int xOffset() { return m_xOffset; }
+    void xOffset(unsigned int xOffset) {
+        m_xOffset = xOffset;
+    }
+    unsigned int xOffset() {
+        return m_xOffset;
+    }
 
-    void yOffset(unsigned int yOffset) { m_yOffset = yOffset; }
-    unsigned int yOffset() { return m_yOffset; }
+    void yOffset(unsigned int yOffset) {
+        m_yOffset = yOffset;
+    }
+    unsigned int yOffset() {
+        return m_yOffset;
+    }
 
     void addOffsets(unsigned int x, unsigned int y) const {
         m_xOffset += x;
@@ -39,6 +59,7 @@ public:
     }
 
     virtual void reverse(bool on) const;
+    virtual void blink(bool on) const;
     virtual void beginRender();
     virtual void endRender();
     virtual void clearBackground(short fg, short bg) const;

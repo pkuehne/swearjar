@@ -8,5 +8,6 @@
 #include "progressbar.h"
 #include "radio_button.h"
 #include "screen.h"
+#include "text_entry.h"
 #include "widget.h"
 #include "window.h"

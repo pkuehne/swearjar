@@ -10,7 +10,8 @@ namespace SwearJar {
 class CursesWrapper : public CursesInterface {
 public:
     CursesWrapper();
-    ~CursesWrapper() {}
+    ~CursesWrapper() {
+    }
     void initscr();
     void raw();
     void noecho();
@@ -21,11 +22,13 @@ public:
     void enable_mouse();
     MouseEvent mouse_event();
     void init_pair(short pair, short fore, short back);
-    void color_on(short pair);
-    void color_off(short pair);
     short get_color(short fg, short bg);
-    void reverse_on();
-    void reverse_off();
+    void color_on(short pair) override;
+    void color_off(short pair) override;
+    void reverse_on() override;
+    void reverse_off() override;
+    void blink_on() override;
+    void blink_off() override;
     void wbkgd(short pair);
     void get_screen_size(int& height, int& width);
 
@@ -38,8 +41,12 @@ public:
     void wrefresh();
     void touchwin_();
 
-    void currentWindow(unsigned int newWin) { m_currentWindow = newWin; }
-    unsigned int currentWindow() { return m_currentWindow; }
+    void currentWindow(unsigned int newWin) {
+        m_currentWindow = newWin;
+    }
+    unsigned int currentWindow() {
+        return m_currentWindow;
+    }
 
 private:
     std::vector<WINDOW*> m_windows;

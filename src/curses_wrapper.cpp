@@ -12,15 +12,28 @@ void CursesWrapper::initscr() {
     ::initscr();
     m_windows.push_back(stdscr);
     ::color_set(get_color(7, 0), 0);
+    ::curs_set(0);
     ::refresh();
 }
 
-void CursesWrapper::raw() { ::raw(); }
-void CursesWrapper::noecho() { ::noecho(); }
-void CursesWrapper::keypad() { ::keypad(m_windows[0], 1); }
-void CursesWrapper::endwin() { ::endwin(); }
-bool CursesWrapper::has_colors() { return ::has_colors(); }
-void CursesWrapper::start_color() { ::start_color(); }
+void CursesWrapper::raw() {
+    ::raw();
+}
+void CursesWrapper::noecho() {
+    ::noecho();
+}
+void CursesWrapper::keypad() {
+    ::keypad(m_windows[0], 1);
+}
+void CursesWrapper::endwin() {
+    ::endwin();
+}
+bool CursesWrapper::has_colors() {
+    return ::has_colors();
+}
+void CursesWrapper::start_color() {
+    ::start_color();
+}
 void CursesWrapper::init_pair(short pair, short fore, short back) {
     ::init_pair(pair, fore, back);
 }
@@ -70,6 +83,14 @@ void CursesWrapper::reverse_off() {
     wattroff(m_windows[m_currentWindow], A_REVERSE);
 }
 
+void CursesWrapper::blink_on() {
+    wattron(m_windows[m_currentWindow], A_BLINK);
+}
+
+void CursesWrapper::blink_off() {
+    wattroff(m_windows[m_currentWindow], A_BLINK);
+}
+
 void CursesWrapper::wbkgd(short pair) {
     ::wbkgd(m_windows[m_currentWindow], COLOR_PAIR(pair));
     ::touchwin(m_windows[m_currentWindow]);
@@ -94,10 +115,18 @@ void CursesWrapper::mvaddch_(int y, int x, char ch) const {
     mvwaddch(m_windows[m_currentWindow], y, x, ch);
 }
 
-int CursesWrapper::getchar() { return ::wgetch(stdscr); }
+int CursesWrapper::getchar() {
+    return ::wgetch(stdscr);
+}
 
-void CursesWrapper::refresh() { ::refresh(); }
-void CursesWrapper::wrefresh() { ::wrefresh(m_windows[m_currentWindow]); }
-void CursesWrapper::touchwin_() { ::touchwin(m_windows[m_currentWindow]); }
+void CursesWrapper::refresh() {
+    ::refresh();
+}
+void CursesWrapper::wrefresh() {
+    ::wrefresh(m_windows[m_currentWindow]);
+}
+void CursesWrapper::touchwin_() {
+    ::touchwin(m_windows[m_currentWindow]);
+}
 
 } // namespace SwearJar

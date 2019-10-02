@@ -10,6 +10,7 @@ add_executable(unit_test
     list.test.cpp
     checkbox.test.cpp
     radio_button.test.cpp
+    text_entry.test.cpp
     )
 
 target_link_libraries(unit_test gtest_main gmock)
