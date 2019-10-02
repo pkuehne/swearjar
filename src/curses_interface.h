@@ -52,15 +52,15 @@ public:
     }
     virtual void init_pair(short pair, short fore, short back) {
     }
-    virtual void color_on(short pair) {
-    }
-    virtual void color_off(short pair) {
-    }
+
+    virtual void color_on(short pair) = 0;
+    virtual void color_off(short pair) = 0;
     virtual short get_color(short fg, short bg) = 0;
-    virtual void reverse_on() {
-    }
-    virtual void reverse_off() {
-    }
+    virtual void reverse_on() = 0;
+    virtual void reverse_off() = 0;
+    virtual void blink_on() = 0;
+    virtual void blink_off() = 0;
+
     virtual void wbkgd(short pair) {
     }
     virtual void get_screen_size(int& height, int& width) {

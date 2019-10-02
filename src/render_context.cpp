@@ -10,7 +10,6 @@ void RenderContext::clearBackground(short fg, short bg) const {
 void RenderContext::drawText(unsigned int x, unsigned int y,
                              const std::string& text, short fg,
                              short bg) const {
-
     spdlog::debug("RC: drawing text {}", text);
     m_curses.color_on(m_curses.get_color(fg, bg));
     for (unsigned int offset = 0; offset < text.length(); offset++) {
@@ -42,7 +41,6 @@ void RenderContext::drawChar(unsigned int x, unsigned int y, char ch, short fg,
 void RenderContext::clearArea(unsigned int x, unsigned int y,
                               unsigned int width, unsigned int height, short fg,
                               short bg) const {
-
     spdlog::debug("RC: clearing area {}x{} @ ({},{})", width, height, x, y);
     if (width == 0 || height == 0) {
         spdlog::debug("RC: Invalid clear area {}x{} @ ({},{})", width, height,
@@ -117,6 +115,14 @@ void RenderContext::reverse(bool on) const {
         m_curses.reverse_on();
     } else {
         m_curses.reverse_off();
+    }
+}
+
+void RenderContext::blink(bool on) const {
+    if (on) {
+        m_curses.blink_on();
+    } else {
+        m_curses.blink_off();
     }
 }
 
