@@ -6,6 +6,7 @@
 #include "label.h"
 #include "list.h"
 #include "progressbar.h"
+#include "radio_button.h"
 #include "screen.h"
 #include "widget.h"
 #include "window.h"

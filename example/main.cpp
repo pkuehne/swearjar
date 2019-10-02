@@ -156,6 +156,19 @@ public:
         frame.title("List");
         frame.addSpacer();
 
+        auto& buttonOne = frame.createWidget<RadioButton>("btnOne");
+        buttonOne.text("Button 1");
+        auto& buttonTwo = frame.createWidget<RadioButton>("btnTwo");
+        buttonTwo.text("Button 2");
+        auto& buttonThree = frame.createWidget<RadioButton>("btnThree");
+        buttonThree.text("Button 3");
+
+        m_buttonGroup.add(&buttonOne);
+        m_buttonGroup.add(&buttonTwo);
+        m_buttonGroup.add(&buttonThree);
+        assert(buttonOne.enabled());
+
+        frame.addSpacer();
         auto& list = frame.createWidget<List>("lstExample");
         list.addItem("Item 1");
         list.addItem("Item 2");
@@ -170,6 +183,9 @@ public:
         btnClose.text("Close");
         btnClose.onPressed = [&screen](Button&) { screen.popWindow(); };
     }
+
+private:
+    SwearJar::RadioButtonGroup m_buttonGroup;
 };
 
 void make_example_menu(SwearJar::Screen& screen) {
