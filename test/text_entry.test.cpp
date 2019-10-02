@@ -96,12 +96,185 @@ TEST_F(TextEntryWidget, pressingBackspaceKeyRemovesCharFromText) {
     EXPECT_EQ(entry.text(), "Fo");
 }
 
-// blink on and off is called when focus is set
-// blink on and off is not called when focus is not set
-// typing left moves cursor forwards
-// typing right moves cursor backwards
-// typing left moves cursor only to end of text
-// typing right moves cursor only to beg of text
+TEST_F(TextEntryWidget, pressingBackspaceKeyDoesNothingOnEmptyString) {
+    // Given
+    kevent.key = KEY_BACKSPACE;
+
+    // When
+    bool handled = entry.handleKeyPress(kevent);
+
+    // Then
+    EXPECT_TRUE(handled);
+    EXPECT_EQ(entry.text(), "");
+}
+
+TEST_F(TextEntryWidget, rendersBlinkIfHasFocus) {
+    // Given
+    entry.text("Foo");
+    context = std::make_unique<NiceMock<MockRenderContext>>(*curses);
+    EXPECT_CALL(*context, blink(Eq(true)));
+    EXPECT_CALL(*context, blink(Eq(false)));
+
+    entry.moveFocusForward();
+
+    // When
+    entry.render(*context);
+
+    // Then
+}
+
+TEST_F(TextEntryWidget, doesntRenderBlinkIfNoFocus) {
+    // Given
+    entry.text("Foo");
+    context = std::make_unique<NiceMock<MockRenderContext>>(*curses);
+    EXPECT_CALL(*context, blink(Eq(true))).Times(0);
+    EXPECT_CALL(*context, blink(Eq(false))).Times(0);
+
+    // When
+    entry.render(*context);
+
+    // Then
+}
+
+TEST_F(TextEntryWidget, settingCursorUpdatesItsPosition) {
+    // Given
+    EXPECT_EQ(0, entry.cursor());
+
+    // When
+    entry.cursor(5);
+
+    // Then
+    EXPECT_EQ(5, entry.cursor());
+}
+
+TEST_F(TextEntryWidget, settingTextSetsCursorLocation) {
+    // Given
+
+    // When
+    entry.text("Foo");
+
+    // Then
+    EXPECT_EQ(3, entry.cursor());
+}
+
+TEST_F(TextEntryWidget, typingCharMovesCursorForward) {
+    // Given
+    kevent.key = 'a';
+
+    // When
+    entry.handleKeyPress(kevent);
+
+    // Then
+    EXPECT_EQ(1, entry.cursor());
+}
+
+TEST_F(TextEntryWidget, typingBackspaceMovesCursorsBackwards) {
+    // Given
+    entry.text("Foo");
+    kevent.key = KEY_BACKSPACE;
+
+    // When
+    entry.handleKeyPress(kevent);
+
+    // Then
+    EXPECT_EQ(2, entry.cursor());
+}
+
+TEST_F(TextEntryWidget, rendersDrawsCursorPosAgainIfFocus) {
+    // Given
+    entry.text("Foo");
+    context = std::make_unique<NiceMock<MockRenderContext>>(*curses);
+    EXPECT_CALL(*context, drawChar(_, _, Eq('_'), _, _)).Times(AnyNumber());
+    EXPECT_CALL(*context, drawChar(Eq(entry.cursor()), _, Eq('_'), _, _))
+        .Times(2);
+
+    entry.moveFocusForward();
+
+    // When
+    entry.render(*context);
+
+    // Then
+}
+
+TEST_F(TextEntryWidget, rendersDesntDrawCursorIfNoFocus) {
+    // Given
+    entry.text("Foo");
+    context = std::make_unique<NiceMock<MockRenderContext>>(*curses);
+    EXPECT_CALL(*context, drawChar(_, _, Eq('_'), _, _)).Times(AnyNumber());
+    EXPECT_CALL(*context, drawChar(Eq(entry.cursor()), _, Eq('_'), _, _))
+        .Times(1);
+
+    // When
+    entry.render(*context);
+
+    // Then
+}
+
+TEST_F(TextEntryWidget, typingBackspaceOnEmptyTextDoesntMoveCursors) {
+    // Given
+    entry.text("");
+    kevent.key = KEY_BACKSPACE;
+
+    // When
+    entry.handleKeyPress(kevent);
+
+    // Then
+    EXPECT_EQ(0, entry.cursor());
+}
+
+TEST_F(TextEntryWidget, typingLeftMovesCursorBackwards) {
+    // Given
+    entry.text("Foo");
+    kevent.key = KEY_LEFT;
+
+    // When
+    bool handled = entry.handleKeyPress(kevent);
+
+    // Then
+    EXPECT_TRUE(handled);
+    EXPECT_EQ(2, entry.cursor());
+}
+
+TEST_F(TextEntryWidget, typingLeftDoesntMoveCursorAtZero) {
+    // Given
+    entry.text("");
+    kevent.key = KEY_LEFT;
+
+    // When
+    bool handled = entry.handleKeyPress(kevent);
+
+    // Then
+    EXPECT_TRUE(handled);
+    EXPECT_EQ(0, entry.cursor());
+}
+
+TEST_F(TextEntryWidget, typingRightMovesCursorForwards) {
+    // Given
+    entry.text("Foo");
+    entry.cursor(1);
+    kevent.key = KEY_RIGHT;
+
+    // When
+    bool handled = entry.handleKeyPress(kevent);
+
+    // Then
+    EXPECT_TRUE(handled);
+    EXPECT_EQ(2, entry.cursor());
+}
+
+TEST_F(TextEntryWidget, typingRightDoesntMoveCursorAtEnd) {
+    // Given
+    entry.text("Foo");
+    kevent.key = KEY_RIGHT;
+
+    // When
+    bool handled = entry.handleKeyPress(kevent);
+
+    // Then
+    EXPECT_TRUE(handled);
+    EXPECT_EQ(3, entry.cursor());
+}
+
 // when text empty, cursor cant move
 // typing when curor in middle of text inserts at that pos
 // typing enter calls callback if set
