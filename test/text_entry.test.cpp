@@ -136,15 +136,15 @@ TEST_F(TextEntryWidget, doesntRenderBlinkIfNoFocus) {
     // Then
 }
 
-TEST_F(TextEntryWidget, settingCursorUpdatesItsPosition) {
+TEST_F(TextEntryWidget, settingCursorBeyondTextClampsToTextLength) {
     // Given
-    EXPECT_EQ(0, entry.cursor());
+    entry.text("Foo");
 
     // When
     entry.cursor(5);
 
     // Then
-    EXPECT_EQ(5, entry.cursor());
+    EXPECT_EQ(3, entry.cursor());
 }
 
 TEST_F(TextEntryWidget, settingTextSetsCursorLocation) {
@@ -372,4 +372,18 @@ TEST_F(TextEntryWidget, pressingEnterIgnoresCallbackIfNotSet) {
     EXPECT_TRUE(handled);
 }
 
+TEST_F(TextEntryWidget, mouseClickInWordMovesCursorToThatChar) {
+    // Given
+    entry.text("Foo");
+    entry.cursor(0);
+
+    mevent.x = 2;
+
+    // When
+    bool handled = entry.handleMouseClick(mevent);
+
+    // Then
+    EXPECT_TRUE(handled);
+    EXPECT_EQ(2, entry.cursor());
+}
 // Pressing mouse, moves cursor

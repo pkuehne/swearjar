@@ -24,6 +24,9 @@ unsigned int TextEntry::cursor() {
 }
 
 void TextEntry::cursor(unsigned int cursor) {
+    if (cursor > text().size()) {
+        cursor = text().size();
+    }
     m_cursor = cursor;
 }
 
@@ -77,6 +80,7 @@ bool TextEntry::handleKeyPress(const KeyEvent& event) {
 }
 
 bool TextEntry::handleMouseClick(const MouseEvent& event) {
+    cursor(event.x);
 }
 
 } // namespace SwearJar
