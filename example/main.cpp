@@ -163,10 +163,9 @@ public:
         auto& buttonThree = frame.createWidget<RadioButton>("btnThree");
         buttonThree.text("Button 3");
 
-        RadioButtonGroup buttonGroup;
-        buttonGroup.add(&buttonOne);
-        buttonGroup.add(&buttonTwo);
-        buttonGroup.add(&buttonThree);
+        m_buttonGroup.add(&buttonOne);
+        m_buttonGroup.add(&buttonTwo);
+        m_buttonGroup.add(&buttonThree);
         assert(buttonOne.enabled());
 
         frame.addSpacer();
@@ -184,6 +183,9 @@ public:
         btnClose.text("Close");
         btnClose.onPressed = [&screen](Button&) { screen.popWindow(); };
     }
+
+private:
+    SwearJar::RadioButtonGroup m_buttonGroup;
 };
 
 void make_example_menu(SwearJar::Screen& screen) {

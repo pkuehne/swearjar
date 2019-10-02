@@ -18,7 +18,7 @@ void Checkbox::render(const RenderContext& context) {
     context.drawText(4, 0, m_text, fgColor(), bgColor());
 
     if (enabled()) {
-        spdlog::info("Rendeing X for box {}", name());
+        spdlog::info("Rendering X for box {}", name());
         context.drawChar(1, 0, 'X', fgColor(), bgColor());
     }
 }
