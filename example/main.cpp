@@ -188,14 +188,57 @@ private:
     SwearJar::RadioButtonGroup m_buttonGroup;
 };
 
+class TextEntryExampleWindow : public SwearJar::Window {
+public:
+    TextEntryExampleWindow(SwearJar::Screen& screen, unsigned int x,
+                           unsigned int y, unsigned int width,
+                           unsigned int height)
+        : Window(screen, x, y, width, height) {
+        using namespace SwearJar;
+
+        baseWidget().alignment(LayoutWidget::Alignment::Horizontal);
+
+        baseWidget().addSpacer();
+        auto& frame = baseWidget().createWidget<Frame>("frmFrame");
+        baseWidget().addSpacer();
+
+        frame.title("TextEntry");
+        frame.addSpacer();
+
+        auto& lblText = frame.createWidget<Label>("lblText");
+        lblText.text("Type your name: ");
+
+        frame.addSpacer();
+
+        auto& txtEntry = frame.createWidget<TextEntry>("txtEntry");
+        txtEntry.onTextChanged = [&lblText](TextEntry& e) {
+            if (e.text().size()) {
+                lblText.text("Hit Enter when done!");
+            } else {
+                lblText.text("Type your name: ");
+            }
+        };
+        txtEntry.onSubmit = [&lblText](TextEntry& e) {
+            if (e.text().size()) {
+                lblText.text("Hello, " + e.text());
+            }
+        };
+
+        frame.addSpacer();
+        auto& btnClose = frame.createWidget<Button>("btnClose");
+        btnClose.text("Close");
+        btnClose.onPressed = [&screen](Button&) { screen.popWindow(); };
+    }
+};
 void make_example_menu(SwearJar::Screen& screen) {
     using namespace SwearJar;
 
-    // screen.unhandledKeys = [&screen](int ch) {
-    // if (ch == 'q') {
-    // screen.quit();
-    // }
-    // };
+    screen.unhandledKeys = [&screen](KeyEvent e) {
+        if (e.key == 'q') {
+            screen.quit();
+        }
+        spdlog::info("Not handled: {}", e.key);
+    };
 
     auto& window = screen.createWindow<Window>();
     auto& baseWidget = window.baseWidget();
@@ -211,6 +254,7 @@ void make_example_menu(SwearJar::Screen& screen) {
     auto& btnProgress = frame.createWidget<Button>("btnProgress");
     auto& btnPopup = frame.createWidget<Button>("btnPopup");
     auto& btnList = frame.createWidget<Button>("btnList");
+    auto& btnEntry = frame.createWidget<Button>("btnEntry");
     frame.addSpacer();
     auto& btnQuit = frame.createWidget<Button>("btnQuit");
     frame.addSpacer(2);
@@ -230,6 +274,10 @@ void make_example_menu(SwearJar::Screen& screen) {
     btnList.text("List");
     btnList.onPressed = [&screen](Button&) {
         screen.createWindow<ListExampleWindow>();
+    };
+    btnEntry.text("TextEntry");
+    btnEntry.onPressed = [&screen](Button&) {
+        screen.createWindow<TextEntryExampleWindow>();
     };
 
     btnQuit.text("Quit");
