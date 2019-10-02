@@ -17,9 +17,9 @@ public:
     void text(const std::string& text);
     std::string text() { return m_text; }
 
-    void enabled(bool enabled);
-    bool enabled() { return m_enabled; }
-    void toggle() { enabled(!m_enabled); }
+    virtual void enabled(bool enabled);
+    virtual bool enabled() { return m_enabled; }
+    virtual void toggle() { enabled(!m_enabled); }
 
 private:
     std::string m_text;
