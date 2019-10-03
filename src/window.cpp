@@ -48,6 +48,34 @@ void Window::initialize() {
 Window::~Window() {
 }
 
+void Window::setWindowStyleFullScreen() {
+    m_style = WindowStyle::FullScreen;
+}
+
+void Window::setWindowStyleFractional(unsigned int widthFraction,
+                                      unsigned int heightFraction) {
+    m_style = WindowStyle::Fractional;
+    m_params.fractionalWidth = widthFraction;
+    m_params.fractionalHeight = heightFraction;
+}
+
+void Window::setWindowStyleFixed(unsigned int x, unsigned int y,
+                                 unsigned int width, unsigned int height) {
+    m_style = WindowStyle::Fixed;
+    m_params.fixedX = x;
+    m_params.fixedY = y;
+    m_params.fixedWidth = width;
+    m_params.fixedHeight = height;
+}
+
+WindowStyle Window::style() {
+    return m_style;
+}
+
+const WindowStyleParams& Window::params() {
+    return m_params;
+}
+
 void Window::refresh() {
     spdlog::debug("refresh called for {}", m_id);
 
