@@ -17,7 +17,6 @@ public:
 class Screen;
 
 enum class WindowStyle {
-    NoStyle,
     FullScreen,
     Fractional,
     Fixed,
@@ -81,7 +80,7 @@ private:
     Screen& m_screen;
     std::unique_ptr<BaseWidget> m_baseWidget;
     std::unique_ptr<RenderContext> m_render = 0;
-    WindowStyle m_style = WindowStyle::NoStyle;
+    WindowStyle m_style = WindowStyle::FullScreen;
     WindowStyleParams m_params{};
 };
 }; // namespace SwearJar

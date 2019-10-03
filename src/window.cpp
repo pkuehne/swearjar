@@ -14,7 +14,7 @@ Window::Window(Screen& s, unsigned int x, unsigned int y, unsigned int width,
 
 Window::Window(Screen& screen) : m_screen(screen) {
     initialize();
-    setWindowStyleFullScreen();
+    resize();
 }
 
 Window::Window(Screen& screen, unsigned int width, unsigned int height)
@@ -92,6 +92,7 @@ void Window::resize() {
 
             m_x = (screenWidth / 2) - (m_width / 2);
             m_y = (screenHeight / 2) - (m_height / 2);
+            spdlog::info("Resizing fractional to be @ ({}, {})", m_x, m_y);
             break;
         }
         case WindowStyle::Fixed: {
@@ -108,13 +109,11 @@ void Window::resize() {
         }
     }
 
-    if (m_id == 0) {
-        m_id = screen().curses().newwin(m_height, m_width, m_y, m_x);
-    } else {
-        screen().curses().currentWindow(m_id);
-        screen().curses().mvwin(m_y, m_x);
-        screen().curses().wresize(m_height, m_width);
-    }
+    screen().curses().currentWindow(m_id);
+    screen().curses().mvwin(m_y, m_x);
+    screen().curses().wresize(m_height, m_width);
+    screen().curses().wrefresh();
+    screen().curses().refresh();
 
     m_baseWidget->width(m_width);
     m_baseWidget->height(m_height);
