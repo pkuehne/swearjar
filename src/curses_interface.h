@@ -28,6 +28,7 @@ const int KEY_BACKSPACE = 263;
 const int KEY_PGDOWN = 338;
 const int KEY_PGUP = 339;
 const int KEY_MOUSE = 409;
+const int KEY_RESIZE = 410;
 } // namespace
 
 class CursesInterface {
@@ -82,7 +83,5 @@ public:
     virtual void currentWindow(unsigned int newWin){};
     virtual unsigned int currentWindow() = 0;
 };
-
-using CIptr = std::shared_ptr<CursesInterface>;
 
 } // namespace SwearJar

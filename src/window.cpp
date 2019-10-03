@@ -20,7 +20,8 @@ Window::Window(Screen& s, unsigned int x, unsigned int y, unsigned int width,
     m_render->height(height);
 }
 
-Window::~Window() {}
+Window::~Window() {
+}
 
 void Window::refresh() {
     spdlog::debug("refresh called for {}", m_id);
@@ -32,6 +33,9 @@ void Window::refresh() {
                         m_baseWidget->fgColor(), m_baseWidget->bgColor());
     m_baseWidget->render(*m_render);
     m_render->endRender();
+}
+
+void Window::resize() {
 }
 
 bool Window::contains(unsigned int x, unsigned int y) {

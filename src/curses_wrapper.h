@@ -48,6 +48,8 @@ public:
         return m_currentWindow;
     }
 
+    void setupResizeHandler();
+
 private:
     std::vector<WINDOW*> m_windows;
     unsigned int m_currentWindow = 0;

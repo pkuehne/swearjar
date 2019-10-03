@@ -237,7 +237,7 @@ void make_example_menu(SwearJar::Screen& screen) {
         if (e.key == 'q') {
             screen.quit();
         }
-        spdlog::info("Not handled: {}", e.key);
+        spdlog::debug("Not handled: {}", e.key);
     };
 
     auto& window = screen.createWindow<Window>();

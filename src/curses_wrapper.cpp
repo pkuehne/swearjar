@@ -1,4 +1,5 @@
 #include "curses_wrapper.h"
+#include <signal.h>
 #include <spdlog/spdlog.h>
 
 namespace SwearJar {
@@ -14,6 +15,7 @@ void CursesWrapper::initscr() {
     ::color_set(get_color(7, 0), 0);
     ::curs_set(0);
     ::refresh();
+    setupResizeHandler();
 }
 
 void CursesWrapper::raw() {
@@ -127,6 +129,22 @@ void CursesWrapper::wrefresh() {
 }
 void CursesWrapper::touchwin_() {
     ::touchwin(m_windows[m_currentWindow]);
+}
+
+void handle_winch(int) {
+    spdlog::debug("Resize signal handler called");
+    endwin();
+    refresh();
+    clear();
+    refresh();
+    ungetch(KEY_RESIZE);
+}
+
+void CursesWrapper::setupResizeHandler() {
+    spdlog::info("Installing resize signal handler");
+    struct sigaction sa {};
+    sa.sa_handler = handle_winch;
+    sigaction(SIGWINCH, &sa, NULL);
 }
 
 } // namespace SwearJar
