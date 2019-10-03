@@ -10,6 +10,8 @@ public:
 
     unsigned int minHeight() override;
     unsigned int minWidth() override;
+    unsigned int requiredHeight() override;
+    unsigned int requiredWidth() override;
 
     const std::vector<std::unique_ptr<Widget>>& children() const {
         return m_widgets;

@@ -13,6 +13,7 @@ std::string TextEntry::text() {
 
 void TextEntry::text(std::string text) {
     m_text = text;
+    minWidth(text.size());
     m_cursor = text.size();
     if (onTextChanged) {
         onTextChanged(*this);
@@ -81,6 +82,7 @@ bool TextEntry::handleKeyPress(const KeyEvent& event) {
 
 bool TextEntry::handleMouseClick(const MouseEvent& event) {
     cursor(event.x);
+    return true;
 }
 
 } // namespace SwearJar

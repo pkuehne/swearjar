@@ -8,9 +8,12 @@ class Frame : public LayoutWidget {
 public:
     explicit Frame(const std::string& name);
     void title(const std::string& title);
-    std::string title() { return m_title; }
+    std::string title() {
+        return m_title;
+    }
 
-    // Overriden Widget functions
+    unsigned int minWidth() override;
+
     void render(const RenderContext& context) override;
 
 private:
