@@ -81,6 +81,7 @@ public:
     virtual void touchwin_() {
     }
     virtual void wresize(int h, int w) = 0;
+    virtual void mvwin(int y, int x) = 0;
 
     virtual void currentWindow(unsigned int newWin){};
     virtual unsigned int currentWindow() = 0;

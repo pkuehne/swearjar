@@ -33,6 +33,7 @@ public:
     void get_screen_size(int& height, int& width) override;
 
     unsigned int newwin(int h, int w, int y, int x) override;
+    void mvwin(int y, int x) override;
     void wresize(int h, int w) override;
     void mvwprintw(int y, int x, const std::string& string) override;
     void mvaddch_(int y, int x, char c) const override;

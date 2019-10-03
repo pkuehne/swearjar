@@ -18,5 +18,6 @@ public:
     MOCK_METHOD0(blink_off, void());
     MOCK_CONST_METHOD3(mvaddch_, void(int, int, char));
     MOCK_METHOD2(get_screen_size, void(int&, int&));
-    MOCK_METHOD2(wresize, void(int h, int w));
+    MOCK_METHOD2(wresize, void(int, int));
+    MOCK_METHOD2(mvwin, void(int, int));
 };
