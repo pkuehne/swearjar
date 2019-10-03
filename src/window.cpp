@@ -7,42 +7,26 @@ namespace SwearJar {
 
 Window::Window(Screen& s, unsigned int x, unsigned int y, unsigned int width,
                unsigned int height)
-    : m_screen(s), m_x(x), m_y(y), m_width(width), m_height(height) {
+    : m_screen(s) {
     initialize();
+    setWindowStyleFixed(x, y, width, height);
 }
 
 Window::Window(Screen& screen) : m_screen(screen) {
-    int screenHeight = 0, screenWidth = 0;
-    screen.curses().get_screen_size(screenHeight, screenWidth);
-    m_height = static_cast<unsigned int>(screenHeight);
-    m_width = static_cast<unsigned int>(screenWidth);
-
     initialize();
+    setWindowStyleFullScreen();
 }
 
 Window::Window(Screen& screen, unsigned int width, unsigned int height)
-    : Window(screen, 0, 0, 0, 0) {
-    int screenHeight = 0, screenWidth = 0;
-    screen.curses().get_screen_size(screenHeight, screenWidth);
-
-    m_height = height;
-    m_width = width;
-
-    m_x = (screenWidth / 2) - (width / 2);
-    m_y = (screenHeight / 2) - (height / 2);
-
+    : m_screen(screen) {
     initialize();
+    setWindowStyleFractional(width, height);
 }
 
 void Window::initialize() {
-    m_id = screen().curses().newwin(m_height, m_width, m_y, m_x);
+    m_id = screen().curses().newwin(1, 1, 0, 0);
     m_baseWidget = std::make_unique<BaseWidget>();
-    m_baseWidget->width(m_width);
-    m_baseWidget->height(m_height);
-
     m_render = std::make_unique<RenderContext>(screen().curses(), m_id);
-    m_render->width(m_width);
-    m_render->height(m_height);
 }
 
 Window::~Window() {
@@ -50,6 +34,7 @@ Window::~Window() {
 
 void Window::setWindowStyleFullScreen() {
     m_style = WindowStyle::FullScreen;
+    resize();
 }
 
 void Window::setWindowStyleFractional(unsigned int widthFraction,
@@ -57,6 +42,7 @@ void Window::setWindowStyleFractional(unsigned int widthFraction,
     m_style = WindowStyle::Fractional;
     m_params.fractionalWidth = widthFraction;
     m_params.fractionalHeight = heightFraction;
+    resize();
 }
 
 void Window::setWindowStyleFixed(unsigned int x, unsigned int y,
@@ -66,6 +52,7 @@ void Window::setWindowStyleFixed(unsigned int x, unsigned int y,
     m_params.fixedY = y;
     m_params.fixedWidth = width;
     m_params.fixedHeight = height;
+    resize();
 }
 
 WindowStyle Window::style() {
@@ -90,8 +77,49 @@ void Window::refresh() {
 
 void Window::resize() {
     spdlog::info("resize called for {}", m_id);
-    screen().curses().currentWindow(m_id);
-    screen().curses().wresize(1, 1);
+    int screenHeight = 0, screenWidth = 0;
+    screen().curses().get_screen_size(screenHeight, screenWidth);
+
+    switch (style()) {
+        case WindowStyle::FullScreen: {
+            m_height = static_cast<unsigned int>(screenHeight);
+            m_width = static_cast<unsigned int>(screenWidth);
+            break;
+        }
+        case WindowStyle::Fractional: {
+            m_width = screenWidth * m_params.fractionalWidth / 100;
+            m_height = screenHeight * m_params.fractionalHeight / 100;
+
+            m_x = (screenWidth / 2) - (m_width / 2);
+            m_y = (screenHeight / 2) - (m_height / 2);
+            break;
+        }
+        case WindowStyle::Fixed: {
+            m_width = m_params.fixedWidth;
+            m_height = m_params.fixedHeight;
+            m_x = m_params.fixedX;
+            m_y = m_params.fixedY;
+            break;
+        }
+        default: {
+            spdlog::error("You must set a style!");
+            screen().quit();
+            break;
+        }
+    }
+
+    if (m_id == 0) {
+        m_id = screen().curses().newwin(m_height, m_width, m_y, m_x);
+    } else {
+        screen().curses().currentWindow(m_id);
+        screen().curses().mvwin(m_y, m_x);
+        screen().curses().wresize(m_height, m_width);
+    }
+
+    m_baseWidget->width(m_width);
+    m_baseWidget->height(m_height);
+    m_render->width(m_width);
+    m_render->height(m_height);
 }
 
 bool Window::contains(unsigned int x, unsigned int y) {

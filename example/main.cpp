@@ -120,7 +120,7 @@ public:
 void make_overlapping_window(SwearJar::Screen& screen) {
     using namespace SwearJar;
 
-    auto& window = screen.createWindow<Window>(10, 10);
+    auto& window = screen.createWindow<Window>(30, 30);
     auto& baseWidget = window.baseWidget();
 
     baseWidget.alignment(LayoutWidget::Alignment::Vertical);
