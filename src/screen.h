@@ -49,21 +49,18 @@ private:
 };
 
 template <typename T> T& Screen::createWindow() {
-    int screenHeight = 0, screenWidth = 0;
-    m_curses->get_screen_size(screenHeight, screenWidth);
-
-    return createWindow<T>(0, 0, screenWidth, screenHeight);
+    auto win = std::make_unique<T>(*this);
+    auto& retval = *win;
+    m_windows.push_back(std::move(win));
+    return retval;
 }
 
 template <typename T>
 T& Screen::createWindow(unsigned int width, unsigned int height) {
-    int screenHeight = 0, screenWidth = 0;
-    m_curses->get_screen_size(screenHeight, screenWidth);
-
-    unsigned int x = (screenWidth / 2) - (width / 2);
-    unsigned int y = (screenHeight / 2) - (height / 2);
-
-    return createWindow<T>(x, y, width, height);
+    auto win = std::make_unique<T>(*this, width, height);
+    auto& retval = *win;
+    m_windows.push_back(std::move(win));
+    return retval;
 }
 
 template <typename T>

@@ -18,9 +18,12 @@ class Screen;
 
 class Window {
 public:
+    Window(Screen& screen);
+    Window(Screen& screen, unsigned int width, unsigned int height);
     Window(Screen& screen, unsigned int x, unsigned int y, unsigned int width,
            unsigned int height);
     virtual ~Window();
+    void initialize();
 
     BaseWidget& baseWidget() {
         return *m_baseWidget;
@@ -52,7 +55,6 @@ private:
     unsigned int m_width = 0;
     unsigned int m_height = 0;
     Screen& m_screen;
-    std::shared_ptr<CursesInterface> m_curses;
     std::unique_ptr<BaseWidget> m_baseWidget;
     std::unique_ptr<RenderContext> m_render = 0;
 };

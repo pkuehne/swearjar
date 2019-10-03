@@ -107,6 +107,10 @@ unsigned int CursesWrapper::newwin(int h, int w, int y, int x) {
     return m_windows.size() - 1;
 }
 
+void CursesWrapper::wresize(int h, int w) {
+    ::wresize(m_windows[m_currentWindow], h, w);
+}
+
 void CursesWrapper::mvwprintw(int y, int x, const std::string& string) {
     ::mvwprintw(m_windows[m_currentWindow], y, x, "%s", string.c_str());
 }

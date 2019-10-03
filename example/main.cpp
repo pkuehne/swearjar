@@ -79,10 +79,7 @@ void make_button_label_example(SwearJar::Screen& screen) {
 // and it can then be created via the screen.createWindow() calls.
 class ProgressBarExampleWindow : public SwearJar::Window {
 public:
-    ProgressBarExampleWindow(SwearJar::Screen& screen, unsigned int x,
-                             unsigned int y, unsigned int width,
-                             unsigned int height)
-        : Window(screen, x, y, width, height) {
+    ProgressBarExampleWindow(SwearJar::Screen& screen) : Window(screen) {
         using namespace SwearJar;
 
         baseWidget().alignment(LayoutWidget::Alignment::Horizontal);
@@ -142,9 +139,7 @@ void make_overlapping_window(SwearJar::Screen& screen) {
 
 class ListExampleWindow : public SwearJar::Window {
 public:
-    ListExampleWindow(SwearJar::Screen& screen, unsigned int x, unsigned int y,
-                      unsigned int width, unsigned int height)
-        : Window(screen, x, y, width, height) {
+    ListExampleWindow(SwearJar::Screen& screen) : Window(screen) {
         using namespace SwearJar;
 
         baseWidget().alignment(LayoutWidget::Alignment::Horizontal);
@@ -190,10 +185,7 @@ private:
 
 class TextEntryExampleWindow : public SwearJar::Window {
 public:
-    TextEntryExampleWindow(SwearJar::Screen& screen, unsigned int x,
-                           unsigned int y, unsigned int width,
-                           unsigned int height)
-        : Window(screen, x, y, width, height) {
+    TextEntryExampleWindow(SwearJar::Screen& screen) : Window(screen) {
         using namespace SwearJar;
 
         baseWidget().alignment(LayoutWidget::Alignment::Horizontal);
