@@ -20,11 +20,6 @@ public:
         return *m_curses;
     }
     template <typename T> T& createWindow();
-    template <typename T>
-    T& createWindow(unsigned int width, unsigned int height);
-    template <typename T>
-    T& createWindow(unsigned int x, unsigned int y, unsigned int width,
-                    unsigned int height);
     void popWindow();
     const std::vector<std::unique_ptr<Window>>& windows() const {
         return m_windows;
@@ -55,20 +50,4 @@ template <typename T> T& Screen::createWindow() {
     return retval;
 }
 
-template <typename T>
-T& Screen::createWindow(unsigned int width, unsigned int height) {
-    auto win = std::make_unique<T>(*this, width, height);
-    auto& retval = *win;
-    m_windows.push_back(std::move(win));
-    return retval;
-}
-
-template <typename T>
-T& Screen::createWindow(unsigned int x, unsigned int y, unsigned int width,
-                        unsigned int height) {
-    auto win = std::make_unique<T>(*this, x, y, width, height);
-    auto& retval = *win;
-    m_windows.push_back(std::move(win));
-    return retval;
-}
 } // namespace SwearJar

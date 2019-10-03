@@ -5,28 +5,15 @@
 
 namespace SwearJar {
 
-Window::Window(Screen& s, unsigned int x, unsigned int y, unsigned int width,
-               unsigned int height)
-    : m_screen(s) {
-    initialize();
-    setWindowStyleFixed(x, y, width, height);
-}
-
 Window::Window(Screen& screen) : m_screen(screen) {
     initialize();
-    resize();
-}
-
-Window::Window(Screen& screen, unsigned int width, unsigned int height)
-    : m_screen(screen) {
-    initialize();
-    setWindowStyleFractional(width, height);
 }
 
 void Window::initialize() {
     m_id = screen().curses().newwin(1, 1, 0, 0);
     m_baseWidget = std::make_unique<BaseWidget>();
     m_render = std::make_unique<RenderContext>(screen().curses(), m_id);
+    resize();
 }
 
 Window::~Window() {
@@ -110,10 +97,8 @@ void Window::resize() {
     }
 
     screen().curses().currentWindow(m_id);
-    screen().curses().mvwin(m_y, m_x);
     screen().curses().wresize(m_height, m_width);
-    screen().curses().wrefresh();
-    screen().curses().refresh();
+    screen().curses().mvwin(m_y, m_x);
 
     m_baseWidget->width(m_width);
     m_baseWidget->height(m_height);

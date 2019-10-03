@@ -6,13 +6,6 @@
 
 using namespace SwearJar;
 
-class MockWidget : public Widget {
-public:
-    MockWidget() : Widget("") {
-    }
-    MOCK_METHOD1(render, void(const RenderContext&));
-};
-
 class WindowClass : public ::testing::Test {
     void SetUp() {
         curses = std::make_shared<::testing::NiceMock<MockCurses>>();
@@ -74,77 +67,77 @@ TEST_F(WindowClass, setWindowStyleFixedSetsTheStyleAndParams) {
     EXPECT_EQ(y, w.params().fixedY);
 }
 
-TEST_F(WindowClass, initSizingInformation) {
-    // Given
-    Screen screen(curses);
-
-    // When
-    Window w(screen, x, y, width, height);
-
-    // Then
-    EXPECT_EQ(w.x(), x);
-    EXPECT_EQ(w.y(), y);
-    EXPECT_EQ(w.width(), width);
-    EXPECT_EQ(w.height(), height);
-}
-
-TEST_F(WindowClass, baseWidgetInitializedToHeightAndWidth) {
-    // Given
-    Screen screen(curses);
-    Window w(screen, 0, 0, width, height);
-
-    // When
-    auto& base = w.baseWidget();
-
-    // Then
-    EXPECT_EQ(base.width(), width);
-    EXPECT_EQ(base.height(), height);
-}
-
-TEST_F(WindowClass, insideXinsideY) {
-    // Given
-    Screen screen(curses);
-    Window w(screen, x, y, width, height);
-
-    // When
-    bool inside = w.contains(20, 30);
-
-    // Then
-    EXPECT_TRUE(inside);
-}
-
-TEST_F(WindowClass, outsideXoutsideY) {
-    // Given
-    Screen screen(curses);
-    Window w(screen, x, y, width, height);
-
-    // When
-    bool inside = w.contains(5, 80);
-
-    // Then
-    EXPECT_FALSE(inside);
-}
-
-TEST_F(WindowClass, equalXequalY) {
-    // Given
-    Screen screen(curses);
-    Window w(screen, x, y, width, height);
-
-    // When
-    bool inside = w.contains(10, 40);
-
-    // Then
-    EXPECT_TRUE(inside);
-}
-
-TEST_F(WindowClass, equalWidthEqualHeight) {
-    // Given
-    Screen screen(curses);
-    Window w(screen, x, y, width, height);
-
-    // When
-    bool inside = w.contains(40, 60);
-
-    // Then
-    EXPECT_TRUE(inside);
-}
+// TEST_F(WindowClass, initSizingInformation) {
+// // Given
+// Screen screen(curses);
+//
+// // When
+// Window w(screen, x, y, width, height);
+//
+// // Then
+// EXPECT_EQ(w.x(), x);
+// EXPECT_EQ(w.y(), y);
+// EXPECT_EQ(w.width(), width);
+// EXPECT_EQ(w.height(), height);
+// }
+//
+// TEST_F(WindowClass, baseWidgetInitializedToHeightAndWidth) {
+// // Given
+// Screen screen(curses);
+// Window w(screen, 0, 0, width, height);
+//
+// // When
+// auto& base = w.baseWidget();
+//
+// // Then
+// EXPECT_EQ(base.width(), width);
+// EXPECT_EQ(base.height(), height);
+// }
+//
+// TEST_F(WindowClass, insideXinsideY) {
+// // Given
+// Screen screen(curses);
+// Window w(screen, x, y, width, height);
+//
+// // When
+// bool inside = w.contains(20, 30);
+//
+// // Then
+// EXPECT_TRUE(inside);
+// }
+//
+// TEST_F(WindowClass, outsideXoutsideY) {
+// // Given
+// Screen screen(curses);
+// Window w(screen, x, y, width, height);
+//
+// // When
+// bool inside = w.contains(5, 80);
+//
+// // Then
+// EXPECT_FALSE(inside);
+// }
+//
+// TEST_F(WindowClass, equalXequalY) {
+// // Given
+// Screen screen(curses);
+// Window w(screen, x, y, width, height);
+//
+// // When
+// bool inside = w.contains(10, 40);
+//
+// // Then
+// EXPECT_TRUE(inside);
+// }
+//
+// TEST_F(WindowClass, equalWidthEqualHeight) {
+// // Given
+// Screen screen(curses);
+// Window w(screen, x, y, width, height);
+//
+// // When
+// bool inside = w.contains(40, 60);
+//
+// // Then
+// EXPECT_TRUE(inside);
+// }

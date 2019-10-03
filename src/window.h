@@ -34,9 +34,6 @@ struct WindowStyleParams {
 class Window {
 public:
     Window(Screen& screen);
-    Window(Screen& screen, unsigned int width, unsigned int height);
-    Window(Screen& screen, unsigned int x, unsigned int y, unsigned int width,
-           unsigned int height);
     virtual ~Window();
     void initialize();
 
