@@ -29,47 +29,79 @@ class Widget {
 public: // Overridable
     Widget(const std::string& name);
     Widget(Widget&) = delete;
-    virtual ~Widget() {}
+    virtual ~Widget() {
+    }
 
     virtual void height(unsigned int height);
-    virtual unsigned int height() { return m_height; }
+    virtual unsigned int height();
     virtual void minHeight(unsigned int height);
-    virtual unsigned int minHeight() { return m_minHeight; }
+    virtual unsigned int minHeight();
+    virtual unsigned int requiredHeight();
 
     virtual void width(unsigned int width);
-    virtual unsigned int width() { return m_width; }
+    virtual unsigned int width() {
+        return m_width;
+    }
     virtual void minWidth(unsigned int width);
-    virtual unsigned int minWidth() { return m_minWidth; }
+    virtual unsigned int minWidth() {
+        return m_minWidth;
+    }
+    virtual unsigned int requiredWidth() {
+        return m_minWidth;
+    }
 
     virtual void x(unsigned int x);
-    virtual unsigned int x() { return m_x; }
+    virtual unsigned int x() {
+        return m_x;
+    }
     virtual void y(unsigned int y);
-    virtual unsigned int y() { return m_y; }
+    virtual unsigned int y() {
+        return m_y;
+    }
     virtual void fgColor(short fg);
-    virtual short fgColor() { return m_fg; }
+    virtual short fgColor() {
+        return m_fg;
+    }
     virtual void bgColor(short bg);
-    virtual short bgColor() { return m_bg; }
+    virtual short bgColor() {
+        return m_bg;
+    }
     virtual void growthFactor(unsigned int factor);
-    virtual unsigned int growthFactor() { return m_growthFactor; }
+    virtual unsigned int growthFactor() {
+        return m_growthFactor;
+    }
 
-    virtual std::string name() { return m_name; }
+    virtual std::string name() {
+        return m_name;
+    }
 
-    virtual void render(const RenderContext& context) {}
+    virtual void render(const RenderContext& context) {
+    }
 
-    virtual bool handleKeyPress(const KeyEvent& event) { return true; }
-    virtual bool handleMouseClick(const MouseEvent& event) { return true; }
+    virtual bool handleKeyPress(const KeyEvent& event) {
+        return true;
+    }
+    virtual bool handleMouseClick(const MouseEvent& event) {
+        return true;
+    }
 
-public: // Non-overridable
     virtual bool moveFocusForward();
 
-    bool focus() { return m_hasFocus; }
-    bool canTakeFocus() { return m_canTakeFocus; }
+public: // Non-overridable
+    bool focus() {
+        return m_hasFocus;
+    }
+    bool canTakeFocus() {
+        return m_canTakeFocus;
+    }
     std::function<void(Widget*)> gainFocus = 0;
     std::function<void(Widget*)> loseFocus = 0;
 
 protected: // Internal widget functions
     void focus(bool focus);
-    void canTakeFocus(bool can) { m_canTakeFocus = can; }
+    void canTakeFocus(bool can) {
+        m_canTakeFocus = can;
+    }
 
 private:
     std::string m_name;

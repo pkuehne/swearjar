@@ -46,7 +46,7 @@ void make_button_label_example(SwearJar::Screen& screen) {
     buttonBox.alignment(LayoutWidget::Alignment::Vertical);
     buttonWrapper.addSpacer();
 
-    // The `pressed` property is called when ever the button is clicked either
+    // The `pressed` property is called whenever the button is clicked either
     // by keyboard or mouse
     auto& btnRed = buttonBox.createWidget<Button>("btnRed");
     btnRed.text("Red");
@@ -66,9 +66,9 @@ void make_button_label_example(SwearJar::Screen& screen) {
         lblDisplay.fgColor(Color::Yellow);
     };
 
-    buttonBox.addSpacer();
+    // buttonBox.addSpacer();
 
-    auto& btnClose = buttonBox.createWidget<Button>("btnClose");
+    auto& btnClose = frame.createWidget<Button>("btnClose");
     btnClose.text("Close");
     btnClose.onPressed = [&screen](Button&) { screen.popWindow(); };
 }

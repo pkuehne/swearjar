@@ -2,9 +2,30 @@
 #include <spdlog/spdlog.h>
 
 namespace SwearJar {
-CollectionWidget::CollectionWidget(const std::string& name) : Widget(name) {}
+CollectionWidget::CollectionWidget(const std::string& name) : Widget(name) {
+}
 
 unsigned int CollectionWidget::minHeight() {
+    unsigned int min = 0;
+    for (const auto& w : m_widgets) {
+        if (w->minHeight() > min) {
+            min = w->minHeight();
+        }
+    }
+    return min;
+}
+
+unsigned int CollectionWidget::minWidth() {
+    unsigned int min = 0;
+    for (const auto& w : m_widgets) {
+        if (w->minWidth() > min) {
+            min = w->minWidth();
+        }
+    }
+    return min;
+}
+
+unsigned int CollectionWidget::requiredHeight() {
     unsigned int min = 0;
     for (const auto& w : m_widgets) {
         min += w->minHeight();
@@ -12,7 +33,7 @@ unsigned int CollectionWidget::minHeight() {
     return min;
 }
 
-unsigned int CollectionWidget::minWidth() {
+unsigned int CollectionWidget::requiredWidth() {
     unsigned int min = 0;
     for (const auto& w : m_widgets) {
         min += w->minWidth();

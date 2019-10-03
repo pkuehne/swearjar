@@ -11,6 +11,7 @@ add_executable(unit_test
     checkbox.test.cpp
     radio_button.test.cpp
     text_entry.test.cpp
+    frame.test.cpp
     )
 
 target_link_libraries(unit_test gtest_main gmock)

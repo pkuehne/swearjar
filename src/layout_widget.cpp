@@ -34,7 +34,7 @@ unsigned int calculateNewSize(unsigned int minSize, unsigned int growthFactor,
 }
 
 void LayoutWidget::realignHorizontally() {
-    unsigned int widthToAllocate = width() - minWidth() - (m_margin * 2);
+    unsigned int widthToAllocate = width() - requiredWidth() - (m_margin * 2);
     unsigned int totalGrowthFactor = 0;
     for (const auto& w : children()) {
         totalGrowthFactor += w->growthFactor();
@@ -60,7 +60,8 @@ void LayoutWidget::realignHorizontally() {
 }
 
 void LayoutWidget::realignVertically() {
-    unsigned int heightToAllocate = height() - minHeight() - (m_margin * 2);
+    unsigned int heightToAllocate =
+        height() - requiredHeight() - (m_margin * 2);
     unsigned int totalGrowthFactor = 0;
     for (const auto& w : children()) {
         totalGrowthFactor += w->growthFactor();

@@ -9,21 +9,31 @@ using namespace ::testing;
 
 class RefreshableWidget : public Widget {
 public:
-    RefreshableWidget(const std::string& name) : Widget("") {}
+    RefreshableWidget(const std::string& name) : Widget("") {
+    }
     MOCK_METHOD1(render, void(const RenderContext&));
 };
 
 class TestWidget : public SwearJar::Widget {
 public:
-    TestWidget(const std::string& name) : Widget("") { canTakeFocus(true); }
-    void canTakeFocus(bool focus) { Widget::canTakeFocus(focus); }
-    bool focus() { return Widget::focus(); }
+    TestWidget(const std::string& name) : Widget("") {
+        canTakeFocus(true);
+    }
+    void canTakeFocus(bool focus) {
+        Widget::canTakeFocus(focus);
+    }
+    bool focus() {
+        return Widget::focus();
+    }
 };
 
 class TestCollectionWidget : public CollectionWidget {
 public:
-    TestCollectionWidget(const std::string& name) : CollectionWidget("") {}
-    void canTakeFocus(bool focus) { Widget::canTakeFocus(focus); }
+    TestCollectionWidget(const std::string& name) : CollectionWidget("") {
+    }
+    void canTakeFocus(bool focus) {
+        Widget::canTakeFocus(focus);
+    }
 };
 
 TEST(CollectionWidget, initializesWithNoChildren) {
@@ -195,8 +205,11 @@ TEST(CollectionWidget, handleKeysReturnsFalseIfNoChildrenHasFocus) {
 TEST(CollectionWidget, handleKeysReturnsTrueIfChildSelectedHasHandled) {
     class KeyPressWidget : public TestWidget {
     public:
-        KeyPressWidget(const std::string& name) : TestWidget(name) {}
-        bool handleKeyPress(const KeyEvent&) override { return true; }
+        KeyPressWidget(const std::string& name) : TestWidget(name) {
+        }
+        bool handleKeyPress(const KeyEvent&) override {
+            return true;
+        }
     };
 
     // Given
@@ -225,7 +238,7 @@ TEST(CollectionWidget, minWidthReturnsTotalMinWidthOfChildren) {
     unsigned int width = base.minWidth();
 
     // Then
-    EXPECT_EQ(12, width);
+    EXPECT_EQ(7, width);
 }
 
 TEST(CollectionWidget, minHeightReturnsTotalMinHeightOfChildren) {
@@ -238,6 +251,36 @@ TEST(CollectionWidget, minHeightReturnsTotalMinHeightOfChildren) {
 
     // When
     unsigned int height = base.minHeight();
+
+    // Then
+    EXPECT_EQ(7, height);
+}
+
+TEST(CollectionWidget, requiredWidthReturnsTotalMinWidthOfChildren) {
+    // Given
+    TestCollectionWidget base("");
+    auto& c1 = base.createWidget<Widget>("");
+    c1.minWidth(5);
+    auto& c2 = base.createWidget<Widget>("");
+    c2.minWidth(7);
+
+    // When
+    unsigned int width = base.requiredWidth();
+
+    // Then
+    EXPECT_EQ(12, width);
+}
+
+TEST(CollectionWidget, requiredHeightReturnsTotalMinHeightOfChildren) {
+    // Given
+    TestCollectionWidget base("");
+    auto& c1 = base.createWidget<Widget>("");
+    c1.minHeight(5);
+    auto& c2 = base.createWidget<Widget>("");
+    c2.minHeight(7);
+
+    // When
+    unsigned int height = base.requiredHeight();
 
     // Then
     EXPECT_EQ(12, height);
