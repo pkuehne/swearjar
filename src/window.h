@@ -35,7 +35,6 @@ class Window {
 public:
     Window(Screen& screen);
     virtual ~Window();
-    void initialize();
 
     BaseWidget& baseWidget() {
         return *m_baseWidget;

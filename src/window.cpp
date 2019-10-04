@@ -6,13 +6,9 @@
 namespace SwearJar {
 
 Window::Window(Screen& screen) : m_screen(screen) {
-    initialize();
-}
-
-void Window::initialize() {
-    m_id = screen().curses().newwin(1, 1, 0, 0);
+    m_id = screen.curses().newwin(1, 1, 0, 0);
     m_baseWidget = std::make_unique<BaseWidget>();
-    m_render = std::make_unique<RenderContext>(screen().curses(), m_id);
+    m_render = std::make_unique<RenderContext>(screen.curses(), m_id);
     resize();
 }
 
@@ -63,7 +59,7 @@ void Window::refresh() {
 }
 
 void Window::resize() {
-    spdlog::info("resize called for {}", m_id);
+    spdlog::debug("resize called for {}", m_id);
     int screenHeight = 0, screenWidth = 0;
     screen().curses().get_screen_size(screenHeight, screenWidth);
 
@@ -71,6 +67,8 @@ void Window::resize() {
         case WindowStyle::FullScreen: {
             m_height = static_cast<unsigned int>(screenHeight);
             m_width = static_cast<unsigned int>(screenWidth);
+            m_x = 0;
+            m_y = 0;
             break;
         }
         case WindowStyle::Fractional: {
