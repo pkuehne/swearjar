@@ -126,6 +126,11 @@ void CursesWrapper::mvaddch_(int y, int x, char ch) const {
     mvwaddch(m_windows[m_currentWindow], y, x, ch);
 }
 
+void CursesWrapper::mvaddwch_(int y, int x, wchar_t ch) const {
+    const cchar_t out = {A_NORMAL, ch};
+    mvwadd_wch(m_windows[m_currentWindow], y, x, &out);
+}
+
 int CursesWrapper::getchar() {
     return ::wgetch(stdscr);
 }

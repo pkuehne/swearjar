@@ -19,6 +19,7 @@ public:
     MOCK_CONST_METHOD3(mvwprintw,
                        void(int y, int x, const std::wstring& string));
     MOCK_CONST_METHOD3(mvaddch_, void(int, int, char));
+    MOCK_CONST_METHOD3(mvaddwch_, void(int y, int x, wchar_t ch));
     MOCK_METHOD2(get_screen_size, void(int&, int&));
     MOCK_METHOD2(wresize, void(int, int));
     MOCK_METHOD2(mvwin, void(int, int));
