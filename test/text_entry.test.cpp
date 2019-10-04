@@ -37,10 +37,12 @@ TEST_F(TextEntryWidget, canSetText) {
     EXPECT_EQ(testText, entry.text());
 }
 
-TEST_F(TextEntryWidget, rendersPlaceholderWhenNoText) {
+TEST_F(TextEntryWidget, renderPlaceholderWhenNoText) {
     // Given
-    EXPECT_CALL(*context, drawChar(_, _, Eq('_'), _, _)).Times(entry.width());
-    EXPECT_CALL(*context, drawText(_, _, Eq(L""), _, _));
+    EXPECT_CALL(*context, drawChar(_, _, TypedEq<wchar_t>('_'), _, _))
+        .Times(entry.width());
+    EXPECT_CALL(*context,
+                drawText(_, _, TypedEq<const std::wstring&>(L""), _, _));
 
     // When
     entry.render(*context);
@@ -48,11 +50,13 @@ TEST_F(TextEntryWidget, rendersPlaceholderWhenNoText) {
     // Then
 }
 
-TEST_F(TextEntryWidget, rendersTextWhenSetPlusPlaceholders) {
+TEST_F(TextEntryWidget, renderTextWhenSetPlusPlaceholders) {
     // Given
     entry.text(L"TEST");
-    EXPECT_CALL(*context, drawChar(_, _, Eq('_'), _, _)).Times(6);
-    EXPECT_CALL(*context, drawText(_, _, Eq(entry.text()), _, _));
+    EXPECT_CALL(*context, drawChar(_, _, TypedEq<wchar_t>('_'), _, _)).Times(6);
+    EXPECT_CALL(
+        *context,
+        drawText(_, _, TypedEq<const std::wstring&>(entry.text()), _, _));
 
     // When
     entry.render(*context);
@@ -109,7 +113,7 @@ TEST_F(TextEntryWidget, pressingBackspaceKeyDoesNothingOnEmptyString) {
     EXPECT_EQ(entry.text(), L"");
 }
 
-TEST_F(TextEntryWidget, rendersBlinkIfHasFocus) {
+TEST_F(TextEntryWidget, renderBlinkIfHasFocus) {
     // Given
     entry.text(L"Foo");
     context = std::make_unique<NiceMock<MockRenderContext>>(*curses);
@@ -181,13 +185,15 @@ TEST_F(TextEntryWidget, typingBackspaceMovesCursorsBackwards) {
     EXPECT_EQ(2, entry.cursor());
 }
 
-TEST_F(TextEntryWidget, rendersDrawsCursorPosAgainIfFocus) {
+TEST_F(TextEntryWidget, renderDrawsCursorPosAgainIfFocus) {
     // Given
     entry.text(L"Foo");
     context = std::make_unique<NiceMock<MockRenderContext>>(*curses);
-    EXPECT_CALL(*context, drawChar(_, _, Eq('_'), _, _)).Times(AnyNumber());
-    EXPECT_CALL(*context, drawChar(Eq(entry.cursor()), _, Eq('_'), _, _))
-        .Times(2);
+    EXPECT_CALL(*context, drawChar(_, _, TypedEq<wchar_t>('_'), _, _))
+        .Times(AnyNumber());
+    EXPECT_CALL(*context,
+                drawChar(Eq(entry.cursor()), _, TypedEq<wchar_t>(L'█'), _, _))
+        .Times(1);
 
     entry.moveFocusForward();
 
@@ -197,12 +203,14 @@ TEST_F(TextEntryWidget, rendersDrawsCursorPosAgainIfFocus) {
     // Then
 }
 
-TEST_F(TextEntryWidget, rendersDesntDrawCursorIfNoFocus) {
+TEST_F(TextEntryWidget, renderDesntDrawCursorIfNoFocus) {
     // Given
     entry.text(L"Foo");
     context = std::make_unique<NiceMock<MockRenderContext>>(*curses);
-    EXPECT_CALL(*context, drawChar(_, _, Eq('_'), _, _)).Times(AnyNumber());
-    EXPECT_CALL(*context, drawChar(Eq(entry.cursor()), _, Eq('_'), _, _))
+    EXPECT_CALL(*context, drawChar(_, _, TypedEq<wchar_t>('_'), _, _))
+        .Times(AnyNumber());
+    EXPECT_CALL(*context,
+                drawChar(Eq(entry.cursor()), _, TypedEq<wchar_t>('_'), _, _))
         .Times(1);
 
     // When

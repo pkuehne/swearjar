@@ -24,7 +24,8 @@ TEST_F(FrameWidget, rendersTitleAndBorder) {
     // Given
     std::wstring title(L"test title");
     frame.title(title);
-    EXPECT_CALL(*context, drawText(_, _, Eq(title), _, _));
+    EXPECT_CALL(*context,
+                drawText(_, _, TypedEq<const std::wstring&>(title), _, _));
     EXPECT_CALL(*context, drawBorder(_, _, _, _, _, _));
 
     // When

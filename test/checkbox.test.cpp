@@ -48,7 +48,7 @@ TEST(Checkbox, doesntRenderXWhenNotEnabled) {
     auto curses = std::make_shared<NiceMock<MockCurses>>();
     auto context = std::make_unique<NiceMock<MockRenderContext>>(*curses);
 
-    EXPECT_CALL(*context, drawChar(_, _, Eq('X'), _, _)).Times(0);
+    EXPECT_CALL(*context, drawChar(_, _, TypedEq<wchar_t>('X'), _, _)).Times(0);
 
     Checkbox box("chkTest");
 
@@ -61,7 +61,7 @@ TEST(Checkbox, rendersXWhenEnabled) {
     auto curses = std::make_shared<NiceMock<MockCurses>>();
     auto context = std::make_unique<NiceMock<MockRenderContext>>(*curses);
 
-    EXPECT_CALL(*context, drawChar(_, _, Eq('X'), _, _)).Times(1);
+    EXPECT_CALL(*context, drawChar(_, _, TypedEq<wchar_t>('X'), _, _)).Times(1);
 
     Checkbox box("chkTest");
     box.enabled(true);

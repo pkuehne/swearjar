@@ -15,8 +15,11 @@ TEST(Button, renderClearsTheWidthOfTheButton) {
     auto curses = std::make_shared<NiceMock<MockCurses>>();
     auto context = std::make_unique<NiceMock<MockRenderContext>>(*curses);
 
-    EXPECT_CALL(*context, drawText(_, _, _, _, _)).Times(1);
-    EXPECT_CALL(*context, drawText(_, _, Eq(L" "), _, _)).Times(1);
+    EXPECT_CALL(*context, drawText(_, _, A<const std::wstring&>(), _, _))
+        .Times(1);
+    EXPECT_CALL(*context,
+                drawText(_, _, TypedEq<const std::wstring&>(L" "), _, _))
+        .Times(1);
 
     // When
     b.render(*context);
@@ -30,8 +33,11 @@ TEST(Button, renderDisplaysText) {
     auto curses = std::make_shared<NiceMock<MockCurses>>();
     auto context = std::make_unique<NiceMock<MockRenderContext>>(*curses);
 
-    EXPECT_CALL(*context, drawText(_, _, _, _, _)).Times(1);
-    EXPECT_CALL(*context, drawText(_, _, Eq(b.text()), _, _)).Times(1);
+    EXPECT_CALL(*context, drawText(_, _, A<const std::wstring&>(), _, _))
+        .Times(1);
+    EXPECT_CALL(*context,
+                drawText(_, _, TypedEq<const std::wstring&>(b.text()), _, _))
+        .Times(1);
 
     // When
     b.render(*context);
