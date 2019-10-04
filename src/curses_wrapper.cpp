@@ -1,4 +1,5 @@
 #include "curses_wrapper.h"
+#include <signal.h>
 #include <spdlog/spdlog.h>
 
 namespace SwearJar {
@@ -14,6 +15,7 @@ void CursesWrapper::initscr() {
     ::color_set(get_color(7, 0), 0);
     ::curs_set(0);
     ::refresh();
+    setupResizeHandler();
 }
 
 void CursesWrapper::raw() {
@@ -105,6 +107,14 @@ unsigned int CursesWrapper::newwin(int h, int w, int y, int x) {
     return m_windows.size() - 1;
 }
 
+void CursesWrapper::wresize(int h, int w) {
+    ::wresize(m_windows[m_currentWindow], h, w);
+}
+
+void CursesWrapper::mvwin(int y, int x) {
+    ::mvwin(m_windows[m_currentWindow], y, x);
+}
+
 void CursesWrapper::mvwprintw(int y, int x, const std::string& string) {
     ::mvwprintw(m_windows[m_currentWindow], y, x, "%s", string.c_str());
 }
@@ -127,6 +137,22 @@ void CursesWrapper::wrefresh() {
 }
 void CursesWrapper::touchwin_() {
     ::touchwin(m_windows[m_currentWindow]);
+}
+
+void handle_winch(int) {
+    spdlog::debug("Resize signal handler called");
+    endwin();
+    refresh();
+    clear();
+    refresh();
+    ungetch(KEY_RESIZE);
+}
+
+void CursesWrapper::setupResizeHandler() {
+    spdlog::info("Installing resize signal handler");
+    struct sigaction sa {};
+    sa.sa_handler = handle_winch;
+    sigaction(SIGWINCH, &sa, NULL);
 }
 
 } // namespace SwearJar

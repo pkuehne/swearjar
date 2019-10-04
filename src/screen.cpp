@@ -5,11 +5,13 @@
 
 namespace SwearJar {
 
-Screen::Screen(CIptr curses) : m_curses(curses) {
+Screen::Screen(std::shared_ptr<CursesInterface> curses) : m_curses(curses) {
     spdlog::debug("Screen initialized");
 }
 
-Screen::~Screen() { m_curses->endwin(); }
+Screen::~Screen() {
+    m_curses->endwin();
+}
 
 void Screen::initialize() {
     m_curses->initscr();
@@ -36,6 +38,11 @@ void Screen::run() {
                 handleMouse(event);
                 break;
             }
+            case KEY_RESIZE: {
+                resizeWindows();
+                screenResized();
+                break;
+            }
             default: {
                 KeyEvent event;
                 event.key = ch;
@@ -56,6 +63,14 @@ void Screen::popWindow() {
 void Screen::refreshWindows() {
     for (auto& window : m_windows) {
         window->refresh();
+    }
+    m_curses->refresh();
+}
+
+void Screen::resizeWindows() {
+    spdlog::info("Resizing windows");
+    for (auto& window : m_windows) {
+        window->resize();
     }
     m_curses->refresh();
 }
