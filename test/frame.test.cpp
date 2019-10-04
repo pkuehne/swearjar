@@ -22,7 +22,7 @@ protected:
 
 TEST_F(FrameWidget, rendersTitleAndBorder) {
     // Given
-    std::string title("test title");
+    std::wstring title(L"test title");
     frame.title(title);
     EXPECT_CALL(*context, drawText(_, _, Eq(title), _, _));
     EXPECT_CALL(*context, drawBorder(_, _, _, _, _, _));
@@ -37,7 +37,7 @@ TEST_F(FrameWidget, minWidthIsAtLeastTitleWidth) {
     // Given
 
     // When
-    frame.title("Foo bar baz");
+    frame.title(L"Foo bar baz");
 
     // Then
     EXPECT_GE(frame.minWidth(), frame.title().size());
@@ -49,7 +49,7 @@ TEST_F(FrameWidget, minWidthIsAtLeastChildWidgetWidth) {
     w.minWidth(20);
 
     // When
-    frame.title("Foo");
+    frame.title(L"Foo");
 
     // Then
     EXPECT_GE(frame.minWidth(), w.minWidth());

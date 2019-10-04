@@ -8,13 +8,11 @@ void RenderContext::clearBackground(short fg, short bg) const {
 }
 
 void RenderContext::drawText(unsigned int x, unsigned int y,
-                             const std::string& text, short fg,
+                             const std::wstring& text, short fg,
                              short bg) const {
-    spdlog::debug("RC: drawing text {}", text);
+    // spdlog::info(L"RC: drawing text " + text);
     m_curses.color_on(m_curses.get_color(fg, bg));
-    for (unsigned int offset = 0; offset < text.length(); offset++) {
-        drawChar(x + offset, y, text[offset]);
-    }
+    m_curses.mvwprintw(y + m_yOffset, x + m_xOffset, text);
     m_curses.color_off(m_curses.get_color(fg, bg));
 }
 

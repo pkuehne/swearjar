@@ -7,11 +7,11 @@ TextEntry::TextEntry(const std::string& name) : Widget(name) {
     canTakeFocus(true);
 }
 
-std::string TextEntry::text() {
+std::wstring TextEntry::text() {
     return m_text;
 }
 
-void TextEntry::text(std::string text) {
+void TextEntry::text(std::wstring text) {
     m_text = text;
     minWidth(text.size());
     m_cursor = text.size();

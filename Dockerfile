@@ -7,7 +7,7 @@ FROM pkuehne/cpp-build-base:latest
 #       docker run --rm -v "$PWD:/buildarea" swearjar make -C build test
 
 RUN apt update -qq && apt install --no-install-recommends -qq -y \
-    libncurses-dev
+    libncursesw5-dev
 
 WORKDIR /buildarea
 COPY . /buildarea

@@ -1,8 +1,41 @@
 #include "button.h"
+#include "curses.mock.h"
+#include "render_context.mock.h"
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 using namespace ::testing;
 using namespace SwearJar;
+
+TEST(Button, renderClearsTheWidthOfTheButton) {
+    // Given
+    Button b("testButton");
+    b.text(L"Foo");
+
+    auto curses = std::make_shared<NiceMock<MockCurses>>();
+    auto context = std::make_unique<NiceMock<MockRenderContext>>(*curses);
+
+    EXPECT_CALL(*context, drawText(_, _, _, _, _)).Times(1);
+    EXPECT_CALL(*context, drawText(_, _, Eq(L" "), _, _)).Times(1);
+
+    // When
+    b.render(*context);
+}
+
+TEST(Button, renderDisplaysText) {
+    // Given
+    Button b("testButton");
+    b.text(L"Foo");
+
+    auto curses = std::make_shared<NiceMock<MockCurses>>();
+    auto context = std::make_unique<NiceMock<MockRenderContext>>(*curses);
+
+    EXPECT_CALL(*context, drawText(_, _, _, _, _)).Times(1);
+    EXPECT_CALL(*context, drawText(_, _, Eq(b.text()), _, _)).Times(1);
+
+    // When
+    b.render(*context);
+}
 
 TEST(Button, keyPressCallsCallbackOnEnter) {
     // Given

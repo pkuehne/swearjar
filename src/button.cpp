@@ -7,14 +7,13 @@ Button::Button(const std::string& name) : Widget(name) {
     canTakeFocus(true);
 }
 
-void Button::text(const std::string& text) {
+void Button::text(const std::wstring& text) {
     minWidth(text.length() + 4);
     m_text = text;
 }
 
 void Button::render(const RenderContext& context) {
-    spdlog::debug("Button: Rendering with {}", m_text);
-    context.drawText(0, 0, std::string(width(), ' '), fgColor(), bgColor());
+    context.drawText(0, 0, std::wstring(width(), ' '), fgColor(), bgColor());
 
     unsigned int xStart = (width() - m_text.length()) / 2;
     context.drawText(xStart, 0, m_text, fgColor(), bgColor());

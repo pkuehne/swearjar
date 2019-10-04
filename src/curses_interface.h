@@ -1,6 +1,5 @@
 #pragma once
 #include <memory>
-#include <spdlog/spdlog.h>
 #include <string>
 
 namespace SwearJar {
@@ -68,11 +67,9 @@ public:
     }
 
     virtual int getchar() = 0;
-    virtual void mvwprintw(int y, int x, const std::string& string) {
-    }
-    virtual void mvaddch_(int y, int x, char c) const {
-        spdlog::error("Called base function mvaddch_");
-    }
+    virtual void mvwprintw(int y, int x, const std::wstring& string) const = 0;
+    virtual void mvaddch_(int y, int x, char c) const = 0;
+
     virtual unsigned int newwin(int h, int w, int y, int x) = 0;
     virtual void refresh() {
     }

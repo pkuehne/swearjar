@@ -6,7 +6,7 @@ Checkbox::Checkbox(const std::string& name) : Widget(name) {
     canTakeFocus(true);
 }
 
-void Checkbox::text(const std::string& text) {
+void Checkbox::text(const std::wstring& text) {
     m_text = text;
     minWidth(text.size() + 4);
 }
@@ -16,7 +16,7 @@ void Checkbox::enabled(bool enabled) {
 }
 
 void Checkbox::render(const RenderContext& context) {
-    context.drawText(0, 0, "[ ] ", fgColor(), bgColor());
+    context.drawText(0, 0, L"[ ] ", fgColor(), bgColor());
     context.drawText(4, 0, m_text, fgColor(), bgColor());
 
     if (enabled()) {

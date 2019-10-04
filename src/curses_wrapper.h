@@ -2,7 +2,7 @@
 
 #include "curses_interface.h"
 #include <map>
-#include <ncurses.h>
+#include <ncursesw/ncurses.h>
 #include <vector>
 
 namespace SwearJar {
@@ -35,7 +35,7 @@ public:
     unsigned int newwin(int h, int w, int y, int x) override;
     void mvwin(int y, int x) override;
     void wresize(int h, int w) override;
-    void mvwprintw(int y, int x, const std::string& string) override;
+    void mvwprintw(int y, int x, const std::wstring& string) const override;
     void mvaddch_(int y, int x, char c) const override;
 
     int getchar() override;

@@ -6,8 +6,10 @@ namespace SwearJar {
 class Button : public Widget {
 public:
     explicit Button(const std::string& name);
-    virtual void text(const std::string& text);
-    virtual const std::string& text() { return m_text; }
+    virtual void text(const std::wstring& text);
+    virtual const std::wstring& text() {
+        return m_text;
+    }
 
     std::function<void(Button&)> onPressed;
 
@@ -16,6 +18,6 @@ public:
     bool handleMouseClick(const MouseEvent& event) override;
 
 private:
-    std::string m_text;
+    std::wstring m_text;
 };
 } // namespace SwearJar

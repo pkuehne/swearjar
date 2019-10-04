@@ -7,8 +7,8 @@ namespace SwearJar {
 class Frame : public LayoutWidget {
 public:
     explicit Frame(const std::string& name);
-    void title(const std::string& title);
-    std::string title() {
+    void title(const std::wstring& title);
+    std::wstring title() {
         return m_title;
     }
 
@@ -17,7 +17,7 @@ public:
     void render(const RenderContext& context) override;
 
 private:
-    std::string m_title;
+    std::wstring m_title;
 };
 
 } // namespace SwearJar

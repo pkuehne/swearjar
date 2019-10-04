@@ -7,7 +7,7 @@ Frame::Frame(const std::string& name) : LayoutWidget(name) {
     margin(1);
 }
 
-void Frame::title(const std::string& title) {
+void Frame::title(const std::wstring& title) {
     m_title = title;
 }
 

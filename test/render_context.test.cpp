@@ -36,5 +36,5 @@ TEST(RenderContext, drawTextOnlySetsColorOnce) {
     EXPECT_CALL(*curses, color_off(_)).Times(1);
 
     // When
-    context.drawText(0, 0, "FooBar", 1, 1);
+    context.drawText(0, 0, L"FooBar", 1, 1);
 }

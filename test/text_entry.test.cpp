@@ -28,18 +28,19 @@ protected:
 
 TEST_F(TextEntryWidget, canSetText) {
     // Given
+    std::wstring testText(L"Test Test");
 
     // When
-    entry.text("Test Test");
+    entry.text(testText);
 
     // Then
-    EXPECT_EQ("Test Test", entry.text());
+    EXPECT_EQ(testText, entry.text());
 }
 
 TEST_F(TextEntryWidget, rendersPlaceholderWhenNoText) {
     // Given
     EXPECT_CALL(*context, drawChar(_, _, Eq('_'), _, _)).Times(entry.width());
-    EXPECT_CALL(*context, drawText(_, _, Eq(""), _, _));
+    EXPECT_CALL(*context, drawText(_, _, Eq(L""), _, _));
 
     // When
     entry.render(*context);
@@ -49,7 +50,7 @@ TEST_F(TextEntryWidget, rendersPlaceholderWhenNoText) {
 
 TEST_F(TextEntryWidget, rendersTextWhenSetPlusPlaceholders) {
     // Given
-    entry.text("TEST");
+    entry.text(L"TEST");
     EXPECT_CALL(*context, drawChar(_, _, Eq('_'), _, _)).Times(6);
     EXPECT_CALL(*context, drawText(_, _, Eq(entry.text()), _, _));
 
@@ -68,7 +69,7 @@ TEST_F(TextEntryWidget, pressingPrintableKeyAppendsToText) {
 
     // Then
     EXPECT_TRUE(handled);
-    EXPECT_EQ(entry.text(), "a");
+    EXPECT_EQ(entry.text(), L"a");
 }
 
 TEST_F(TextEntryWidget, pressingUnprintableKeyDoesNothing) {
@@ -80,12 +81,12 @@ TEST_F(TextEntryWidget, pressingUnprintableKeyDoesNothing) {
 
     // Then
     EXPECT_FALSE(handled);
-    EXPECT_EQ(entry.text(), "");
+    EXPECT_EQ(entry.text(), L"");
 }
 
 TEST_F(TextEntryWidget, pressingBackspaceKeyRemovesCharFromText) {
     // Given
-    entry.text("Foo");
+    entry.text(L"Foo");
     kevent.key = KEY_BACKSPACE;
 
     // When
@@ -93,7 +94,7 @@ TEST_F(TextEntryWidget, pressingBackspaceKeyRemovesCharFromText) {
 
     // Then
     EXPECT_TRUE(handled);
-    EXPECT_EQ(entry.text(), "Fo");
+    EXPECT_EQ(entry.text(), L"Fo");
 }
 
 TEST_F(TextEntryWidget, pressingBackspaceKeyDoesNothingOnEmptyString) {
@@ -105,12 +106,12 @@ TEST_F(TextEntryWidget, pressingBackspaceKeyDoesNothingOnEmptyString) {
 
     // Then
     EXPECT_TRUE(handled);
-    EXPECT_EQ(entry.text(), "");
+    EXPECT_EQ(entry.text(), L"");
 }
 
 TEST_F(TextEntryWidget, rendersBlinkIfHasFocus) {
     // Given
-    entry.text("Foo");
+    entry.text(L"Foo");
     context = std::make_unique<NiceMock<MockRenderContext>>(*curses);
     EXPECT_CALL(*context, blink(Eq(true)));
     EXPECT_CALL(*context, blink(Eq(false)));
@@ -125,7 +126,7 @@ TEST_F(TextEntryWidget, rendersBlinkIfHasFocus) {
 
 TEST_F(TextEntryWidget, doesntRenderBlinkIfNoFocus) {
     // Given
-    entry.text("Foo");
+    entry.text(L"Foo");
     context = std::make_unique<NiceMock<MockRenderContext>>(*curses);
     EXPECT_CALL(*context, blink(Eq(true))).Times(0);
     EXPECT_CALL(*context, blink(Eq(false))).Times(0);
@@ -138,7 +139,7 @@ TEST_F(TextEntryWidget, doesntRenderBlinkIfNoFocus) {
 
 TEST_F(TextEntryWidget, settingCursorBeyondTextClampsToTextLength) {
     // Given
-    entry.text("Foo");
+    entry.text(L"Foo");
 
     // When
     entry.cursor(5);
@@ -151,7 +152,7 @@ TEST_F(TextEntryWidget, settingTextSetsCursorLocation) {
     // Given
 
     // When
-    entry.text("Foo");
+    entry.text(L"Foo");
 
     // Then
     EXPECT_EQ(3, entry.cursor());
@@ -170,7 +171,7 @@ TEST_F(TextEntryWidget, typingCharMovesCursorForward) {
 
 TEST_F(TextEntryWidget, typingBackspaceMovesCursorsBackwards) {
     // Given
-    entry.text("Foo");
+    entry.text(L"Foo");
     kevent.key = KEY_BACKSPACE;
 
     // When
@@ -182,7 +183,7 @@ TEST_F(TextEntryWidget, typingBackspaceMovesCursorsBackwards) {
 
 TEST_F(TextEntryWidget, rendersDrawsCursorPosAgainIfFocus) {
     // Given
-    entry.text("Foo");
+    entry.text(L"Foo");
     context = std::make_unique<NiceMock<MockRenderContext>>(*curses);
     EXPECT_CALL(*context, drawChar(_, _, Eq('_'), _, _)).Times(AnyNumber());
     EXPECT_CALL(*context, drawChar(Eq(entry.cursor()), _, Eq('_'), _, _))
@@ -198,7 +199,7 @@ TEST_F(TextEntryWidget, rendersDrawsCursorPosAgainIfFocus) {
 
 TEST_F(TextEntryWidget, rendersDesntDrawCursorIfNoFocus) {
     // Given
-    entry.text("Foo");
+    entry.text(L"Foo");
     context = std::make_unique<NiceMock<MockRenderContext>>(*curses);
     EXPECT_CALL(*context, drawChar(_, _, Eq('_'), _, _)).Times(AnyNumber());
     EXPECT_CALL(*context, drawChar(Eq(entry.cursor()), _, Eq('_'), _, _))
@@ -212,7 +213,7 @@ TEST_F(TextEntryWidget, rendersDesntDrawCursorIfNoFocus) {
 
 TEST_F(TextEntryWidget, typingBackspaceOnEmptyTextDoesntMoveCursors) {
     // Given
-    entry.text("");
+    entry.text(L"");
     kevent.key = KEY_BACKSPACE;
 
     // When
@@ -224,7 +225,7 @@ TEST_F(TextEntryWidget, typingBackspaceOnEmptyTextDoesntMoveCursors) {
 
 TEST_F(TextEntryWidget, typingLeftMovesCursorBackwards) {
     // Given
-    entry.text("Foo");
+    entry.text(L"Foo");
     kevent.key = KEY_LEFT;
 
     // When
@@ -237,7 +238,7 @@ TEST_F(TextEntryWidget, typingLeftMovesCursorBackwards) {
 
 TEST_F(TextEntryWidget, typingLeftDoesntMoveCursorAtZero) {
     // Given
-    entry.text("");
+    entry.text(L"");
     kevent.key = KEY_LEFT;
 
     // When
@@ -250,7 +251,7 @@ TEST_F(TextEntryWidget, typingLeftDoesntMoveCursorAtZero) {
 
 TEST_F(TextEntryWidget, typingRightMovesCursorForwards) {
     // Given
-    entry.text("Foo");
+    entry.text(L"Foo");
     entry.cursor(1);
     kevent.key = KEY_RIGHT;
 
@@ -264,7 +265,7 @@ TEST_F(TextEntryWidget, typingRightMovesCursorForwards) {
 
 TEST_F(TextEntryWidget, typingRightDoesntMoveCursorAtEnd) {
     // Given
-    entry.text("Foo");
+    entry.text(L"Foo");
     kevent.key = KEY_RIGHT;
 
     // When
@@ -277,7 +278,7 @@ TEST_F(TextEntryWidget, typingRightDoesntMoveCursorAtEnd) {
 
 TEST_F(TextEntryWidget, pressingKeyWhenCursorInWordAddsCharAtThatPosition) {
     // Given
-    entry.text("Bar");
+    entry.text(L"Bar");
     entry.cursor(2);
     kevent.key = 'b';
 
@@ -287,12 +288,12 @@ TEST_F(TextEntryWidget, pressingKeyWhenCursorInWordAddsCharAtThatPosition) {
     // Then
     EXPECT_TRUE(handled);
     EXPECT_EQ(3, entry.cursor());
-    EXPECT_EQ("Babr", entry.text());
+    EXPECT_EQ(L"Babr", entry.text());
 }
 
 TEST_F(TextEntryWidget, pressingBackspaceWhenCursorInWordDeletesThatCharacter) {
     // Given
-    entry.text("Bar");
+    entry.text(L"Bar");
     entry.cursor(2);
     kevent.key = KEY_BACKSPACE;
 
@@ -302,7 +303,7 @@ TEST_F(TextEntryWidget, pressingBackspaceWhenCursorInWordDeletesThatCharacter) {
     // Then
     EXPECT_TRUE(handled);
     EXPECT_EQ(1, entry.cursor());
-    EXPECT_EQ("Br", entry.text());
+    EXPECT_EQ(L"Br", entry.text());
 }
 
 TEST_F(TextEntryWidget, settingTextFiresCallback) {
@@ -311,7 +312,7 @@ TEST_F(TextEntryWidget, settingTextFiresCallback) {
     entry.onTextChanged = [&called](TextEntry&) { called = true; };
 
     // When
-    entry.text("Bar");
+    entry.text(L"Bar");
 
     // Then
     EXPECT_TRUE(called);
@@ -336,7 +337,7 @@ TEST_F(TextEntryWidget, erasingCharacterFiresCallback) {
     bool called = false;
     entry.onTextChanged = [&called](TextEntry&) { called = true; };
 
-    entry.text("Bar");
+    entry.text(L"Bar");
     kevent.key = KEY_BACKSPACE;
 
     // When
@@ -374,7 +375,7 @@ TEST_F(TextEntryWidget, pressingEnterIgnoresCallbackIfNotSet) {
 
 TEST_F(TextEntryWidget, mouseClickInWordMovesCursorToThatChar) {
     // Given
-    entry.text("Foo");
+    entry.text(L"Foo");
     entry.cursor(0);
 
     mevent.x = 2;

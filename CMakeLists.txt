@@ -3,6 +3,7 @@ project (SwearJar)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CURSES_NEED_NCURSES TRUE)
+set(CURSES_NEED_WIDE TRUE)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 find_package(Curses)

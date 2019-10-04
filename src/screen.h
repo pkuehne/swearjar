@@ -2,8 +2,8 @@
 
 #include "curses_interface.h"
 #include <functional>
-#include <map>
 #include <memory>
+#include <vector>
 
 namespace SwearJar {
 
