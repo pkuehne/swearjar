@@ -116,6 +116,10 @@ void CursesWrapper::mvwin(int y, int x) {
     ::mvwin(m_windows[m_currentWindow], y, x);
 }
 
+void CursesWrapper::mvwprint(int y, int x, const std::string& text) const {
+    mvwaddstr(m_windows[m_currentWindow], y, x, text.c_str());
+}
+
 void CursesWrapper::mvwprintw(int y, int x, const std::wstring& text) const {
     mvwaddwstr(m_windows[m_currentWindow], y, x, text.c_str());
 }

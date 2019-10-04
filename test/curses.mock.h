@@ -16,6 +16,7 @@ public:
     MOCK_METHOD0(reverse_off, void());
     MOCK_METHOD0(blink_on, void());
     MOCK_METHOD0(blink_off, void());
+    MOCK_CONST_METHOD3(mvwprint, void(int y, int x, const std::string& string));
     MOCK_CONST_METHOD3(mvwprintw,
                        void(int y, int x, const std::wstring& string));
     MOCK_CONST_METHOD3(mvaddch_, void(int, int, char));
