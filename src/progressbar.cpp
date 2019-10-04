@@ -10,7 +10,9 @@ void Progressbar::value(unsigned int value) {
     m_value = value;
 }
 
-void Progressbar::maximum(unsigned int maximum) { m_maximum = maximum; }
+void Progressbar::maximum(unsigned int maximum) {
+    m_maximum = maximum;
+}
 
 void Progressbar::decrement() {
     if (value() == 0) {
@@ -26,7 +28,7 @@ void Progressbar::render(const RenderContext& context) {
     float percent = static_cast<float>(m_value) / m_maximum;
 
     for (int ii = 0; ii < width() * percent; ii++) {
-        context.drawChar(ii, 0, '=', fgColor(), bgColor());
+        context.drawChar(ii, 0, L'█', fgColor(), bgColor());
     }
 }
 

@@ -208,7 +208,7 @@ TEST_F(RadioButtonWidget, rendersIndicatorWhenEnabled) {
     auto curses = std::make_shared<NiceMock<MockCurses>>();
     auto context = std::make_unique<NiceMock<MockRenderContext>>(*curses);
 
-    EXPECT_CALL(*context, drawChar(_, _, Eq('X'), _, _)).Times(1);
+    EXPECT_CALL(*context, drawChar(_, _, TypedEq<wchar_t>('X'), _, _)).Times(1);
 
     // When
     button_one.render(*context);
@@ -219,7 +219,7 @@ TEST_F(RadioButtonWidget, doesntRenderIndicatorWhenNotEnabled) {
     auto curses = std::make_shared<NiceMock<MockCurses>>();
     auto context = std::make_unique<NiceMock<MockRenderContext>>(*curses);
 
-    EXPECT_CALL(*context, drawChar(_, _, Eq('X'), _, _)).Times(0);
+    EXPECT_CALL(*context, drawChar(_, _, TypedEq<wchar_t>('X'), _, _)).Times(0);
 
     // When
     button_two.render(*context);

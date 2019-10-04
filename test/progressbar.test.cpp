@@ -28,7 +28,7 @@ TEST(Progressbar, MaxValueRendersFullWidth) {
     context->width(20);
     context->height(5);
 
-    EXPECT_CALL(*context, drawChar(_, _, _, _, _)).Times(10);
+    EXPECT_CALL(*context, drawChar(_, _, A<wchar_t>(), _, _)).Times(10);
 
     Progressbar bar("bar");
     bar.value(100);
@@ -46,7 +46,7 @@ TEST(Progressbar, ValueAboveMaxRendersMax) {
     context->width(20);
     context->height(5);
 
-    EXPECT_CALL(*context, drawChar(_, _, _, _, _)).Times(10);
+    EXPECT_CALL(*context, drawChar(_, _, A<wchar_t>(), _, _)).Times(10);
 
     Progressbar bar("bar");
     bar.value(200);
@@ -64,7 +64,7 @@ TEST(Progressbar, FiftyPercentRendersHalf) {
     context->width(20);
     context->height(5);
 
-    EXPECT_CALL(*context, drawChar(_, _, _, _, _)).Times(5);
+    EXPECT_CALL(*context, drawChar(_, _, A<wchar_t>(), _, _)).Times(5);
 
     Progressbar bar("bar");
     bar.value(50);

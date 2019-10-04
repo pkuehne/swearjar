@@ -6,7 +6,7 @@ namespace SwearJar {
 Label::Label(const std::string& name) : Widget(name) {
 }
 
-void Label::text(const std::string& text) {
+void Label::text(const std::wstring& text) {
     minWidth(text.size());
     m_text = text;
 }
@@ -16,8 +16,7 @@ void Label::centred(bool centred) {
 }
 
 void Label::render(const RenderContext& context) {
-    spdlog::debug("Rendering with {}", m_text);
-    context.drawText(0, 0, std::string(width(), ' '), fgColor(), bgColor());
+    context.drawText(0, 0, std::wstring(width(), ' '), fgColor(), bgColor());
 
     unsigned int xStart = 0;
     if (m_centred) {

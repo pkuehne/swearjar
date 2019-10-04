@@ -46,4 +46,4 @@ target_sources(swearjar
     ${CMAKE_CURRENT_LIST_DIR}/curses_wrapper.cpp
     )
 
-target_link_libraries(swearjar swearjarbase spdlog ncurses)
+target_link_libraries(swearjar swearjarbase spdlog ncursesw)

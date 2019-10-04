@@ -9,8 +9,8 @@ class TextEntry : public Widget {
 public:
     TextEntry(const std::string& name);
 
-    void text(std::string text);
-    std::string text();
+    void text(std::wstring text);
+    std::wstring text();
 
     void cursor(unsigned int cursor);
     unsigned int cursor();
@@ -23,7 +23,7 @@ public:
     std::function<void(TextEntry&)> onSubmit = nullptr;
 
 private:
-    std::string m_text;
+    std::wstring m_text;
     unsigned int m_cursor = 0;
 };
 

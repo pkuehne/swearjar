@@ -21,13 +21,13 @@ void make_button_label_example(SwearJar::Screen& screen) {
     baseWidget.addSpacer();
 
     // The Frame has a Layout itself and by default its vertical
-    frame.title(" Button Example ");
+    frame.title(L" Button Example ");
     frame.addSpacer();
 
     // Add a centred label with some magenta on black text
     auto& lblDisplay = frame.createWidget<Label>("lblDisplay");
     lblDisplay.centred(true);
-    lblDisplay.text("This is a label");
+    lblDisplay.text(L"This is a label");
     lblDisplay.fgColor(Color::Magenta);
     lblDisplay.bgColor(Color::Black);
 
@@ -49,19 +49,19 @@ void make_button_label_example(SwearJar::Screen& screen) {
     // The `pressed` property is called whenever the button is clicked either
     // by keyboard or mouse
     auto& btnRed = buttonBox.createWidget<Button>("btnRed");
-    btnRed.text("Red");
+    btnRed.text(L"Red");
     btnRed.onPressed = [&lblDisplay](Button&) {
         lblDisplay.fgColor(Color::Red);
     };
 
     auto& btnBlue = buttonBox.createWidget<Button>("btnBlue");
-    btnBlue.text("Blue");
+    btnBlue.text(L"Blue");
     btnBlue.onPressed = [&lblDisplay](Button&) {
         lblDisplay.fgColor(Color::Blue);
     };
 
     auto& btnYellow = buttonBox.createWidget<Button>("btnYellow");
-    btnYellow.text("Yellow");
+    btnYellow.text(L"Yellow");
     btnYellow.onPressed = [&lblDisplay](Button&) {
         lblDisplay.fgColor(Color::Yellow);
     };
@@ -69,7 +69,7 @@ void make_button_label_example(SwearJar::Screen& screen) {
     // buttonBox.addSpacer();
 
     auto& btnClose = frame.createWidget<Button>("btnClose");
-    btnClose.text("Close");
+    btnClose.text(L"Close");
     btnClose.onPressed = [&screen](Button&) { screen.popWindow(); };
 }
 
@@ -88,31 +88,31 @@ public:
         auto& frame = baseWidget().createWidget<Frame>("frmFrame");
         baseWidget().addSpacer();
 
-        frame.title("Progressbar");
+        frame.title(L"Progressbar");
         frame.addSpacer();
 
         auto& checkbox = frame.createWidget<Checkbox>("chkBox");
-        checkbox.text("Decrement");
+        checkbox.text(L"Decrement");
 
         auto& label = frame.createWidget<Label>("lblText");
-        label.text("Value");
+        label.text(L"Value");
 
         auto& bar = frame.createWidget<Progressbar>("pgbProgress");
 
         auto& btnIncr = frame.createWidget<Button>("btnIncre");
-        btnIncr.text("Increment");
+        btnIncr.text(L"Increment");
         btnIncr.onPressed = [&bar, &checkbox](Button& me) {
             int val = checkbox.enabled() ? -10 : 10;
             bar.value(bar.value() + val);
         };
         checkbox.onToggle = [&btnIncr](Checkbox& me) {
-            btnIncr.text(me.enabled() ? "Decrement" : "Increment");
+            btnIncr.text(me.enabled() ? L"Decrement" : L"Increment");
         };
 
         frame.addSpacer();
 
         auto& btnClose = frame.createWidget<Button>("btnClose");
-        btnClose.text("Close");
+        btnClose.text(L"Close");
         btnClose.onPressed = [&screen](Button&) { screen.popWindow(); };
     }
 };
@@ -129,13 +129,13 @@ void make_overlapping_window(SwearJar::Screen& screen) {
     baseWidget.bgColor(4);
 
     auto& lblPopup = baseWidget.createWidget<Label>("lblPopup");
-    lblPopup.text("Popup");
+    lblPopup.text(L"Popup");
     lblPopup.centred(true);
 
     baseWidget.addSpacer();
 
     auto& btnClose = baseWidget.createWidget<Button>("btnClose");
-    btnClose.text("Close");
+    btnClose.text(L"Close");
     btnClose.onPressed = [&screen](Button&) { screen.popWindow(); };
 }
 
@@ -150,15 +150,15 @@ public:
         auto& frame = baseWidget().createWidget<Frame>("frmFrame");
         baseWidget().addSpacer();
 
-        frame.title("List");
+        frame.title(L"List");
         frame.addSpacer();
 
         auto& buttonOne = frame.createWidget<RadioButton>("btnOne");
-        buttonOne.text("Button 1");
+        buttonOne.text(L"Button 1");
         auto& buttonTwo = frame.createWidget<RadioButton>("btnTwo");
-        buttonTwo.text("Button 2");
+        buttonTwo.text(L"Button 2");
         auto& buttonThree = frame.createWidget<RadioButton>("btnThree");
-        buttonThree.text("Button 3");
+        buttonThree.text(L"Button 3");
 
         m_buttonGroup.add(&buttonOne);
         m_buttonGroup.add(&buttonTwo);
@@ -167,17 +167,17 @@ public:
 
         frame.addSpacer();
         auto& list = frame.createWidget<List>("lstExample");
-        list.addItem("Item 1");
-        list.addItem("Item 2");
-        list.addItem("Item 3");
-        list.addItem("Item 4");
-        list.addItem("Item 5");
+        list.addItem(L"Item 1");
+        list.addItem(L"Item 2");
+        list.addItem(L"Item 3");
+        list.addItem(L"Item 4");
+        list.addItem(L"Item 5");
         list.growthFactor(0);
         list.minHeight(3);
 
         frame.addSpacer();
         auto& btnClose = frame.createWidget<Button>("btnClose");
-        btnClose.text("Close");
+        btnClose.text(L"Close");
         btnClose.onPressed = [&screen](Button&) { screen.popWindow(); };
     }
 
@@ -196,31 +196,31 @@ public:
         auto& frame = baseWidget().createWidget<Frame>("frmFrame");
         baseWidget().addSpacer();
 
-        frame.title("TextEntry");
+        frame.title(L"TextEntry");
         frame.addSpacer();
 
         auto& lblText = frame.createWidget<Label>("lblText");
-        lblText.text("Type your name: ");
+        lblText.text(L"Type your name: ");
 
         frame.addSpacer();
 
         auto& txtEntry = frame.createWidget<TextEntry>("txtEntry");
         txtEntry.onTextChanged = [&lblText](TextEntry& e) {
             if (e.text().size()) {
-                lblText.text("Hit Enter when done!");
+                lblText.text(L"Hit Enter when done!");
             } else {
-                lblText.text("Type your name: ");
+                lblText.text(L"Type your name: ");
             }
         };
         txtEntry.onSubmit = [&lblText](TextEntry& e) {
             if (e.text().size()) {
-                lblText.text("Hello, " + e.text());
+                lblText.text(L"Hello, " + e.text());
             }
         };
 
         frame.addSpacer();
         auto& btnClose = frame.createWidget<Button>("btnClose");
-        btnClose.text("Close");
+        btnClose.text(L"Close");
         btnClose.onPressed = [&screen](Button&) { screen.popWindow(); };
     }
 };
@@ -253,28 +253,28 @@ void make_example_menu(SwearJar::Screen& screen) {
     auto& btnQuit = frame.createWidget<Button>("btnQuit");
     frame.addSpacer(2);
 
-    btnLabel.text("Labels & Buttons");
+    btnLabel.text(L"Labels € Buttons");
     btnLabel.onPressed = [&screen](Button&) {
         make_button_label_example(screen);
     };
-    btnProgress.text("Checkbox & Progressbar");
+    btnProgress.text(L"Checkbox & Progressbar");
     btnProgress.onPressed = [&screen](Button&) {
         screen.createWindow<ProgressBarExampleWindow>();
     };
-    btnPopup.text("Popup");
+    btnPopup.text(L"Popup");
     btnPopup.onPressed = [&screen](Button&) {
         make_overlapping_window(screen);
     };
-    btnList.text("List");
+    btnList.text(L"List");
     btnList.onPressed = [&screen](Button&) {
         screen.createWindow<ListExampleWindow>();
     };
-    btnEntry.text("TextEntry");
+    btnEntry.text(L"TextEntry");
     btnEntry.onPressed = [&screen](Button&) {
         screen.createWindow<TextEntryExampleWindow>();
     };
 
-    btnQuit.text("Quit");
+    btnQuit.text(L"Quit");
     btnQuit.onPressed = [&screen](Button&) { screen.quit(); };
 }
 

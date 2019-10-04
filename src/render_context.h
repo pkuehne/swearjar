@@ -65,9 +65,15 @@ public:
     virtual void clearBackground(short fg, short bg) const;
     virtual void drawText(unsigned int x, unsigned int y,
                           const std::string& text, short fg, short bg) const;
+    virtual void drawText(unsigned int x, unsigned int y,
+                          const std::wstring& text, short fg, short bg) const;
     virtual void drawChar(unsigned int x, unsigned int y, char ch) const;
+    virtual void drawChar(unsigned int x, unsigned int y, wchar_t ch) const;
     virtual void drawChar(unsigned int x, unsigned int y, char ch, short fg,
                           short bg) const;
+    virtual void drawChar(unsigned int x, unsigned int y, wchar_t ch, short fg,
+                          short bg) const;
+
     virtual void clearArea(unsigned int x, unsigned int y, unsigned int width,
                            unsigned int height, short fg, short bg) const;
     virtual void drawBorder(unsigned int x, unsigned int y, unsigned int width,

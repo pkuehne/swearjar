@@ -8,7 +8,9 @@ List::List(const std::string& name) : Widget(name) {
     canTakeFocus(true);
 }
 
-void List::addItem(std::string item) { m_items.push_back(item); }
+void List::addItem(std::wstring item) {
+    m_items.push_back(item);
+}
 
 void List::itemOffset(unsigned int offset) {
     m_itemOffset = offset;

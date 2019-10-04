@@ -10,11 +10,18 @@ void RenderContext::clearBackground(short fg, short bg) const {
 void RenderContext::drawText(unsigned int x, unsigned int y,
                              const std::string& text, short fg,
                              short bg) const {
-    spdlog::debug("RC: drawing text {}", text);
+    // spdlog::info(L"RC: drawing text " + text);
     m_curses.color_on(m_curses.get_color(fg, bg));
-    for (unsigned int offset = 0; offset < text.length(); offset++) {
-        drawChar(x + offset, y, text[offset]);
-    }
+    m_curses.mvwprint(y + m_yOffset, x + m_xOffset, text);
+    m_curses.color_off(m_curses.get_color(fg, bg));
+}
+
+void RenderContext::drawText(unsigned int x, unsigned int y,
+                             const std::wstring& text, short fg,
+                             short bg) const {
+    // spdlog::info(L"RC: drawing text " + text);
+    m_curses.color_on(m_curses.get_color(fg, bg));
+    m_curses.mvwprintw(y + m_yOffset, x + m_xOffset, text);
     m_curses.color_off(m_curses.get_color(fg, bg));
 }
 
@@ -31,8 +38,24 @@ void RenderContext::drawChar(unsigned int x, unsigned int y, char ch) const {
     m_curses.mvaddch_(yPos, xPos, ch);
 }
 
+void RenderContext::drawChar(unsigned int x, unsigned int y, wchar_t ch) const {
+    unsigned int xPos = m_xOffset + x;
+    unsigned int yPos = m_yOffset + y;
+    if (xPos > m_width || yPos > m_height) {
+        return;
+    }
+    m_curses.mvaddwch_(yPos, xPos, ch);
+}
+
 void RenderContext::drawChar(unsigned int x, unsigned int y, char ch, short fg,
                              short bg) const {
+    m_curses.color_on(m_curses.get_color(fg, bg));
+    drawChar(x, y, ch);
+    m_curses.color_off(m_curses.get_color(fg, bg));
+}
+
+void RenderContext::drawChar(unsigned int x, unsigned int y, wchar_t ch,
+                             short fg, short bg) const {
     m_curses.color_on(m_curses.get_color(fg, bg));
     drawChar(x, y, ch);
     m_curses.color_off(m_curses.get_color(fg, bg));
@@ -65,19 +88,12 @@ void RenderContext::drawBorder(unsigned int x, unsigned int y,
                      height, x, y);
         return;
     }
-    const char verticalBorder = '|';
-    const char horizontalBorder = '-';
-    const char cornerNW = '+';
-    const char cornerNE = '+';
-    const char cornerSW = '+';
-    const char cornerSE = '+';
-
-    // const char verticalBorder = 186;
-    // const char horizontalBorder = 205;
-    // const char cornerNW = 201;
-    // const char cornerNE = 187;
-    // const char cornerSW = 200;
-    // const char cornerSE = 188;
+    const wchar_t verticalBorder = L'│';
+    const wchar_t horizontalBorder = L'─';
+    const wchar_t cornerNW = L'┌';
+    const wchar_t cornerNE = L'┐';
+    const wchar_t cornerSW = L'└';
+    const wchar_t cornerSE = L'┘';
 
     width -= 1;
     height -= 1;

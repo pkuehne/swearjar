@@ -7,11 +7,11 @@ TextEntry::TextEntry(const std::string& name) : Widget(name) {
     canTakeFocus(true);
 }
 
-std::string TextEntry::text() {
+std::wstring TextEntry::text() {
     return m_text;
 }
 
-void TextEntry::text(std::string text) {
+void TextEntry::text(std::wstring text) {
     m_text = text;
     minWidth(text.size());
     m_cursor = text.size();
@@ -34,11 +34,11 @@ void TextEntry::cursor(unsigned int cursor) {
 void TextEntry::render(const RenderContext& context) {
     context.drawText(0, 0, text(), fgColor(), bgColor());
     for (int ii = text().size(); ii < width(); ii++) {
-        context.drawChar(ii, 0, '_', fgColor(), bgColor());
+        context.drawChar(ii, 0, L'_', fgColor(), bgColor());
     }
     if (focus()) {
         context.blink(true);
-        context.drawChar(m_cursor, 0, '_', fgColor(), bgColor());
+        context.drawChar(m_cursor, 0, L'█', fgColor(), bgColor());
         context.blink(false);
     }
 }

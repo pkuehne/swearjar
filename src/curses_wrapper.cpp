@@ -10,6 +10,7 @@ CursesWrapper::CursesWrapper() {
 }
 
 void CursesWrapper::initscr() {
+    setlocale(LC_CTYPE, "");
     ::initscr();
     m_windows.push_back(stdscr);
     ::color_set(get_color(7, 0), 0);
@@ -115,14 +116,23 @@ void CursesWrapper::mvwin(int y, int x) {
     ::mvwin(m_windows[m_currentWindow], y, x);
 }
 
-void CursesWrapper::mvwprintw(int y, int x, const std::string& string) {
-    ::mvwprintw(m_windows[m_currentWindow], y, x, "%s", string.c_str());
+void CursesWrapper::mvwprint(int y, int x, const std::string& text) const {
+    mvwaddstr(m_windows[m_currentWindow], y, x, text.c_str());
+}
+
+void CursesWrapper::mvwprintw(int y, int x, const std::wstring& text) const {
+    mvwaddwstr(m_windows[m_currentWindow], y, x, text.c_str());
 }
 
 void CursesWrapper::mvaddch_(int y, int x, char ch) const {
     spdlog::debug("CW: mvaddch_ {} at ({},{}) for {}", ch, x, y,
                   m_currentWindow);
     mvwaddch(m_windows[m_currentWindow], y, x, ch);
+}
+
+void CursesWrapper::mvaddwch_(int y, int x, wchar_t ch) const {
+    const cchar_t out = {A_NORMAL, ch};
+    mvwadd_wch(m_windows[m_currentWindow], y, x, &out);
 }
 
 int CursesWrapper::getchar() {
@@ -149,7 +159,7 @@ void handle_winch(int) {
 }
 
 void CursesWrapper::setupResizeHandler() {
-    spdlog::info("Installing resize signal handler");
+    spdlog::debug("Installing resize signal handler");
     struct sigaction sa {};
     sa.sa_handler = handle_winch;
     sigaction(SIGWINCH, &sa, NULL);

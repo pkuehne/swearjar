@@ -31,11 +31,11 @@ protected:
     List emptyList{"lstEmpty"};
     List list{"lstTest"};
 
-    std::string item1{"Test 1"};
-    std::string item2{"Test 2"};
-    std::string item3{"Test 3"};
-    std::string item4{"Test 4"};
-    std::string item5{"Test 5"};
+    std::wstring item1{L"Test 1"};
+    std::wstring item2{L"Test 2"};
+    std::wstring item3{L"Test 3"};
+    std::wstring item4{L"Test 4"};
+    std::wstring item5{L"Test 5"};
 };
 
 TEST_F(ListWidget, addItemIncreasesItemList) {
@@ -48,8 +48,9 @@ TEST_F(ListWidget, addItemIncreasesItemList) {
 
 TEST_F(ListWidget, renderDoesNothingIfNoItems) {
     // Given
-    EXPECT_CALL(*context, drawChar(_, _, _, _, _)).Times(0);
-    EXPECT_CALL(*context, drawText(_, _, _, _, _)).Times(0);
+    EXPECT_CALL(*context, drawChar(_, _, A<wchar_t>(), _, _)).Times(0);
+    EXPECT_CALL(*context, drawText(_, _, A<const std::string&>(), _, _))
+        .Times(0);
 
     // When
     emptyList.render(*context);
@@ -60,8 +61,12 @@ TEST_F(ListWidget, renderDrawsItems) {
     emptyList.addItem(item1);
     emptyList.addItem(item2);
 
-    EXPECT_CALL(*context, drawText(_, _, Eq(item1), _, _)).Times(1);
-    EXPECT_CALL(*context, drawText(_, _, Eq(item2), _, _)).Times(1);
+    EXPECT_CALL(*context,
+                drawText(_, _, TypedEq<const std::wstring&>(item1), _, _))
+        .Times(1);
+    EXPECT_CALL(*context,
+                drawText(_, _, TypedEq<const std::wstring&>(item2), _, _))
+        .Times(1);
 
     // When
     emptyList.render(*context);
@@ -69,11 +74,21 @@ TEST_F(ListWidget, renderDrawsItems) {
 
 TEST_F(ListWidget, renderDrawsOnlyItemsThatFitHeight) {
     // Given
-    EXPECT_CALL(*context, drawText(_, _, Eq(item1), _, _)).Times(1);
-    EXPECT_CALL(*context, drawText(_, _, Eq(item2), _, _)).Times(1);
-    EXPECT_CALL(*context, drawText(_, _, Eq(item3), _, _)).Times(1);
-    EXPECT_CALL(*context, drawText(_, _, Eq(item4), _, _)).Times(0);
-    EXPECT_CALL(*context, drawText(_, _, Eq(item5), _, _)).Times(0);
+    EXPECT_CALL(*context,
+                drawText(_, _, TypedEq<const std::wstring&>(item1), _, _))
+        .Times(1);
+    EXPECT_CALL(*context,
+                drawText(_, _, TypedEq<const std::wstring&>(item2), _, _))
+        .Times(1);
+    EXPECT_CALL(*context,
+                drawText(_, _, TypedEq<const std::wstring&>(item3), _, _))
+        .Times(1);
+    EXPECT_CALL(*context,
+                drawText(_, _, TypedEq<const std::wstring&>(item4), _, _))
+        .Times(0);
+    EXPECT_CALL(*context,
+                drawText(_, _, TypedEq<const std::wstring&>(item5), _, _))
+        .Times(0);
 
     // When
     list.render(*context);
@@ -81,11 +96,21 @@ TEST_F(ListWidget, renderDrawsOnlyItemsThatFitHeight) {
 
 TEST_F(ListWidget, settingItemOffsetRendersNextItem) {
     // Given
-    EXPECT_CALL(*context, drawText(_, _, Eq(item1), _, _)).Times(0);
-    EXPECT_CALL(*context, drawText(_, _, Eq(item2), _, _)).Times(1);
-    EXPECT_CALL(*context, drawText(_, _, Eq(item3), _, _)).Times(1);
-    EXPECT_CALL(*context, drawText(_, _, Eq(item4), _, _)).Times(1);
-    EXPECT_CALL(*context, drawText(_, _, Eq(item5), _, _)).Times(0);
+    EXPECT_CALL(*context,
+                drawText(_, _, TypedEq<const std::wstring&>(item1), _, _))
+        .Times(0);
+    EXPECT_CALL(*context,
+                drawText(_, _, TypedEq<const std::wstring&>(item2), _, _))
+        .Times(1);
+    EXPECT_CALL(*context,
+                drawText(_, _, TypedEq<const std::wstring&>(item3), _, _))
+        .Times(1);
+    EXPECT_CALL(*context,
+                drawText(_, _, TypedEq<const std::wstring&>(item4), _, _))
+        .Times(1);
+    EXPECT_CALL(*context,
+                drawText(_, _, TypedEq<const std::wstring&>(item5), _, _))
+        .Times(0);
 
     list.itemOffset(1);
 
@@ -95,7 +120,8 @@ TEST_F(ListWidget, settingItemOffsetRendersNextItem) {
 
 TEST_F(ListWidget, renderSetsFocusFlagIfHasFocus) {
     // Given
-    EXPECT_CALL(*context, drawText(_, _, _, _, _)).Times(3);
+    EXPECT_CALL(*context, drawText(_, _, A<const std::wstring&>(), _, _))
+        .Times(3);
     EXPECT_CALL(*context, reverse(Eq(true))).Times(1);
 
     list.moveFocusForward();
