@@ -49,7 +49,7 @@ TEST(CollectionWidget, addingWidgetIncreasesChildCount) {
     TestCollectionWidget base("");
 
     // When
-    Widget& c = base.createWidget<Widget>("");
+    base.createWidget<Widget>("");
 
     // Then
     EXPECT_FALSE(base.children().empty());
@@ -161,7 +161,7 @@ TEST(CollectionWidget, moveFocusWillCallSameChildAgainTillItReturnsFalse) {
     auto& c1 = base.createWidget<TestCollectionWidget>("");
     auto& c11 = c1.createWidget<TestWidget>("");
     auto& c12 = c1.createWidget<TestWidget>("");
-    auto& c2 = base.createWidget<TestWidget>("");
+    base.createWidget<TestWidget>("");
 
     // When
     retval = base.moveFocusForward();
@@ -191,7 +191,7 @@ TEST(CollectionWidget, handleKeysReturnsFalseIfNoChildrenByDefault) {
 TEST(CollectionWidget, handleKeysReturnsFalseIfNoChildrenHasFocus) {
     // Given
     TestCollectionWidget base("");
-    auto& c1 = base.createWidget<Widget>("");
+    base.createWidget<Widget>("");
     KeyEvent e;
     e.key = 'X';
 
@@ -214,7 +214,7 @@ TEST(CollectionWidget, handleKeysReturnsTrueIfChildSelectedHasHandled) {
 
     // Given
     TestCollectionWidget base("");
-    auto& c1 = base.createWidget<KeyPressWidget>("");
+    base.createWidget<KeyPressWidget>("");
     ASSERT_TRUE(base.moveFocusForward());
     KeyEvent e;
     e.key = 'X';

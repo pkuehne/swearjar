@@ -39,7 +39,7 @@ bool Checkbox::handleKeyPress(const KeyEvent& event) {
     return true;
 }
 
-bool Checkbox::handleMouseClick(const MouseEvent& event) {
+bool Checkbox::handleMouseClick(const MouseEvent&) {
     spdlog::info("Checkbox '{}' clicked", name());
     toggle();
 

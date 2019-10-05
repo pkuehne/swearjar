@@ -29,7 +29,7 @@ public:
     void reverse_off() override;
     void blink_on() override;
     void blink_off() override;
-    void wbkgd(short pair);
+    void wbkgd(short pair) override;
     void get_screen_size(int& height, int& width) override;
 
     unsigned int newwin(int h, int w, int y, int x) override;
@@ -46,10 +46,10 @@ public:
     void wrefresh() override;
     void touchwin_() override;
 
-    void currentWindow(unsigned int newWin) {
+    void currentWindow(unsigned int newWin) override {
         m_currentWindow = newWin;
     }
-    unsigned int currentWindow() {
+    unsigned int currentWindow() override {
         return m_currentWindow;
     }
 

@@ -75,13 +75,13 @@ public: // Overridable
         return m_name;
     }
 
-    virtual void render(const RenderContext& context) {
+    virtual void render(const RenderContext&) {
     }
 
-    virtual bool handleKeyPress(const KeyEvent& event) {
+    virtual bool handleKeyPress(const KeyEvent&) {
         return true;
     }
-    virtual bool handleMouseClick(const MouseEvent& event) {
+    virtual bool handleMouseClick(const MouseEvent&) {
         return true;
     }
 

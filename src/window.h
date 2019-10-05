@@ -79,4 +79,4 @@ private:
     WindowStyle m_style = WindowStyle::FullScreen;
     WindowStyleParams m_params{};
 };
-}; // namespace SwearJar
+} // namespace SwearJar

@@ -1,6 +1,12 @@
 
 add_library(swearjarbase)
 target_include_directories(swearjarbase PUBLIC ${CMAKE_CURRENT_LIST_DIR})
+target_compile_options(swearjarbase PRIVATE -Werror)
+target_compile_options(swearjarbase PRIVATE -Wall)
+target_compile_options(swearjarbase PRIVATE -Wextra)
+target_compile_options(swearjarbase PRIVATE -Wpedantic)
+target_compile_options(swearjarbase PRIVATE -g)
+target_compile_options(swearjarbase PRIVATE -O2)
 target_sources(swearjarbase
     PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}/curses_interface.h
@@ -38,6 +44,12 @@ target_link_libraries(swearjarbase PRIVATE spdlog)
 
 add_library(swearjar)
 target_include_directories(swearjar PUBLIC ${CMAKE_CURRENT_LIST_DIR})
+target_compile_options(swearjar PRIVATE -Werror)
+target_compile_options(swearjar PRIVATE -Wall)
+target_compile_options(swearjar PRIVATE -Wextra)
+target_compile_options(swearjar PRIVATE -Wpedantic)
+target_compile_options(swearjar PRIVATE -g)
+target_compile_options(swearjar PRIVATE -O2)
 target_sources(swearjar
     PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}/swearjar.h
