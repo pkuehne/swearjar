@@ -25,7 +25,9 @@ void RadioButtonGroup::remove(RadioButton* button) {
         }
     }
 }
-void RadioButtonGroup::current(RadioButton* button) { m_current = button; }
+void RadioButtonGroup::current(RadioButton* button) {
+    m_current = button;
+}
 
 RadioButton::RadioButton(const std::string& name) : Checkbox(name) {
     //
@@ -47,7 +49,7 @@ bool RadioButton::enabled() {
     return m_group->current() == this;
 }
 
-void RadioButton::enabled(bool on) {
+void RadioButton::enabled(bool) {
     if (m_group == nullptr) {
         // Checkbox::enabled(on);
         return;
@@ -55,6 +57,8 @@ void RadioButton::enabled(bool on) {
     m_group->current(this);
 }
 
-void RadioButton::toggle() { this->enabled(true); }
+void RadioButton::toggle() {
+    this->enabled(true);
+}
 
 } // namespace SwearJar

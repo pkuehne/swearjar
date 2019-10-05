@@ -32,7 +32,7 @@ bool Button::handleKeyPress(const KeyEvent& event) {
     return true;
 }
 
-bool Button::handleMouseClick(const MouseEvent& event) {
+bool Button::handleMouseClick(const MouseEvent&) {
     spdlog::info("Button '{}' clicked", name());
     if (onPressed != 0) {
         onPressed(*this);
