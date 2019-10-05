@@ -14,6 +14,7 @@ add_executable(unit_test
     frame.test.cpp
     )
 
+target_compile_options(unit_test PUBLIC -Wall)
 target_link_libraries(unit_test gtest_main gmock)
 target_link_libraries(unit_test swearjarbase)
 target_link_libraries(unit_test spdlog)
