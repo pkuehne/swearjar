@@ -67,20 +67,26 @@ void List::render(const RenderContext& context) {
 bool List::handleKeyPress(const KeyEvent& event) {
     if (event.key == KEY_PGDOWN) {
         itemOffset(m_itemOffset + 1);
+        return true;
     }
     if (event.key == KEY_PGUP) {
         itemOffset(m_itemOffset ? m_itemOffset - 1 : 0);
+        return true;
     }
     if (event.key == KEY_DOWN) {
         selectedItem(m_selectedItem + 1);
+        return true;
     }
     if (event.key == KEY_UP) {
         selectedItem(m_selectedItem ? m_selectedItem - 1 : 0);
+        return true;
     }
     if (event.key == KEY_ENTER) {
         if (onTriggered) {
             onTriggered(*this);
         }
+        return true;
     }
+    return false;
 }
 } // namespace SwearJar

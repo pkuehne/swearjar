@@ -33,7 +33,7 @@ void TextEntry::cursor(unsigned int cursor) {
 
 void TextEntry::render(const RenderContext& context) {
     context.drawText(0, 0, text(), fgColor(), bgColor());
-    for (int ii = text().size(); ii < width(); ii++) {
+    for (unsigned int ii = text().size(); ii < width(); ii++) {
         context.drawChar(ii, 0, L'_', fgColor(), bgColor());
     }
     if (focus()) {
