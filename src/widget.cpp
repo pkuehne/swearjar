@@ -54,11 +54,12 @@ void Widget::growthFactor(unsigned int factor) {
 }
 
 void Widget::focus(bool focus) {
+    bool changed = focus != m_hasFocus;
     m_hasFocus = focus;
-    if (m_hasFocus && gainFocus != 0) {
+    if (changed && m_hasFocus && gainFocus != 0) {
         gainFocus(this);
     }
-    if (!m_hasFocus && loseFocus != 0) {
+    if (changed && !m_hasFocus && loseFocus != 0) {
         loseFocus(this);
     }
 }

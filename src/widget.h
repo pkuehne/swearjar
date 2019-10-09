@@ -8,10 +8,6 @@
 namespace SwearJar {
 
 class Widget;
-using WidgetP = std::shared_ptr<Widget>;
-using WidgetV = std::vector<WidgetP>;
-
-using RenderContextP = std::unique_ptr<RenderContext>;
 
 enum Color {
     Red = 1,
