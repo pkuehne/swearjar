@@ -10,6 +10,8 @@ public:
     MOCK_METHOD0(endRender, void());
     MOCK_CONST_METHOD1(reverse, void(bool));
     MOCK_CONST_METHOD1(blink, void(bool));
+    MOCK_CONST_METHOD6(clearArea, void(unsigned int, unsigned int, unsigned int,
+                                       unsigned int, short, short));
     MOCK_CONST_METHOD5(drawText, void(unsigned int, unsigned int,
                                       const std::string&, short, short));
     MOCK_CONST_METHOD5(drawText, void(unsigned int, unsigned int,

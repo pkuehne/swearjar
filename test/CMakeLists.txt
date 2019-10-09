@@ -12,6 +12,7 @@ add_executable(unit_test
     radio_button.test.cpp
     text_entry.test.cpp
     frame.test.cpp
+    label.test.cpp
     )
 
 target_compile_options(unit_test PUBLIC -Wall)
