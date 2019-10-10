@@ -65,15 +65,10 @@ void RenderContext::clearArea(unsigned int x, unsigned int y,
                               unsigned int width, unsigned int height, short fg,
                               short bg) const {
     spdlog::debug("RC: clearing area {}x{} @ ({},{})", width, height, x, y);
-    if (width == 0 || height == 0) {
-        spdlog::debug("RC: Invalid clear area {}x{} @ ({},{})", width, height,
-                      x, y);
-        return;
-    }
     m_curses.color_on(m_curses.get_color(fg, bg));
-    for (unsigned int y = 0; y < height; y++) {
-        for (unsigned int x = 0; x < width; x++) {
-            drawChar(x, y, ' ');
+    for (unsigned int yy = 0; yy < height; yy++) {
+        for (unsigned int xx = 0; xx < width; xx++) {
+            drawChar(xx + x, yy + y, ' ');
         }
     }
     m_curses.color_off(m_curses.get_color(fg, bg));
@@ -112,7 +107,7 @@ void RenderContext::drawBorder(unsigned int x, unsigned int y,
     drawChar(x + width, y, cornerNE);
     drawChar(x, y + height, cornerSW);
     drawChar(x + width, y + height, cornerSE);
-    m_curses.color_off(m_curses.get_color(bg, bg));
+    m_curses.color_off(m_curses.get_color(fg, bg));
 }
 
 void RenderContext::beginRender() {
