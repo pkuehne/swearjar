@@ -7,34 +7,44 @@
 using namespace ::testing;
 using namespace SwearJar;
 
-TEST(Button, renderClearsTheWidthOfTheButton) {
+class ButtonWidget : public Test {
+public:
+    void SetUp() {
+    }
+
+protected:
+    Button b{"testButton"};
+    std::shared_ptr<MockCurses> curses{
+        std::make_shared<NiceMock<MockCurses>>()};
+    std::unique_ptr<MockRenderContext> context{
+        std::make_unique<NiceMock<MockRenderContext>>(*curses)};
+};
+
+TEST_F(ButtonWidget, canTakeFocusByDefault) {
     // Given
-    Button b("testButton");
+
+    // When
+
+    // Then
+    EXPECT_TRUE(b.canTakeFocus());
+}
+
+TEST_F(ButtonWidget, renderClearsTheAreaOfTheButton) {
+    // Given
     b.text(L"Foo");
+    b.height(2);
 
-    auto curses = std::make_shared<NiceMock<MockCurses>>();
-    auto context = std::make_unique<NiceMock<MockRenderContext>>(*curses);
-
-    EXPECT_CALL(*context, drawText(_, _, A<const std::wstring&>(), _, _))
-        .Times(1);
-    EXPECT_CALL(*context,
-                drawText(_, _, TypedEq<const std::wstring&>(L" "), _, _))
+    EXPECT_CALL(*context, clearArea(0, 0, b.width(), b.height(), _, _))
         .Times(1);
 
     // When
     b.render(*context);
 }
 
-TEST(Button, renderDisplaysText) {
+TEST_F(ButtonWidget, renderDisplaysText) {
     // Given
-    Button b("testButton");
     b.text(L"Foo");
 
-    auto curses = std::make_shared<NiceMock<MockCurses>>();
-    auto context = std::make_unique<NiceMock<MockRenderContext>>(*curses);
-
-    EXPECT_CALL(*context, drawText(_, _, A<const std::wstring&>(), _, _))
-        .Times(1);
     EXPECT_CALL(*context,
                 drawText(_, _, TypedEq<const std::wstring&>(b.text()), _, _))
         .Times(1);
@@ -43,11 +53,10 @@ TEST(Button, renderDisplaysText) {
     b.render(*context);
 }
 
-TEST(Button, keyPressCallsCallbackOnEnter) {
+TEST_F(ButtonWidget, keyPressCallsCallbackOnEnter) {
     // Given
     bool pressed = false;
 
-    Button b("testButton");
     b.onPressed = [&pressed](Button&) { pressed = true; };
 
     KeyEvent e;
@@ -61,11 +70,10 @@ TEST(Button, keyPressCallsCallbackOnEnter) {
     EXPECT_TRUE(pressed);
 }
 
-TEST(Button, keyPressDoesNothingIfNotEnter) {
+TEST_F(ButtonWidget, keyPressDoesNothingIfNotEnter) {
     // Given
     bool pressed = false;
 
-    Button b("testButton");
     b.onPressed = [&pressed](Button&) { pressed = true; };
 
     KeyEvent e;
@@ -79,9 +87,8 @@ TEST(Button, keyPressDoesNothingIfNotEnter) {
     EXPECT_FALSE(pressed);
 }
 
-TEST(Button, keyPressDoesNotThrowIfNoFunctionIsSet) {
+TEST_F(ButtonWidget, keyPressDoesNotThrowIfNoFunctionIsSet) {
     // Given
-    Button b("testButton");
     b.onPressed = nullptr;
 
     KeyEvent e;
@@ -91,11 +98,10 @@ TEST(Button, keyPressDoesNotThrowIfNoFunctionIsSet) {
     EXPECT_NO_THROW(b.handleKeyPress(e));
 }
 
-TEST(Button, handleMouseClickCallsCallbackOnEnter) {
+TEST_F(ButtonWidget, handleMouseClickCallsCallbackOnEnter) {
     // Given
     bool pressed = false;
 
-    Button b("testButton");
     b.onPressed = [&pressed](Button&) { pressed = true; };
 
     // When
@@ -106,7 +112,7 @@ TEST(Button, handleMouseClickCallsCallbackOnEnter) {
     EXPECT_TRUE(pressed);
 }
 
-TEST(Button, handleMouseClickDoesNotThrowIfNoFunctionIsSet) {
+TEST_F(ButtonWidget, handleMouseClickDoesNotThrowIfNoFunctionIsSet) {
     // Given
     Button b("testButton");
     b.onPressed = nullptr;
