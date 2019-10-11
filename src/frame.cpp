@@ -12,7 +12,7 @@ void Frame::title(const std::wstring& title) {
 }
 
 unsigned int Frame::requiredWidth() {
-    unsigned int childWidth = LayoutWidget::requiredWidth();
+    unsigned int childWidth = LayoutWidget::requiredWidth() + 2;
     unsigned int frameWidth = title().size() + 4;
     return (childWidth > frameWidth ? childWidth : frameWidth);
 }

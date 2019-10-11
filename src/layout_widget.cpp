@@ -18,7 +18,7 @@ unsigned int LayoutWidget::requiredWidth() {
         return min;
     }
     return CollectionWidget::requiredWidth();
-} // namespace SwearJar
+}
 
 unsigned int LayoutWidget::requiredHeight() {
     if (m_alignment == Alignment::Horizontal) {
@@ -103,7 +103,7 @@ void LayoutWidget::realignVertically() {
                  requiredHeight(), m_margin);
     unsigned int heightToAllocate =
         height() - requiredHeight() - (m_margin * 2);
-    if (heightToAllocate > width()) {
+    if (heightToAllocate > height()) {
         spdlog::warn("Can't realign {} vertically as {} > {} ({})", name(),
                      requiredHeight(), height(), (m_margin * 2));
         return;
