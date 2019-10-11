@@ -118,8 +118,8 @@ TEST(Widget, defaultsToOneByOneSize) {
     // Then
     EXPECT_EQ(1, w.height());
     EXPECT_EQ(1, w.width());
-    EXPECT_EQ(1, w.minHeight());
-    EXPECT_EQ(1, w.minWidth());
+    EXPECT_EQ(1, w.requiredHeight());
+    EXPECT_EQ(1, w.requiredWidth());
 }
 
 TEST(Widget, defaultsToZeroGrowthFactor) {

@@ -17,10 +17,6 @@ void Widget::minHeight(unsigned int height) {
     m_minHeight = height;
 }
 
-unsigned int Widget::minHeight() {
-    return m_minHeight;
-}
-
 unsigned int Widget::requiredHeight() {
     return m_minHeight;
 }
@@ -28,9 +24,15 @@ unsigned int Widget::requiredHeight() {
 void Widget::width(unsigned int width) {
     m_width = width;
 }
+unsigned int Widget::width() {
+    return m_width;
+}
 
 void Widget::minWidth(unsigned int width) {
     m_minWidth = width;
+}
+unsigned int Widget::requiredWidth() {
+    return m_minWidth;
 }
 
 void Widget::x(unsigned int x) {

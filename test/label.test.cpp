@@ -21,15 +21,15 @@ protected:
         std::make_unique<MockRenderContext>(*curses)};
 };
 
-TEST_F(LabelWidget, settingTextAlsoSetsTheMinWidth) {
+TEST_F(LabelWidget, settingTextAlsoSetsTheRequiredWidth) {
     // Given
-    EXPECT_EQ(1, label.minWidth());
+    EXPECT_EQ(1, label.requiredWidth());
 
     // When
     label.text(L"Foo");
 
     // Then
-    EXPECT_EQ(3, label.minWidth());
+    EXPECT_EQ(3, label.requiredWidth());
     EXPECT_EQ(L"Foo", label.text());
 }
 

@@ -9,14 +9,26 @@ void LayoutWidget::addSpacer(unsigned int factor) {
 
 unsigned int LayoutWidget::requiredWidth() {
     if (m_alignment == Alignment::Vertical) {
-        return CollectionWidget::minWidth();
+        unsigned int min = 0;
+        for (const auto& w : children()) {
+            if (w->requiredWidth() > min) {
+                min = w->requiredWidth();
+            }
+        }
+        return min;
     }
     return CollectionWidget::requiredWidth();
 } // namespace SwearJar
 
 unsigned int LayoutWidget::requiredHeight() {
     if (m_alignment == Alignment::Horizontal) {
-        return CollectionWidget::minHeight();
+        unsigned int min = 0;
+        for (const auto& w : children()) {
+            if (w->requiredHeight() > min) {
+                min = w->requiredHeight();
+            }
+        }
+        return min;
     }
     return CollectionWidget::requiredHeight();
 }
@@ -53,6 +65,11 @@ void LayoutWidget::realignHorizontally() {
     spdlog::info("Realigning {} horizontally (W:{} R:{} M:{})", name(), width(),
                  requiredWidth(), m_margin);
     unsigned int widthToAllocate = width() - requiredWidth() - (m_margin * 2);
+    if (widthToAllocate > width()) {
+        spdlog::warn("Can't realign {} horizontally as {} > {} ({})", name(),
+                     requiredWidth(), width(), (m_margin * 2));
+        return;
+    }
     unsigned int totalGrowthFactor = 0;
     for (const auto& w : children()) {
         totalGrowthFactor += w->growthFactor();
@@ -63,8 +80,8 @@ void LayoutWidget::realignHorizontally() {
         unsigned int newWidth =
             calculateNewSize(w->requiredWidth(), w->growthFactor(),
                              totalGrowthFactor, widthToAllocate);
-        spdlog::info("Setting width for {} to {} from {} GF:{}", w->name(),
-                     newWidth, name(), w->growthFactor());
+        spdlog::info("Setting width for {} to {} and x to {}", w->name(),
+                     newWidth, allocatedWidth);
         w->width(newWidth);
         w->x(allocatedWidth);
         allocatedWidth += newWidth;
@@ -86,6 +103,11 @@ void LayoutWidget::realignVertically() {
                  requiredHeight(), m_margin);
     unsigned int heightToAllocate =
         height() - requiredHeight() - (m_margin * 2);
+    if (heightToAllocate > width()) {
+        spdlog::warn("Can't realign {} vertically as {} > {} ({})", name(),
+                     requiredHeight(), height(), (m_margin * 2));
+        return;
+    }
     unsigned int totalGrowthFactor = 0;
     for (const auto& w : children()) {
         totalGrowthFactor += w->growthFactor();
@@ -96,13 +118,13 @@ void LayoutWidget::realignVertically() {
         unsigned int newHeight =
             calculateNewSize(w->requiredHeight(), w->growthFactor(),
                              totalGrowthFactor, heightToAllocate);
-        spdlog::info("Setting height for {} to {} from {}", w->name(),
-                     newHeight, name());
+        spdlog::info("Setting height for {} to {} and y to {}", w->name(),
+                     newHeight, allocatedHeight);
         w->height(newHeight);
         w->y(allocatedHeight);
         allocatedHeight += newHeight;
 
-        spdlog::info("Setting witdth for {} to {} from {}", w->name(),
+        spdlog::info("Setting width for {} to {} from {}", w->name(),
                      width() - (m_margin * 2), name());
         w->width(width() - (m_margin * 2));
         w->x(m_margin);

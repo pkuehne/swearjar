@@ -34,17 +34,17 @@ TEST_F(FrameWidget, rendersTitleAndBorder) {
     // Then
 }
 
-TEST_F(FrameWidget, minWidthIsAtLeastTitleWidth) {
+TEST_F(FrameWidget, requiredWidthIsAtLeastTitleWidth) {
     // Given
 
     // When
     frame.title(L"Foo bar baz");
 
     // Then
-    EXPECT_GE(frame.minWidth(), frame.title().size());
+    EXPECT_GE(frame.requiredWidth(), frame.title().size());
 }
 
-TEST_F(FrameWidget, minWidthIsAtLeastChildWidgetWidth) {
+TEST_F(FrameWidget, requiredWidthIsAtLeastChildWidgetWidth) {
     // Given
     auto& w = frame.createWidget<Widget>("testWidget");
     w.minWidth(20);
@@ -53,5 +53,5 @@ TEST_F(FrameWidget, minWidthIsAtLeastChildWidgetWidth) {
     frame.title(L"Foo");
 
     // Then
-    EXPECT_GE(frame.minWidth(), w.minWidth());
+    EXPECT_GE(frame.requiredWidth(), w.requiredWidth());
 }
