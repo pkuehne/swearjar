@@ -13,6 +13,7 @@ public:
     }
 
     unsigned int minWidth() override;
+    unsigned int requiredWidth() override;
 
     void render(const RenderContext& context) override;
 

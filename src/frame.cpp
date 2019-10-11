@@ -12,8 +12,13 @@ void Frame::title(const std::wstring& title) {
 }
 
 unsigned int Frame::minWidth() {
-    unsigned int min = LayoutWidget::minWidth();
-    return 4 + (min > title().size() ? min : title().size());
+    unsigned int width = LayoutWidget::minWidth();
+    return 2 + (width > title().size() ? width : title().size());
+}
+
+unsigned int Frame::requiredWidth() {
+    unsigned int width = LayoutWidget::minWidth();
+    return 2 + (width > title().size() ? width : title().size());
 }
 
 void Frame::render(const RenderContext& context) {
