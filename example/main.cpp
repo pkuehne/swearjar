@@ -33,7 +33,7 @@ void make_button_label_example(SwearJar::Screen& screen) {
 
     // The order in which widgets and spacers are created matters!
     frame.addSpacer();
-    auto& buttonWrapper = frame.createWidget<LayoutWidget>("margin");
+    auto& buttonWrapper = frame.createWidget<LayoutWidget>("marginBox");
     frame.addSpacer(2);
 
     // Wrap the buttons in a LayoutWidget so we can give them extra margin on
@@ -42,7 +42,7 @@ void make_button_label_example(SwearJar::Screen& screen) {
     // top of the other
     buttonWrapper.alignment(LayoutWidget::Alignment::Horizontal);
     buttonWrapper.addSpacer();
-    auto& buttonBox = buttonWrapper.createWidget<LayoutWidget>("buttons");
+    auto& buttonBox = buttonWrapper.createWidget<LayoutWidget>("buttonBox");
     buttonBox.alignment(LayoutWidget::Alignment::Vertical);
     buttonWrapper.addSpacer();
 

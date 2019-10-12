@@ -28,8 +28,6 @@ void RenderContext::drawText(unsigned int x, unsigned int y,
 void RenderContext::drawChar(unsigned int x, unsigned int y, char ch) const {
     unsigned int xPos = m_xOffset + x;
     unsigned int yPos = m_yOffset + y;
-    spdlog::debug("RC: Placing '{}' at ({},{}) = ({},{})", ch, x, y, xPos,
-                  yPos);
     if (xPos > m_width || yPos > m_height) {
         spdlog::warn("RC: Out of range {} > {} or {} > {}", xPos, m_width, yPos,
                      m_height);
@@ -42,6 +40,8 @@ void RenderContext::drawChar(unsigned int x, unsigned int y, wchar_t ch) const {
     unsigned int xPos = m_xOffset + x;
     unsigned int yPos = m_yOffset + y;
     if (xPos > m_width || yPos > m_height) {
+        spdlog::warn("RC: Out of range {} > {} or {} > {}", xPos, m_width, yPos,
+                     m_height);
         return;
     }
     m_curses.mvaddwch_(yPos, xPos, ch);
@@ -64,7 +64,11 @@ void RenderContext::drawChar(unsigned int x, unsigned int y, wchar_t ch,
 void RenderContext::clearArea(unsigned int x, unsigned int y,
                               unsigned int width, unsigned int height, short fg,
                               short bg) const {
-    spdlog::debug("RC: clearing area {}x{} @ ({},{})", width, height, x, y);
+    if (width > m_width || height > m_height) {
+        spdlog::warn("RC: Invalid clear area {}x{} @ ({},{})", width, height, x,
+                     y);
+        return;
+    }
     m_curses.color_on(m_curses.get_color(fg, bg));
     for (unsigned int yy = 0; yy < height; yy++) {
         for (unsigned int xx = 0; xx < width; xx++) {

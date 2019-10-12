@@ -226,36 +226,6 @@ TEST(CollectionWidget, handleKeysReturnsTrueIfChildSelectedHasHandled) {
     EXPECT_TRUE(retval);
 }
 
-TEST(CollectionWidget, minWidthReturnsTotalMinWidthOfChildren) {
-    // Given
-    TestCollectionWidget base("");
-    auto& c1 = base.createWidget<Widget>("");
-    c1.minWidth(5);
-    auto& c2 = base.createWidget<Widget>("");
-    c2.minWidth(7);
-
-    // When
-    unsigned int width = base.minWidth();
-
-    // Then
-    EXPECT_EQ(7, width);
-}
-
-TEST(CollectionWidget, minHeightReturnsTotalMinHeightOfChildren) {
-    // Given
-    TestCollectionWidget base("");
-    auto& c1 = base.createWidget<Widget>("");
-    c1.minHeight(5);
-    auto& c2 = base.createWidget<Widget>("");
-    c2.minHeight(7);
-
-    // When
-    unsigned int height = base.minHeight();
-
-    // Then
-    EXPECT_EQ(7, height);
-}
-
 TEST(CollectionWidget, requiredWidthReturnsTotalMinWidthOfChildren) {
     // Given
     TestCollectionWidget base("");

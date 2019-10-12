@@ -164,6 +164,30 @@ TEST_F(RenderContextObject, clearAreaDoesNothingForZeroHeightWidth) {
     context.clearArea(1, 2, 0, 0, 0, 0);
 }
 
+TEST_F(RenderContextObject, clearAreaOnlyClearsInsideOwnSize) {
+    // Then
+    EXPECT_CALL(*curses, mvaddch_(_, _, Eq(' '))).Times(36);
+
+    // When
+    context.clearArea(73, 17, 7, 7, 0, 0);
+}
+
+TEST_F(RenderContextObject, clearAreaOnlyClearsIfNotBeyondOwnWidth) {
+    // Then
+    EXPECT_CALL(*curses, mvaddch_(_, _, Eq(' '))).Times(0);
+
+    // When
+    context.clearArea(1, 1, context.width() + 1, 1, 0, 0);
+}
+
+TEST_F(RenderContextObject, clearAreaOnlyClearsIfNotBeyondOwnHeight) {
+    // Then
+    EXPECT_CALL(*curses, mvaddch_(_, _, Eq(' '))).Times(0);
+
+    // When
+    context.clearArea(1, 1, 1, context.height() + 1, 0, 0);
+}
+
 TEST_F(RenderContextObject, drawBorderDoesNotWorkBelowWidthOfThree) {
     // Given
     EXPECT_CALL(*curses, mvaddwch_(_, _, _)).Times(0);
