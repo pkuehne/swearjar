@@ -5,14 +5,23 @@ using namespace SwearJar;
 
 class TestWidget : public SwearJar::Widget {
 public:
-    TestWidget() : Widget("") { canTakeFocus(true); }
-    virtual ~TestWidget() {}
-    void canTakeFocus(bool focus) { Widget::canTakeFocus(focus); }
-    void focus(bool focus) { Widget::focus(focus); }
-    bool focus() { return Widget::focus(); }
+    TestWidget() : Widget("") {
+        canTakeFocus(true);
+    }
+    virtual ~TestWidget() {
+    }
+    void canTakeFocus(bool focus) {
+        Widget::canTakeFocus(focus);
+    }
+    void focus(bool focus) {
+        Widget::focus(focus);
+    }
+    bool focus() {
+        return Widget::focus();
+    }
 };
 
-TEST(Widget, moveFocusReturnsFalseWhenNoChildrenAndCantTakeFocus) {
+TEST(Widget, moveFocusReturnsFalse) {
     // Given
     TestWidget base;
     base.canTakeFocus(false);
@@ -22,19 +31,6 @@ TEST(Widget, moveFocusReturnsFalseWhenNoChildrenAndCantTakeFocus) {
 
     // Then
     EXPECT_FALSE(retval);
-}
-
-TEST(Widget, moveFocusReturnsFalseIfAlreadyHasFocus) {
-    // Given
-    TestWidget base;
-    base.focus(true);
-
-    // When
-    bool retval = base.moveFocusForward();
-
-    // Then
-    EXPECT_FALSE(retval);
-    EXPECT_FALSE(base.focus());
 }
 
 TEST(Widget, gainFocusCalledWhenFocusSetToTrue) {
@@ -56,6 +52,7 @@ TEST(Widget, gainFocusCalledWhenFocusSetToTrue) {
 TEST(Widget, loseFocusFunctionCalledWhenFocusSetFalse) {
     // Given
     TestWidget base;
+    base.focus(true);
     bool gain_called = false;
     bool lose_called = false;
     base.gainFocus = [&](Widget*) { gain_called = true; };
@@ -69,6 +66,40 @@ TEST(Widget, loseFocusFunctionCalledWhenFocusSetFalse) {
     EXPECT_TRUE(lose_called);
 }
 
+TEST(Widget, loseFocusFunctionNotCalledWhenNotAlreadyHasFocus) {
+    // Given
+    TestWidget base;
+    base.focus(false);
+    bool gain_called = false;
+    bool lose_called = false;
+    base.gainFocus = [&](Widget*) { gain_called = true; };
+    base.loseFocus = [&](Widget*) { lose_called = true; };
+
+    // When
+    ASSERT_NO_THROW(base.focus(false));
+
+    // Then
+    EXPECT_FALSE(gain_called);
+    EXPECT_FALSE(lose_called);
+}
+
+TEST(Widget, gainFocusFunctionNotCalledWhenNotAlreadyHasFocus) {
+    // Given
+    TestWidget base;
+    base.focus(true);
+    bool gain_called = false;
+    bool lose_called = false;
+    base.gainFocus = [&](Widget*) { gain_called = true; };
+    base.loseFocus = [&](Widget*) { lose_called = true; };
+
+    // When
+    ASSERT_NO_THROW(base.focus(true));
+
+    // Then
+    EXPECT_FALSE(gain_called);
+    EXPECT_FALSE(lose_called);
+}
+
 TEST(Widget, focusFunctionsNotCalledIfNotSet) {
     // Given
     TestWidget base;
@@ -78,4 +109,23 @@ TEST(Widget, focusFunctionsNotCalledIfNotSet) {
     // When
     ASSERT_NO_THROW(base.focus(true));
     ASSERT_NO_THROW(base.focus(false));
+}
+
+TEST(Widget, defaultsToOneByOneSize) {
+    // Given
+    Widget w("");
+
+    // Then
+    EXPECT_EQ(1, w.height());
+    EXPECT_EQ(1, w.width());
+    EXPECT_EQ(1, w.requiredHeight());
+    EXPECT_EQ(1, w.requiredWidth());
+}
+
+TEST(Widget, defaultsToZeroGrowthFactor) {
+    // Given
+    Widget w("");
+
+    // Then
+    EXPECT_EQ(0, w.growthFactor());
 }

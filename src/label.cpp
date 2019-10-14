@@ -16,7 +16,7 @@ void Label::centred(bool centred) {
 }
 
 void Label::render(const RenderContext& context) {
-    context.drawText(0, 0, std::wstring(width(), ' '), fgColor(), bgColor());
+    context.clearArea(0, 0, width(), height(), fgColor(), bgColor());
 
     unsigned int xStart = 0;
     if (m_centred) {

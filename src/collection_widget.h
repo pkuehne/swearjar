@@ -8,8 +8,6 @@ class CollectionWidget : public Widget {
 public:
     CollectionWidget(const std::string& name);
 
-    unsigned int minHeight() override;
-    unsigned int minWidth() override;
     unsigned int requiredHeight() override;
     unsigned int requiredWidth() override;
 

@@ -10,6 +10,8 @@ public:
     MOCK_METHOD0(endRender, void());
     MOCK_CONST_METHOD1(reverse, void(bool));
     MOCK_CONST_METHOD1(blink, void(bool));
+    MOCK_CONST_METHOD6(clearArea, void(unsigned int, unsigned int, unsigned int,
+                                       unsigned int, short, short));
     MOCK_CONST_METHOD5(drawText, void(unsigned int, unsigned int,
                                       const std::string&, short, short));
     MOCK_CONST_METHOD5(drawText, void(unsigned int, unsigned int,
@@ -23,4 +25,8 @@ public:
     MOCK_CONST_METHOD6(drawBorder,
                        void(unsigned int, unsigned int, unsigned int,
                             unsigned int, short, short));
+    MOCK_METHOD(void, addOffsets, (unsigned int x, unsigned int y),
+                (const, override));
+    MOCK_METHOD(void, clearOffsets, (unsigned int x, unsigned int y),
+                (const, override));
 };

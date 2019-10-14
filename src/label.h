@@ -17,7 +17,6 @@ public:
         return m_centred;
     }
 
-protected:
     void render(const RenderContext& context) override;
 
 private:

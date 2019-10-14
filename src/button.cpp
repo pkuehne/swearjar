@@ -13,7 +13,7 @@ void Button::text(const std::wstring& text) {
 }
 
 void Button::render(const RenderContext& context) {
-    context.drawText(0, 0, std::wstring(width(), ' '), fgColor(), bgColor());
+    context.clearArea(0, 0, width(), height(), fgColor(), bgColor());
 
     unsigned int xStart = (width() - m_text.length()) / 2;
     context.drawText(xStart, 0, m_text, fgColor(), bgColor());

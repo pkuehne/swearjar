@@ -8,10 +8,6 @@
 namespace SwearJar {
 
 class Widget;
-using WidgetP = std::shared_ptr<Widget>;
-using WidgetV = std::vector<WidgetP>;
-
-using RenderContextP = std::unique_ptr<RenderContext>;
 
 enum Color {
     Red = 1,
@@ -35,20 +31,12 @@ public: // Overridable
     virtual void height(unsigned int height);
     virtual unsigned int height();
     virtual void minHeight(unsigned int height);
-    virtual unsigned int minHeight();
     virtual unsigned int requiredHeight();
 
     virtual void width(unsigned int width);
-    virtual unsigned int width() {
-        return m_width;
-    }
+    virtual unsigned int width();
     virtual void minWidth(unsigned int width);
-    virtual unsigned int minWidth() {
-        return m_minWidth;
-    }
-    virtual unsigned int requiredWidth() {
-        return m_minWidth;
-    }
+    virtual unsigned int requiredWidth();
 
     virtual void x(unsigned int x);
     virtual unsigned int x() {
