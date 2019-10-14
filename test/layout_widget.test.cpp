@@ -39,6 +39,60 @@ TEST(LayoutWidget, spacerGrowsByDefault) {
     EXPECT_NE(0, w.growthFactor());
 }
 
+TEST(LayoutWidget, realignDoesNothingIfRequiredWidthIsBiggerThanWidth) {
+    // Given
+    LayoutWidget base("");
+    base.width(20);
+    base.alignment(LayoutWidget::Alignment::Horizontal);
+
+    auto& c1 = base.createWidget<Widget>("");
+    c1.minWidth(14);
+    auto defaultWidth = c1.width();
+
+    auto& c2 = base.createWidget<Widget>("");
+    c2.minWidth(15);
+    c2.growthFactor(1);
+
+    auto& c3 = base.createWidget<Widget>("");
+    c3.minWidth(15);
+    c3.growthFactor(1);
+
+    // When
+    base.realign();
+
+    // Then
+    EXPECT_EQ(defaultWidth, c1.width());
+    EXPECT_EQ(defaultWidth, c2.width());
+    EXPECT_EQ(defaultWidth, c3.width());
+}
+
+TEST(LayoutWidget, realignDoesNothingIfRequiredHeightIsBiggerThanHeight) {
+    // Given
+    LayoutWidget base("");
+    base.height(20);
+    base.alignment(LayoutWidget::Alignment::Vertical);
+
+    auto& c1 = base.createWidget<Widget>("");
+    c1.minHeight(14);
+    auto defaultHeight = c1.width();
+
+    auto& c2 = base.createWidget<Widget>("");
+    c2.minHeight(15);
+    c2.growthFactor(1);
+
+    auto& c3 = base.createWidget<Widget>("");
+    c3.minHeight(15);
+    c3.growthFactor(1);
+
+    // When
+    base.realign();
+
+    // Then
+    EXPECT_EQ(defaultHeight, c1.height());
+    EXPECT_EQ(defaultHeight, c2.height());
+    EXPECT_EQ(defaultHeight, c3.height());
+}
+
 TEST(LayoutWidget, realignAllocatesWidthOnlyToGrowingWidgets) {
     // Given
     LayoutWidget base("");
@@ -236,4 +290,88 @@ TEST(LayoutWidget, realignSetsFullHeightWithMargin) {
     EXPECT_EQ(margin, c1.y());
     EXPECT_EQ(margin, c2.y());
     EXPECT_EQ(margin, c3.y());
+}
+
+TEST(LayoutWidget, requiredHeightUsesParentClassWhenVertical) {
+    // Given
+    LayoutWidget base("");
+    base.alignment(LayoutWidget::Alignment::Vertical);
+
+    auto& c1 = base.createWidget<Widget>("");
+    c1.minHeight(2);
+
+    auto& c2 = base.createWidget<Widget>("");
+    c2.minHeight(3);
+
+    auto& c3 = base.createWidget<Widget>("");
+    c3.minHeight(5);
+
+    // When
+    auto height = base.requiredHeight();
+    auto superHeight = base.LayoutWidget::requiredHeight();
+
+    EXPECT_EQ(height, superHeight);
+    EXPECT_GT(height, 5);
+}
+
+TEST(LayoutWidget, requiredHeightCalculatesMaxHeightWhenHorizontal) {
+    // Given
+    LayoutWidget base("");
+    base.alignment(LayoutWidget::Alignment::Horizontal);
+
+    auto& c1 = base.createWidget<Widget>("");
+    c1.minHeight(2);
+
+    auto& c2 = base.createWidget<Widget>("");
+    c2.minHeight(3);
+
+    auto& c3 = base.createWidget<Widget>("");
+    c3.minHeight(5);
+
+    // When
+    auto height = base.requiredHeight();
+
+    EXPECT_EQ(height, c3.requiredHeight());
+}
+
+TEST(LayoutWidget, requiredWidthUsesParentClassWhenHorizontal) {
+    // Given
+    LayoutWidget base("");
+    base.alignment(LayoutWidget::Alignment::Horizontal);
+
+    auto& c1 = base.createWidget<Widget>("");
+    c1.minWidth(2);
+
+    auto& c2 = base.createWidget<Widget>("");
+    c2.minWidth(3);
+
+    auto& c3 = base.createWidget<Widget>("");
+    c3.minWidth(5);
+
+    // When
+    auto width = base.requiredWidth();
+    auto superWidth = base.LayoutWidget::requiredWidth();
+
+    EXPECT_EQ(width, superWidth);
+    EXPECT_GT(width, 5);
+}
+
+TEST(LayoutWidget, requiredWidthCalculatesMaxWidthWhenVertical) {
+    // Given
+    LayoutWidget base("");
+    base.alignment(LayoutWidget::Alignment::Vertical);
+
+    auto& c1 = base.createWidget<Widget>("");
+    c1.minWidth(2);
+
+    auto& c2 = base.createWidget<Widget>("");
+    c2.minWidth(3);
+
+    auto& c3 = base.createWidget<Widget>("");
+    c3.minWidth(5);
+
+    // When
+    auto width = base.requiredWidth();
+
+    EXPECT_EQ(width, c3.requiredWidth());
 }
