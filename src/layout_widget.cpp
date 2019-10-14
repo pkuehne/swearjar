@@ -56,14 +56,12 @@ unsigned int calculateNewSize(unsigned int minSize, unsigned int growthFactor,
         extraSize /= totalGrowthFactor;
         extraSize *= widthToAllocate;
     }
-    spdlog::info("cNS: {}/{}/{}/{} -> {}", minSize, growthFactor,
-                 totalGrowthFactor, widthToAllocate, extraSize);
     return minSize + extraSize;
 }
 
 void LayoutWidget::realignHorizontally() {
-    spdlog::info("Realigning {} horizontally (W:{} R:{} M:{})", name(), width(),
-                 requiredWidth(), m_margin);
+    spdlog::debug("Realigning {} horizontally (W:{} R:{} M:{})", name(),
+                  width(), requiredWidth(), m_margin);
     unsigned int widthToAllocate = width() - requiredWidth() - (m_margin * 2);
     if (widthToAllocate > width()) {
         spdlog::warn("Can't realign {} horizontally as {} > {} ({})", name(),
@@ -80,14 +78,10 @@ void LayoutWidget::realignHorizontally() {
         unsigned int newWidth =
             calculateNewSize(w->requiredWidth(), w->growthFactor(),
                              totalGrowthFactor, widthToAllocate);
-        spdlog::info("Setting width for {} to {} and x to {}", w->name(),
-                     newWidth, allocatedWidth);
         w->width(newWidth);
         w->x(allocatedWidth);
         allocatedWidth += newWidth;
 
-        spdlog::info("Setting height for {} to {} from {}", w->name(),
-                     height() - (m_margin * 2), name());
         w->height(height() - (m_margin * 2));
         w->y(m_margin);
     }
@@ -99,8 +93,8 @@ void LayoutWidget::realignHorizontally() {
 }
 
 void LayoutWidget::realignVertically() {
-    spdlog::info("Realigning {} vertically (H:{} R:{} M:{})", name(), height(),
-                 requiredHeight(), m_margin);
+    spdlog::debug("Realigning {} vertically (H:{} R:{} M:{})", name(), height(),
+                  requiredHeight(), m_margin);
     unsigned int heightToAllocate =
         height() - requiredHeight() - (m_margin * 2);
     if (heightToAllocate > height()) {
@@ -118,14 +112,10 @@ void LayoutWidget::realignVertically() {
         unsigned int newHeight =
             calculateNewSize(w->requiredHeight(), w->growthFactor(),
                              totalGrowthFactor, heightToAllocate);
-        spdlog::info("Setting height for {} to {} and y to {}", w->name(),
-                     newHeight, allocatedHeight);
         w->height(newHeight);
         w->y(allocatedHeight);
         allocatedHeight += newHeight;
 
-        spdlog::info("Setting width for {} to {} from {}", w->name(),
-                     width() - (m_margin * 2), name());
         w->width(width() - (m_margin * 2));
         w->x(m_margin);
     }

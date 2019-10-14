@@ -1,4 +1,5 @@
 #include "collection_widget.h"
+#include "curses.mock.h"
 #include "render_context.mock.h"
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -7,9 +8,9 @@
 using namespace SwearJar;
 using namespace ::testing;
 
-class RefreshableWidget : public Widget {
+class RenderWidget : public Widget {
 public:
-    RefreshableWidget(const std::string& name) : Widget("") {
+    RenderWidget(const std::string& name) : Widget("") {
     }
     MOCK_METHOD1(render, void(const RenderContext&));
 };
@@ -226,7 +227,7 @@ TEST(CollectionWidget, handleKeysReturnsTrueIfChildSelectedHasHandled) {
     EXPECT_TRUE(retval);
 }
 
-TEST(CollectionWidget, requiredWidthReturnsTotalMinWidthOfChildren) {
+TEST(CollectionWidget, requiredWidthReturnsTotalRequiredWidthOfChildren) {
     // Given
     TestCollectionWidget base("");
     auto& c1 = base.createWidget<Widget>("");
@@ -241,7 +242,7 @@ TEST(CollectionWidget, requiredWidthReturnsTotalMinWidthOfChildren) {
     EXPECT_EQ(12, width);
 }
 
-TEST(CollectionWidget, requiredHeightReturnsTotalMinHeightOfChildren) {
+TEST(CollectionWidget, requiredHeightReturnsTotalRequiredHeightOfChildren) {
     // Given
     TestCollectionWidget base("");
     auto& c1 = base.createWidget<Widget>("");
@@ -262,7 +263,7 @@ TEST(CollectionWidget, creatingWidgetSetsSameBackgroundColor) {
     base.bgColor(12);
 
     // When
-    auto& c1 = base.createWidget<RefreshableWidget>("");
+    auto& c1 = base.createWidget<RenderWidget>("");
 
     // Then
     EXPECT_EQ(base.bgColor(), c1.bgColor());
@@ -282,7 +283,7 @@ TEST(CollectionWidget, handleMouseEventReturnsFalseIfNoWidgets) {
 TEST(CollectionWidget, handleMouseEventReturnsTrueIfCoordInWidget) {
     // Given
     CollectionWidget base("base");
-    auto& c1 = base.createWidget<RefreshableWidget>("");
+    auto& c1 = base.createWidget<RenderWidget>("");
     c1.x(10);
     c1.y(10);
     c1.width(20);
@@ -301,7 +302,7 @@ TEST(CollectionWidget, handleMouseEventReturnsTrueIfCoordInWidget) {
 TEST(CollectionWidget, handleMouseEventReturnsFalseIfNoneMatch) {
     // Given
     CollectionWidget base("base");
-    auto& c1 = base.createWidget<RefreshableWidget>("");
+    auto& c1 = base.createWidget<RenderWidget>("");
     c1.x(10);
     c1.y(10);
     c1.width(20);
@@ -315,4 +316,58 @@ TEST(CollectionWidget, handleMouseEventReturnsFalseIfNoneMatch) {
 
     // Then
     EXPECT_FALSE(handled);
+}
+
+TEST(CollectionWidget, renderCallsRenderForEachWidget) {
+    // Given
+    CollectionWidget base("base");
+    auto& c1 = base.createWidget<RenderWidget>("");
+    auto& c2 = base.createWidget<RenderWidget>("");
+
+    auto curses = std::make_shared<NiceMock<MockCurses>>();
+    auto context = std::make_unique<NiceMock<MockRenderContext>>(*curses);
+
+    EXPECT_CALL(c1, render(_));
+    EXPECT_CALL(c2, render(_));
+
+    // When
+    base.render(*context);
+}
+
+TEST(CollectionWidget, renderSetsAndClearsOffsetsForEachWidget) {
+    // Given
+    CollectionWidget base("base");
+    auto& c1 = base.createWidget<NiceMock<RenderWidget>>("");
+    c1.x(10);
+    c1.y(10);
+
+    auto& c2 = base.createWidget<NiceMock<RenderWidget>>("");
+    c2.x(20);
+    c2.y(20);
+
+    auto curses = std::make_shared<NiceMock<MockCurses>>();
+    auto context = std::make_unique<NiceMock<MockRenderContext>>(*curses);
+    EXPECT_CALL(*context, addOffsets(Eq(c1.x()), Eq(c1.y())));
+    EXPECT_CALL(*context, addOffsets(Eq(c2.x()), Eq(c2.y())));
+    EXPECT_CALL(*context, clearOffsets(_, _)).Times(2);
+
+    // When
+    base.render(*context);
+}
+
+TEST(CollectionWidget, renderSetsFocusIfSetOnWidget) {
+    // Given
+    CollectionWidget base("base");
+    auto& c1 = base.createWidget<TestWidget>("");
+    c1.moveFocusForward();
+
+    base.createWidget<TestWidget>("");
+
+    auto curses = std::make_shared<NiceMock<MockCurses>>();
+    auto context = std::make_unique<NiceMock<MockRenderContext>>(*curses);
+    EXPECT_CALL(*context, reverse(Eq(true)));
+    EXPECT_CALL(*context, reverse(Eq(false))).Times(3);
+
+    // When
+    base.render(*context);
 }

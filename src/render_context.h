@@ -49,11 +49,11 @@ public:
         return m_yOffset;
     }
 
-    void addOffsets(unsigned int x, unsigned int y) const {
+    virtual void addOffsets(unsigned int x, unsigned int y) const {
         m_xOffset += x;
         m_yOffset += y;
     }
-    void clearOffsets(unsigned int x, unsigned int y) const {
+    virtual void clearOffsets(unsigned int x, unsigned int y) const {
         m_xOffset -= x;
         m_yOffset -= y;
     }

@@ -25,4 +25,8 @@ public:
     MOCK_CONST_METHOD6(drawBorder,
                        void(unsigned int, unsigned int, unsigned int,
                             unsigned int, short, short));
+    MOCK_METHOD(void, addOffsets, (unsigned int x, unsigned int y),
+                (const, override));
+    MOCK_METHOD(void, clearOffsets, (unsigned int x, unsigned int y),
+                (const, override));
 };
