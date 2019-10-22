@@ -1,5 +1,4 @@
 #include "checkbox.h"
-#include <spdlog/spdlog.h>
 
 namespace SwearJar {
 
