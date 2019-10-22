@@ -1,11 +1,12 @@
 #include "window.h"
+#include "logging.h"
 #include "screen.h"
 #include <iostream>
-#include <spdlog/spdlog.h>
 
 namespace SwearJar {
 
 Window::Window(Screen& screen) : m_screen(screen) {
+    LOG_INFO << L"Testing" << LOG_END;
     m_id = screen.curses().newwin(1, 1, 0, 0);
     m_baseWidget = std::make_unique<BaseWidget>();
     m_render = std::make_unique<RenderContext>(screen.curses(), m_id);
@@ -47,7 +48,7 @@ const WindowStyleParams& Window::params() {
 }
 
 void Window::refresh() {
-    spdlog::debug("refresh called for {}", m_id);
+    LOG_DEBUG << "refresh called for " << m_id << LOG_END;
 
     m_render->beginRender();
     m_render->clearBackground(m_baseWidget->fgColor(), m_baseWidget->bgColor());
@@ -59,7 +60,7 @@ void Window::refresh() {
 }
 
 void Window::resize() {
-    spdlog::debug("resize called for {}", m_id);
+    LOG_DEBUG << "resize called for " << m_id << LOG_END;
     int screenHeight = 0, screenWidth = 0;
     screen().curses().get_screen_size(screenHeight, screenWidth);
 
@@ -77,7 +78,8 @@ void Window::resize() {
 
             m_x = (screenWidth / 2) - (m_width / 2);
             m_y = (screenHeight / 2) - (m_height / 2);
-            spdlog::info("Resizing fractional to be @ ({}, {})", m_x, m_y);
+            LOG_DEBUG << "Resizing fractional to be @ (" << m_x << ", " << m_y
+                      << ")" << LOG_END;
             break;
         }
         case WindowStyle::Fixed: {
@@ -88,7 +90,7 @@ void Window::resize() {
             break;
         }
         default: {
-            spdlog::error("You must set a style!");
+            LOG_ERROR << "You must set a style!" << LOG_END;
             screen().quit();
             break;
         }

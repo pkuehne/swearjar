@@ -3,7 +3,6 @@
 #include "render_context.mock.h"
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
-#include <spdlog/spdlog.h>
 
 using namespace SwearJar;
 using namespace ::testing;

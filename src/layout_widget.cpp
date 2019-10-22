@@ -1,4 +1,5 @@
 #include "layout_widget.h"
+#include "logging.h"
 
 namespace SwearJar {
 
@@ -60,12 +61,14 @@ unsigned int calculateNewSize(unsigned int minSize, unsigned int growthFactor,
 }
 
 void LayoutWidget::realignHorizontally() {
-    spdlog::debug("Realigning {} horizontally (W:{} R:{} M:{})", name(),
-                  width(), requiredWidth(), m_margin);
+    LOG_DEBUG << "Realigning " << name() << " horizontally "
+              << "(W:" << width() << " R:" << requiredWidth()
+              << " M:" << m_margin << ")" << LOG_END;
     unsigned int widthToAllocate = width() - requiredWidth() - (m_margin * 2);
     if (widthToAllocate > width()) {
-        spdlog::warn("Can't realign {} horizontally as {} > {} ({})", name(),
-                     requiredWidth(), width(), (m_margin * 2));
+        LOG_WARN << "Can't realign " << name() << " horizontally as "
+                 << requiredWidth() << " > " << width()
+                 << " M:" << (m_margin * 2) << LOG_END;
         return;
     }
     unsigned int totalGrowthFactor = 0;
@@ -93,13 +96,15 @@ void LayoutWidget::realignHorizontally() {
 }
 
 void LayoutWidget::realignVertically() {
-    spdlog::debug("Realigning {} vertically (H:{} R:{} M:{})", name(), height(),
-                  requiredHeight(), m_margin);
+    LOG_DEBUG << "Realigning " << name() << " vertically "
+              << "(H:" << height() << " R:" << requiredHeight()
+              << " M:" << m_margin << ")" << LOG_END;
     unsigned int heightToAllocate =
         height() - requiredHeight() - (m_margin * 2);
     if (heightToAllocate > height()) {
-        spdlog::warn("Can't realign {} vertically as {} > {} ({})", name(),
-                     requiredHeight(), height(), (m_margin * 2));
+        LOG_WARN << "Can't realign " << name() << " vertically as "
+                 << requiredHeight() << " > " << height()
+                 << " M:" << (m_margin * 2) << LOG_END;
         return;
     }
     unsigned int totalGrowthFactor = 0;

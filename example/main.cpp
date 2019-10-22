@@ -1,8 +1,6 @@
 #include "frame.h"
 #include "swearjar.h"
 #include <iostream>
-#include <spdlog/sinks/basic_file_sink.h>
-#include <spdlog/spdlog.h>
 
 void make_button_label_example(SwearJar::Screen& screen) {
     using namespace SwearJar;
@@ -163,7 +161,6 @@ public:
         m_buttonGroup.add(&buttonOne);
         m_buttonGroup.add(&buttonTwo);
         m_buttonGroup.add(&buttonThree);
-        assert(buttonOne.enabled());
 
         frame.addSpacer();
         auto& list = frame.createWidget<List>("lstExample");
@@ -231,7 +228,6 @@ void make_example_menu(SwearJar::Screen& screen) {
         if (e.key == 'q') {
             screen.quit();
         }
-        spdlog::debug("Not handled: {}", e.key);
     };
 
     auto& window = screen.createWindow<Window>();
@@ -288,11 +284,6 @@ void run() {
 
 int main() {
     std::cout << "Start!" << std::endl;
-
-    auto file_logger = spdlog::basic_logger_mt("basic_logger", "../logs.txt");
-    spdlog::set_default_logger(file_logger);
-
-    spdlog::info("Starting");
 
     run();
 

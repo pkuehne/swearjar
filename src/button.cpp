@@ -1,5 +1,5 @@
 #include "button.h"
-#include <spdlog/spdlog.h>
+#include "logging.h"
 
 namespace SwearJar {
 
@@ -22,7 +22,7 @@ void Button::render(const RenderContext& context) {
 }
 
 bool Button::handleKeyPress(const KeyEvent& event) {
-    spdlog::debug("Button '{}' pressed", name());
+    LOG_DEBUG << "Button pressed: " << name() << LOG_END;
     if (event.key != 10) {
         return false;
     }
@@ -33,7 +33,7 @@ bool Button::handleKeyPress(const KeyEvent& event) {
 }
 
 bool Button::handleMouseClick(const MouseEvent&) {
-    spdlog::info("Button '{}' clicked", name());
+    LOG_DEBUG << "Button clicked: " << name() << LOG_END;
     if (onPressed != 0) {
         onPressed(*this);
     }

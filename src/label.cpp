@@ -1,5 +1,4 @@
 #include "label.h"
-#include <spdlog/spdlog.h>
 
 namespace SwearJar {
 

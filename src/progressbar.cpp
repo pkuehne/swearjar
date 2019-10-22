@@ -1,5 +1,4 @@
 #include "progressbar.h"
-#include <spdlog/spdlog.h>
 
 namespace SwearJar {
 

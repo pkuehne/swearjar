@@ -2,5 +2,6 @@
 
 namespace SwearJar {
 std::ofstream Logging::out = std::ofstream();
-LogLevel level = LogLevel::Debug;
+std::ofstream Logging::null = std::ofstream();
+LogLevel Logging::level = LogLevel::Info;
 } // namespace SwearJar

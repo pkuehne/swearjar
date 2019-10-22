@@ -1,5 +1,5 @@
 #include "render_context.h"
-#include <spdlog/spdlog.h>
+#include "logging.h"
 
 namespace SwearJar {
 
@@ -10,7 +10,6 @@ void RenderContext::clearBackground(short fg, short bg) const {
 void RenderContext::drawText(unsigned int x, unsigned int y,
                              const std::string& text, short fg,
                              short bg) const {
-    // spdlog::info(L"RC: drawing text " + text);
     m_curses.color_on(m_curses.get_color(fg, bg));
     m_curses.mvwprint(y + m_yOffset, x + m_xOffset, text);
     m_curses.color_off(m_curses.get_color(fg, bg));
@@ -19,7 +18,6 @@ void RenderContext::drawText(unsigned int x, unsigned int y,
 void RenderContext::drawText(unsigned int x, unsigned int y,
                              const std::wstring& text, short fg,
                              short bg) const {
-    // spdlog::info(L"RC: drawing text " + text);
     m_curses.color_on(m_curses.get_color(fg, bg));
     m_curses.mvwprintw(y + m_yOffset, x + m_xOffset, text);
     m_curses.color_off(m_curses.get_color(fg, bg));
@@ -29,8 +27,8 @@ void RenderContext::drawChar(unsigned int x, unsigned int y, char ch) const {
     unsigned int xPos = m_xOffset + x;
     unsigned int yPos = m_yOffset + y;
     if (xPos > m_width || yPos > m_height) {
-        spdlog::warn("RC: Out of range {} > {} or {} > {}", xPos, m_width, yPos,
-                     m_height);
+        LOG_WARN << "RC: Out of range " << xPos << " > " << m_width << " or "
+                 << yPos << " > " << m_height << LOG_END;
         return;
     }
     m_curses.mvaddch_(yPos, xPos, ch);
@@ -40,8 +38,8 @@ void RenderContext::drawChar(unsigned int x, unsigned int y, wchar_t ch) const {
     unsigned int xPos = m_xOffset + x;
     unsigned int yPos = m_yOffset + y;
     if (xPos > m_width || yPos > m_height) {
-        spdlog::warn("RC: Out of range {} > {} or {} > {}", xPos, m_width, yPos,
-                     m_height);
+        LOG_WARN << "RC: Out of range " << xPos << " > " << m_width << " or "
+                 << yPos << " > " << m_height << LOG_END;
         return;
     }
     m_curses.mvaddwch_(yPos, xPos, ch);
@@ -65,8 +63,8 @@ void RenderContext::clearArea(unsigned int x, unsigned int y,
                               unsigned int width, unsigned int height, short fg,
                               short bg) const {
     if (width > m_width || height > m_height) {
-        spdlog::warn("RC: Invalid clear area {}x{} @ ({},{})", width, height, x,
-                     y);
+        LOG_WARN << "RC: Invalid clear area " << width << "x" << height
+                 << " @ (" << x << "," << y << ")" << LOG_END;
         return;
     }
     m_curses.color_on(m_curses.get_color(fg, bg));
@@ -81,10 +79,9 @@ void RenderContext::clearArea(unsigned int x, unsigned int y,
 void RenderContext::drawBorder(unsigned int x, unsigned int y,
                                unsigned int width, unsigned int height,
                                short fg, short bg) const {
-    spdlog::debug("RC: drawing border {}x{} @ ({},{})", width, height, x, y);
     if (width < 3 || height < 3) {
-        spdlog::warn("RC: Invalid border dimensions {}x{} @ ({},{})", width,
-                     height, x, y);
+        LOG_WARN << "RC: Invalid border dimensions " << width << "x" << height
+                 << " @ (" << x << "," << y << ")" << LOG_END;
         return;
     }
     const wchar_t verticalBorder = L'│';
@@ -115,12 +112,10 @@ void RenderContext::drawBorder(unsigned int x, unsigned int y,
 }
 
 void RenderContext::beginRender() {
-    spdlog::debug("Begin render for {}", m_window);
     m_curses.currentWindow(m_window);
 }
 
 void RenderContext::endRender() {
-    spdlog::debug("End render for {}", m_window);
     m_curses.touchwin_();
     m_curses.wrefresh();
 }
