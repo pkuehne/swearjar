@@ -1,4 +1,4 @@
-list (APPEND SwearJarBaseSources
+list (APPEND SwearJarSources
     screen.cpp
     window.cpp
     widget.cpp
@@ -33,7 +33,7 @@ list(APPEND SwearJarHeaders
     text_entry.h
     )
 
-add_library(swearjarbase "${SwearJarBaseSources}")
+add_library(swearjarbase "${SwearJarSources}")
 target_include_directories(swearjarbase PUBLIC ${CMAKE_CURRENT_LIST_DIR})
 target_compile_options(swearjarbase PRIVATE -Werror)
 target_compile_options(swearjarbase PRIVATE -Wall)

@@ -1,3 +1,17 @@
+include(FetchContent)
+FetchContent_Declare(
+    googletest
+    GIT_REPOSITORY https://github.com/google/googletest.git
+    GIT_TAG        master
+)
+
+FetchContent_GetProperties(googletest)
+if(NOT googletest_POPULATED)
+    message(STATUS "Downloading googletest repo")
+    FetchContent_Populate(googletest)
+    add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR})
+endif()
+
 add_executable(unit_test
     screen.test.cpp
     widget.test.cpp
