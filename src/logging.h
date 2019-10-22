@@ -32,75 +32,14 @@ enum class LogLevel {
 
 class Logging {
 public:
-    static std::ostream& log(std::string&& level) {
-        if (!out.is_open()) {
-            out.open("swearjar.log", std::ofstream::out);
-        }
-        out << "[" << level << "] ";
-        return out;
-    }
-    static std::ostream& drop() {
-        if (!null.is_open()) {
-            null.open("/dev/null", std::ofstream::out);
-        }
-        return null;
-    }
-    static std::ostream& debug() {
-        switch (level) {
-            case LogLevel::None:
-            case LogLevel::Debug:
-                return log("DEBUG");
-            case LogLevel::Info:
-            case LogLevel::Warn:
-            case LogLevel::Error:
-            case LogLevel::All:
-            default:
-                break;
-        }
-        return drop();
-    }
-    static std::ostream& info() {
-        switch (level) {
-            case LogLevel::None:
-            case LogLevel::Debug:
-            case LogLevel::Info:
-                return log("INFO");
-            case LogLevel::Warn:
-            case LogLevel::Error:
-            case LogLevel::All:
-            default:
-                break;
-        }
-        return drop();
-    }
-    static std::ostream& warn() {
-        switch (level) {
-            case LogLevel::None:
-            case LogLevel::Debug:
-            case LogLevel::Info:
-            case LogLevel::Warn:
-                return log("WARN");
-            case LogLevel::Error:
-            case LogLevel::All:
-            default:
-                break;
-        }
-        return drop();
-    }
-    static std::ostream& error() {
-        switch (level) {
-            case LogLevel::None:
-            case LogLevel::Debug:
-            case LogLevel::Info:
-            case LogLevel::Warn:
-            case LogLevel::Error:
-                return log("ERROR");
-            case LogLevel::All:
-            default:
-                break;
-        }
-        return drop();
-    }
+    static std::ostream& log(const std::string& level);
+    static std::ostream& drop();
+    static void add_level(const std::string& level);
+    static void add_timestamp();
+    static std::ostream& debug();
+    static std::ostream& info();
+    static std::ostream& warn();
+    static std::ostream& error();
 
 private:
     static std::ofstream out;
