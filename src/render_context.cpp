@@ -3,6 +3,11 @@
 
 namespace SwearJar {
 
+RenderContext::RenderContext(CursesInterface& curses, unsigned int window)
+    : m_curses(curses), m_window(window) {
+    spdlog::debug("Created RenderContext for {}", window);
+}
+
 void RenderContext::clearBackground(short fg, short bg) const {
     m_curses.wbkgd(m_curses.get_color(fg, bg));
 }
