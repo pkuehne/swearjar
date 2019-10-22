@@ -1,11 +1,11 @@
 #include "curses_wrapper.h"
+#include "logging.h"
 #include <signal.h>
-#include <spdlog/spdlog.h>
 
 namespace SwearJar {
 
 CursesWrapper::CursesWrapper() {
-    spdlog::debug("CW: initializing CursesWrapper");
+    LOG_DEBUG << "CW: initializing CursesWrapper" << LOG_END;
     m_colorMap.insert({std::make_pair(-1, -1), 0});
 }
 
@@ -125,8 +125,6 @@ void CursesWrapper::mvwprintw(int y, int x, const std::wstring& text) const {
 }
 
 void CursesWrapper::mvaddch_(int y, int x, char ch) const {
-    spdlog::debug("CW: mvaddch_ {} at ({},{}) for {}", ch, x, y,
-                  m_currentWindow);
     mvwaddch(m_windows[m_currentWindow], y, x, ch);
 }
 
@@ -150,7 +148,6 @@ void CursesWrapper::touchwin_() {
 }
 
 void handle_winch(int) {
-    spdlog::debug("Resize signal handler called");
     endwin();
     refresh();
     clear();
@@ -159,7 +156,6 @@ void handle_winch(int) {
 }
 
 void CursesWrapper::setupResizeHandler() {
-    spdlog::debug("Installing resize signal handler");
     struct sigaction sa {};
     sa.sa_handler = handle_winch;
     sigaction(SIGWINCH, &sa, NULL);

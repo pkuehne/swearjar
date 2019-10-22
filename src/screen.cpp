@@ -1,12 +1,12 @@
 #include "screen.h"
+#include "logging.h"
 #include "window.h"
 #include <iostream>
-#include <spdlog/spdlog.h>
 
 namespace SwearJar {
 
 Screen::Screen(std::shared_ptr<CursesInterface> curses) : m_curses(curses) {
-    spdlog::debug("Screen initialized");
+    LOG_INFO << "Screen initialized" << LOG_END;
 }
 
 Screen::~Screen() {
@@ -68,7 +68,7 @@ void Screen::refreshWindows() {
 }
 
 void Screen::resizeWindows() {
-    spdlog::info("Resizing windows");
+    LOG_INFO << "Resizing windows" << LOG_END;
     for (auto& window : m_windows) {
         window->resize();
     }
@@ -76,7 +76,7 @@ void Screen::resizeWindows() {
 }
 
 void Screen::handleKeys(const KeyEvent& event) {
-    spdlog::debug("Handling key {}", event.key);
+    LOG_DEBUG << "Handling key " << event.key << LOG_END;
     if (event.key == KEY_TAB) {
         (*m_windows.rbegin())->baseWidget().moveFocusForward();
         return;
@@ -88,8 +88,9 @@ void Screen::handleKeys(const KeyEvent& event) {
 }
 
 void Screen::handleMouse(const MouseEvent& event) {
-    spdlog::debug("device: {} x = {} y = {} l = {} r = {}", event.device,
-                  event.x, event.y, event.leftClicked, event.rightClicked);
+    LOG_DEBUG << "Device: " << event.device << " x=" << event.x
+              << " y=" << event.y << " l=" << event.leftClicked
+              << " r=" << event.rightClicked << LOG_END;
     if (!event.leftClicked) {
         return;
     }
@@ -99,7 +100,8 @@ void Screen::handleMouse(const MouseEvent& event) {
         MouseEvent l_event(event);
         l_event.x -= topWin.x() - 1;
         l_event.y -= topWin.y() - 1;
-        spdlog::debug("handling button click @ ({}, {})", l_event.x, l_event.y);
+        LOG_DEBUG << "handling button click @ (" << l_event.x << ", "
+                  << l_event.y << ")" << LOG_END;
         topWin.baseWidget().handleMouseClick(l_event);
     }
 }

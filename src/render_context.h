@@ -1,7 +1,6 @@
 #pragma once
 
 #include "curses_interface.h"
-#include <spdlog/spdlog.h>
 
 namespace SwearJar {
 
@@ -9,7 +8,6 @@ class RenderContext {
 public:
     RenderContext(CursesInterface& curses, unsigned int window)
         : m_curses(curses), m_window(window) {
-        spdlog::debug("Created RenderContext for {}", window);
     }
     virtual ~RenderContext() {
     }

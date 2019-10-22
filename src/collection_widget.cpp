@@ -1,5 +1,5 @@
 #include "collection_widget.h"
-#include <spdlog/spdlog.h>
+#include "logging.h"
 
 namespace SwearJar {
 CollectionWidget::CollectionWidget(const std::string& name) : Widget(name) {
@@ -22,7 +22,7 @@ unsigned int CollectionWidget::requiredWidth() {
 }
 
 void CollectionWidget::render(const RenderContext& context) {
-    spdlog::debug("WI: render called");
+    LOG_DEBUG << "WI: render called" << LOG_END;
 
     // Render the widgets
     for (auto& widget : m_widgets) {
@@ -62,7 +62,8 @@ bool CollectionWidget::handleKeyPress(const KeyEvent& event) {
         return false;
     }
     if (m_focusWidget != m_widgets.end()) {
-        spdlog::debug("Sending keyPress to {}", (*m_focusWidget)->name());
+        LOG_DEBUG << "Sending keyPress to " << (*m_focusWidget)->name()
+                  << LOG_END;
         return (*m_focusWidget)->handleKeyPress(event);
     }
     return false;
@@ -76,10 +77,11 @@ bool CollectionWidget::handleMouseClick(const MouseEvent& event) {
     MouseEvent l_event(event);
     l_event.x -= this->x();
     l_event.y -= this->y();
-    spdlog::debug("Check against ({}, {})", l_event.x, l_event.y);
+    LOG_DEBUG << "Check against (" << l_event.x << "," << l_event.y << ")"
+              << LOG_END;
     for (auto& widget : m_widgets) {
-        spdlog::debug("click on {} at ({}, {})", widget->name(), widget->x(),
-                      widget->y());
+        LOG_DEBUG << "click on " << widget->name() << " @ (" << widget->x()
+                  << ", " << widget->y() << ")" << LOG_END;
         if (l_event.x >= widget->x() &&
             l_event.x <= (widget->x() + widget->width())) {
             if (l_event.y >= widget->y() &&

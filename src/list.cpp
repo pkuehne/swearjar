@@ -1,5 +1,4 @@
 #include "list.h"
-#include "spdlog/spdlog.h"
 
 namespace SwearJar {
 

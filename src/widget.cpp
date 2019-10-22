@@ -1,5 +1,5 @@
 #include "widget.h"
-#include "spdlog/spdlog.h"
+#include "logging.h"
 
 namespace SwearJar {
 
