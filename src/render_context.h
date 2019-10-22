@@ -6,9 +6,8 @@ namespace SwearJar {
 
 class RenderContext {
 public:
-    RenderContext(CursesInterface& curses, unsigned int window)
-        : m_curses(curses), m_window(window) {
-    }
+    RenderContext(CursesInterface& curses, unsigned int window);
+
     virtual ~RenderContext() {
     }
 

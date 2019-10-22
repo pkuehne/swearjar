@@ -1,5 +1,39 @@
+list (APPEND SwearJarSources
+    screen.cpp
+    window.cpp
+    widget.cpp
+    render_context.cpp
+    label.cpp
+    button.cpp
+    frame.cpp
+    progressbar.cpp
+    collection_widget.cpp
+    layout_widget.cpp
+    checkbox.cpp
+    list.cpp
+    radio_button.cpp
+    text_entry.cpp
+    logging.cpp
+    )
+list(APPEND SwearJarHeaders
+    curses_interface.h
+    screen.h
+    window.h
+    widget.h
+    render_context.h
+    label.h
+    button.h
+    frame.h
+    progressbar.h
+    collection_widget.h
+    layout_widget.h
+    checkbox.h
+    list.h
+    radio_button.h
+    text_entry.h
+    )
 
-add_library(swearjarbase)
+add_library(swearjarbase "${SwearJarSources}")
 target_include_directories(swearjarbase PUBLIC ${CMAKE_CURRENT_LIST_DIR})
 target_compile_options(swearjarbase PRIVATE -Werror)
 target_compile_options(swearjarbase PRIVATE -Wall)
@@ -7,42 +41,15 @@ target_compile_options(swearjarbase PRIVATE -Wextra)
 target_compile_options(swearjarbase PRIVATE -Wpedantic)
 target_compile_options(swearjarbase PRIVATE -g)
 target_compile_options(swearjarbase PRIVATE -O2)
-target_sources(swearjarbase
-    PUBLIC
-    ${CMAKE_CURRENT_LIST_DIR}/curses_interface.h
-    PRIVATE
-    ${CMAKE_CURRENT_LIST_DIR}/screen.h
-    ${CMAKE_CURRENT_LIST_DIR}/screen.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/window.h
-    ${CMAKE_CURRENT_LIST_DIR}/window.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/widget.h
-    ${CMAKE_CURRENT_LIST_DIR}/widget.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/render_context.h
-    ${CMAKE_CURRENT_LIST_DIR}/render_context.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/label.h
-    ${CMAKE_CURRENT_LIST_DIR}/label.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/button.h
-    ${CMAKE_CURRENT_LIST_DIR}/button.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/frame.h
-    ${CMAKE_CURRENT_LIST_DIR}/frame.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/progressbar.h
-    ${CMAKE_CURRENT_LIST_DIR}/progressbar.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/collection_widget.h
-    ${CMAKE_CURRENT_LIST_DIR}/collection_widget.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/layout_widget.h
-    ${CMAKE_CURRENT_LIST_DIR}/layout_widget.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/checkbox.h
-    ${CMAKE_CURRENT_LIST_DIR}/checkbox.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/list.h
-    ${CMAKE_CURRENT_LIST_DIR}/list.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/radio_button.h
-    ${CMAKE_CURRENT_LIST_DIR}/radio_button.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/text_entry.h
-    ${CMAKE_CURRENT_LIST_DIR}/text_entry.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/logging.cpp
-    )
 
-add_library(swearjar)
+list (APPEND SwearJarSources
+    curses_wrapper.cpp
+    )
+list(APPEND SwearJarHeaders
+    swearjar.h
+    curses_wrapper.h
+    )
+add_library(swearjar "${SwearJarSources}")
 target_include_directories(swearjar PUBLIC ${CMAKE_CURRENT_LIST_DIR})
 target_compile_options(swearjar PRIVATE -Werror)
 target_compile_options(swearjar PRIVATE -Wall)
@@ -50,12 +57,12 @@ target_compile_options(swearjar PRIVATE -Wextra)
 target_compile_options(swearjar PRIVATE -Wpedantic)
 target_compile_options(swearjar PRIVATE -g)
 target_compile_options(swearjar PRIVATE -O2)
-target_sources(swearjar
-    PUBLIC
-    ${CMAKE_CURRENT_LIST_DIR}/swearjar.h
-    PRIVATE
-    ${CMAKE_CURRENT_LIST_DIR}/curses_wrapper.h
-    ${CMAKE_CURRENT_LIST_DIR}/curses_wrapper.cpp
-    )
 
 target_link_libraries(swearjar swearjarbase ncursesw)
+set_target_properties(swearjar PROPERTIES PUBLIC_HEADER
+    "${SwearJarHeaders}")
+
+install(TARGETS swearjar
+    LIBRARY
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/swearjar
+    )
