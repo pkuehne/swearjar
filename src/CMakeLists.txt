@@ -32,8 +32,12 @@ list(APPEND SwearJarHeaders
     radio_button.h
     text_entry.h
     )
+# Create an object library that is not linked, but serves as a collection of
+# objects for other libraries
+add_library(swearjarobjects OBJECT "${SwearJarSources}")
 
-add_library(swearjarbase "${SwearJarSources}")
+# Build swearjarbase without a concrete CursesInterface implementation
+add_library(swearjarbase $<TARGET_OBJECTS:swearjarobjects>)
 target_include_directories(swearjarbase PUBLIC ${CMAKE_CURRENT_LIST_DIR})
 target_compile_options(swearjarbase PRIVATE -Werror)
 target_compile_options(swearjarbase PRIVATE -Wall)
@@ -42,14 +46,12 @@ target_compile_options(swearjarbase PRIVATE -Wpedantic)
 target_compile_options(swearjarbase PRIVATE -g)
 target_compile_options(swearjarbase PRIVATE -O2)
 
-list (APPEND SwearJarSources
-    curses_wrapper.cpp
-    )
 list(APPEND SwearJarHeaders
     swearjar.h
     curses_wrapper.h
     )
-add_library(swearjar "${SwearJarSources}")
+# Build swearjar with CursesWrapper and all swearjar objects from the base
+add_library(swearjar curses_wrapper.cpp $<TARGET_OBJECTS:swearjarobjects>)
 target_include_directories(swearjar PUBLIC ${CMAKE_CURRENT_LIST_DIR})
 target_compile_options(swearjar PRIVATE -Werror)
 target_compile_options(swearjar PRIVATE -Wall)
