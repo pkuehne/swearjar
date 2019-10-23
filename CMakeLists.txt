@@ -9,7 +9,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 find_package(Curses)
 
 add_subdirectory(src)
-add_subdirectory(example)
+add_subdirectory(examples)
 
 enable_testing()
 add_subdirectory(test)
