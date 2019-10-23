@@ -1,6 +1,6 @@
-# Readme.md
+# SwearJar
 
-> Dislike curses? Get a swear jar
+> Don't like curses? Get a swear jar!
 
 SwearJar is a C++ library that wraps ncurses and provides extensible widgets to
 build great-looking [TUIs][tui].
@@ -45,7 +45,7 @@ The following snippet will get you started using SwearJar, but see the Wiki for 
 
     int main() {
         using namespace SwearJar;
-        Screen screen;
+        Screen screen(std::make_shared<SwearJar::CursesWrapper>());
         screen.init();
 
         // Add windows and widgets
