@@ -9,8 +9,11 @@ FetchContent_GetProperties(googletest)
 if(NOT googletest_POPULATED)
     message(STATUS "Downloading googletest repo")
     FetchContent_Populate(googletest)
-    add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR})
     message(STATUS "Downloading googletest repo - done")
+    add_subdirectory(
+        ${googletest_SOURCE_DIR} ${googletest_BINARY_DIR}
+        EXCLUDE_FROM_ALL
+    )
 endif()
 
 add_executable(unit_test

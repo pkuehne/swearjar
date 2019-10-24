@@ -20,7 +20,7 @@ SwearJar also handles things like mouse clicks, key presses and an event loop fo
 # Key Features 🔑
 
 -   No curses calls necessary, but can be used if desired
--   Full UTF-8 support
+-   Full Unicode support
 -   Mouse support for clicking on buttons, dropdowns, etc.
 -   Common widgets included to get started
 -   Easy to add more widgets or extend existing ones.
