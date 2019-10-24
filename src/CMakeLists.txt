@@ -66,5 +66,7 @@ set_target_properties(swearjar PROPERTIES PUBLIC_HEADER
 
 install(TARGETS swearjar
     LIBRARY
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/swearjar
+        DESTINATION lib
+    PUBLIC_HEADER
+        DESTINATION include/swearjar
     )
