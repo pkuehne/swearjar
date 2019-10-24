@@ -1,3 +1,5 @@
+add_compile_definitions(VERSION="${PROJECT_VERSION}")
+
 list (APPEND SwearJarSources
     screen.cpp
     window.cpp
