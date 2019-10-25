@@ -34,6 +34,11 @@ add_executable(unit_test
     )
 
 target_compile_options(unit_test PUBLIC -Wall)
+if(SJ_COVERAGE)
+target_compile_options(unit_test PRIVATE -fprofile-arcs)
+target_compile_options(unit_test PRIVATE -ftest-coverage)
+target_link_libraries(unit_test gcov)
+endif()
 target_link_libraries(unit_test gtest_main gmock)
 target_link_libraries(unit_test swearjarbase)
 
@@ -42,7 +47,22 @@ add_test (
     COMMAND unit_test --gtest_shuffle
     )
 
-add_custom_target(tests unit_test
+add_custom_target(tests
     DEPENDS unit_test
     COMMAND unit_test --gtest_shuffle
     )
+
+if(SJ_COVERAGE)
+add_custom_target(coverage
+    DEPENDS tests
+    COMMAND gcovr -p
+                -r ${CMAKE_SOURCE_DIR}/src
+                --object-dir=${CMAKE_BINARY_DIR}/src
+                --fail-under-line 77
+                #COMMAND gcovr -p
+                #-r ${CMAKE_SOURCE_DIR}/src
+                #--object-dir=${CMAKE_BINARY_DIR}/src
+                #--branches
+                #--exclude-unreachable-branches
+    )
+endif()

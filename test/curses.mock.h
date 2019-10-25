@@ -5,36 +5,37 @@
 
 class MockCurses : public SwearJar::CursesInterface {
 public:
-    MOCK_METHOD0(initscr, void());
-    MOCK_METHOD0(raw, void());
-    MOCK_METHOD0(noecho, void());
-    MOCK_METHOD0(keypad, void());
-    MOCK_METHOD0(endwin, void());
-    MOCK_METHOD0(start_color, void());
-    MOCK_METHOD0(enable_mouse, void());
-    MOCK_METHOD0(getchar, int());
-    MOCK_METHOD4(newwin, unsigned int(int, int, int, int));
-    MOCK_METHOD0(currentWindow, unsigned int());
-    MOCK_METHOD0(has_colors, bool());
-    MOCK_METHOD3(init_pair, void(short pair, short fg, short bg));
-    MOCK_METHOD2(get_color, short(short, short));
-    MOCK_METHOD1(color_on, void(short));
-    MOCK_METHOD1(color_off, void(short));
-    MOCK_METHOD0(reverse_on, void());
-    MOCK_METHOD0(reverse_off, void());
-    MOCK_METHOD0(blink_on, void());
-    MOCK_METHOD0(blink_off, void());
-    MOCK_METHOD1(wbkgd, void(short pair));
-    MOCK_CONST_METHOD3(mvwprint, void(int y, int x, const std::string& string));
-    MOCK_CONST_METHOD3(mvwprintw,
-                       void(int y, int x, const std::wstring& string));
-    MOCK_CONST_METHOD3(mvaddch_, void(int, int, char));
-    MOCK_CONST_METHOD3(mvaddwch_, void(int y, int x, wchar_t ch));
-    MOCK_METHOD2(get_screen_size, void(int&, int&));
-    MOCK_METHOD2(wresize, void(int, int));
-    MOCK_METHOD2(mvwin, void(int, int));
-    MOCK_METHOD0(refresh, void());
-    MOCK_METHOD0(wrefresh, void());
-    MOCK_METHOD0(touchwin_, void());
-    MOCK_METHOD1(currentWindow, void(unsigned int newWin));
+    MOCK_METHOD(void, initscr, (), (override));
+    MOCK_METHOD(void, raw, (), (override));
+    MOCK_METHOD(void, noecho, (), (override));
+    MOCK_METHOD(void, keypad, (), (override));
+    MOCK_METHOD(void, endwin, (), (override));
+    MOCK_METHOD(void, start_color, (), (override));
+    MOCK_METHOD(void, enable_mouse, (), (override));
+    MOCK_METHOD(int, getchar, (), (override));
+    MOCK_METHOD(unsigned int, newwin, (int, int, int, int), (override));
+    MOCK_METHOD(unsigned int, currentWindow, (), (override));
+    MOCK_METHOD(bool, has_colors, (), (override));
+    MOCK_METHOD(void, init_pair, (short pair, short fg, short bg), (override));
+    MOCK_METHOD(short, get_color, (short, short), (override));
+    MOCK_METHOD(void, color_on, (short), (override));
+    MOCK_METHOD(void, color_off, (short), (override));
+    MOCK_METHOD(void, reverse_on, (), (override));
+    MOCK_METHOD(void, reverse_off, (), (override));
+    MOCK_METHOD(void, blink_on, (), (override));
+    MOCK_METHOD(void, blink_off, (), (override));
+    MOCK_METHOD(void, wbkgd, (short pair), (override));
+    MOCK_METHOD(void, mvwprint, (int y, int x, const std::string& string),
+                (override, const));
+    MOCK_METHOD(void, mvwprintw, (int y, int x, const std::wstring& string),
+                (override, const));
+    MOCK_METHOD(void, mvaddch_, (int, int, char), (override, const));
+    MOCK_METHOD(void, mvaddwch_, (int y, int x, wchar_t ch), (override, const));
+    MOCK_METHOD(void, get_screen_size, (int&, int&), (override));
+    MOCK_METHOD(void, wresize, (int, int), (override));
+    MOCK_METHOD(void, mvwin, (int, int), (override));
+    MOCK_METHOD(void, refresh, (), (override));
+    MOCK_METHOD(void, wrefresh, (), (override));
+    MOCK_METHOD(void, touchwin_, (), (override));
+    MOCK_METHOD(void, currentWindow, (unsigned int newWin), (override));
 };

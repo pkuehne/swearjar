@@ -8,6 +8,7 @@ project (SwearJar
 
 option(SJ_BUILD_TESTS "Whether to build the unit tests" ON)
 option(SJ_BUILD_EXAMPLES "Whether to build the examples" ON)
+option(SJ_COVERAGE "Whether to build the examples" OFF)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -17,11 +18,11 @@ set(CURSES_NEED_WIDE TRUE)
 find_package(Curses)
 
 add_subdirectory(src)
-if(SJ_BUILD_EXAMPLES)
+if(SJ_BUILD_EXAMPLES AND NOT SJ_COVERAGE)
     add_subdirectory(examples)
 endif()
 
-if(SJ_BUILD_EXAMPLES)
+if(SJ_BUILD_TESTS OR SJ_COVERAGE)
     enable_testing()
     add_subdirectory(test)
 endif()
