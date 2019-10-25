@@ -58,6 +58,7 @@ add_custom_target(coverage
     COMMAND gcovr -p
                 -r ${CMAKE_SOURCE_DIR}/src
                 --object-dir=${CMAKE_BINARY_DIR}/src
+                --fail-under-line 77
                 #COMMAND gcovr -p
                 #-r ${CMAKE_SOURCE_DIR}/src
                 #--object-dir=${CMAKE_BINARY_DIR}/src
