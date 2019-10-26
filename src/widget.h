@@ -23,7 +23,7 @@ enum Color {
 
 class Widget {
 public: // Overridable
-    Widget(const std::string& name);
+    explicit Widget(const std::string& name);
     Widget(Widget&) = delete;
     virtual ~Widget() {
     }

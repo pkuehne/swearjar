@@ -11,7 +11,7 @@ class Window;
 
 class Screen {
 public:
-    Screen(std::shared_ptr<CursesInterface> curses);
+    explicit Screen(std::shared_ptr<CursesInterface>&& curses);
     ~Screen();
     void initialize();
     void run();

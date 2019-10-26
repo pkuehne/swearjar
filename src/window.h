@@ -33,7 +33,7 @@ struct WindowStyleParams {
 
 class Window {
 public:
-    Window(Screen& screen);
+    explicit Window(Screen& screen);
     virtual ~Window();
 
     BaseWidget& baseWidget() {

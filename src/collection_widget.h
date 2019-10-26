@@ -6,7 +6,7 @@ namespace SwearJar {
 
 class CollectionWidget : public Widget {
 public:
-    CollectionWidget(const std::string& name);
+    explicit CollectionWidget(const std::string& name);
 
     unsigned int requiredHeight() override;
     unsigned int requiredWidth() override;

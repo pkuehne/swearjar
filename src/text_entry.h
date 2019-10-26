@@ -7,7 +7,7 @@ namespace SwearJar {
 
 class TextEntry : public Widget {
 public:
-    TextEntry(const std::string& name);
+    explicit TextEntry(const std::string& name);
 
     void text(std::wstring text);
     std::wstring text();

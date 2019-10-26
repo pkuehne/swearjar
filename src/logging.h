@@ -45,6 +45,6 @@ private:
     static std::ofstream out;
     static std::ofstream null;
     static LogLevel level;
-}; // namespace SwearJar
+};
 
 } // namespace SwearJar

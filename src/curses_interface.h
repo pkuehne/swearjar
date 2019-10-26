@@ -1,4 +1,5 @@
 #pragma once
+
 #include <memory>
 #include <string>
 
@@ -16,7 +17,6 @@ struct KeyEvent {
     int key = 0;
 };
 
-namespace {
 const int KEY_TAB = 9;
 const int KEY_ENTER = 10;
 const int KEY_DOWN = 258;
@@ -28,7 +28,6 @@ const int KEY_PGDOWN = 338;
 const int KEY_PGUP = 339;
 const int KEY_MOUSE = 409;
 const int KEY_RESIZE = 410;
-} // namespace
 
 class CursesInterface {
 public:
