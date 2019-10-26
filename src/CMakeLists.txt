@@ -34,6 +34,9 @@ list(APPEND SwearJarHeaders
     radio_button.h
     text_entry.h
     )
+
+set(CMAKE_CXX_CLANG_TIDY "clang-tidy;-checks=*")
+
 # Create an object library that is not linked, but serves as a collection of
 # objects for other libraries
 add_library(swearjarobjects OBJECT "${SwearJarSources}")
@@ -81,4 +84,22 @@ install(TARGETS swearjar
         DESTINATION lib
     PUBLIC_HEADER
         DESTINATION include/swearjar
+    )
+
+add_custom_target(cppcheck
+    DEPENDS swearjar
+    COMMAND cppcheck
+        --error-exitcode=1
+        --enable=warning,performance,information,missingInclude
+        --std=c++14
+        --quiet
+        ${CMAKE_SOURCE_DIR}/src/*.cpp
+        ${CMAKE_SOURCE_DIR}/src/*.h
+    )
+add_custom_target(clang-tidy
+    DEPENDS swearjar
+    COMMAND clang-tidy
+        --checks="*"
+        --header-filter=${CMAKE_SOURCE_DIR}/src/.*
+        ${CMAKE_SOURCE_DIR}/src/*.cpp
     )
