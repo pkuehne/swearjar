@@ -36,12 +36,7 @@ list(APPEND SwearJarHeaders
     )
 
 if (SJ_LINT_COMPILATION)
-set(CMAKE_CXX_CLANG_TIDY
-        clang-tidy;
-        -checks=*,-llvm-header-guard,-google-runtime-*,-hicpp-special-member-functions,-hicpp-signed-bitwise,-cppcoreguidelines-special-member-functions,-cppcoreguidelines-pro-type-union-access,-cert-err58-cpp,-fuchsia-*
-        -warnings-as-errors=*
-        -header-filter=${CMAKE_CURRENT_LIST_DIR}
-    )
+set(CMAKE_CXX_CLANG_TIDY clang-tidy; -format-style=file)
 endif()
 
 # Create an object library that is not linked, but serves as a collection of
