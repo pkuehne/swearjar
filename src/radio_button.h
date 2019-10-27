@@ -7,8 +7,6 @@ namespace SwearJar {
 class RadioButton;
 class RadioButtonGroup {
 public:
-    RadioButtonGroup() {
-    }
     void add(RadioButton* button);
     void remove(RadioButton* button);
     std::set<RadioButton*> buttons() {

@@ -53,7 +53,7 @@ void Screen::run() {
 }
 
 void Screen::popWindow() {
-    if (m_windows.size() == 0) {
+    if (m_windows.empty()) {
         return;
     }
     m_windows.pop_back();

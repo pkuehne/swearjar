@@ -13,9 +13,6 @@ Window::Window(Screen& screen) : m_screen(screen) {
     resize();
 }
 
-Window::~Window() {
-}
-
 void Window::setWindowStyleFullScreen() {
     m_style = WindowStyle::FullScreen;
     resize();
@@ -62,7 +59,7 @@ void Window::refresh() {
 void Window::resize() {
     LOG_DEBUG << "resize called for " << m_id << LOG_END;
     int screenHeight = 0, screenWidth = 0;
-    screen().curses().get_screen_size(screenHeight, screenWidth);
+    screen().curses().get_screen_size(&screenHeight, &screenWidth);
 
     switch (style()) {
         case WindowStyle::FullScreen: {

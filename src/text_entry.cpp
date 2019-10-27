@@ -1,5 +1,5 @@
 #include "text_entry.h"
-#include <ctype.h>
+#include <cctype>
 
 namespace SwearJar {
 
@@ -11,7 +11,7 @@ std::wstring TextEntry::text() {
     return m_text;
 }
 
-void TextEntry::text(std::wstring text) {
+void TextEntry::text(const std::wstring& text) {
     m_text = text;
     minWidth(text.size());
     m_cursor = text.size();
@@ -45,7 +45,7 @@ void TextEntry::render(const RenderContext& context) {
 
 bool TextEntry::handleKeyPress(const KeyEvent& event) {
     if (event.key == KEY_BACKSPACE) {
-        if (!text().size()) {
+        if (text().empty()) {
             return true;
         }
         m_text.erase(m_cursor - 1, 1);
@@ -69,7 +69,7 @@ bool TextEntry::handleKeyPress(const KeyEvent& event) {
         }
         return true;
     }
-    if (std::isprint(event.key)) {
+    if (std::isprint(event.key) != 0) {
         m_text.insert(m_cursor, 1, event.key);
         m_cursor += 1;
         if (onTextChanged) {

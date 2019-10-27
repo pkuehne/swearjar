@@ -4,7 +4,7 @@
 namespace SwearJar {
 
 void LayoutWidget::addSpacer(unsigned int factor) {
-    SpacerWidget& widget = createWidget<SpacerWidget>("spacer");
+    auto& widget = createWidget<SpacerWidget>("spacer");
     widget.growthFactor(factor);
 }
 
@@ -89,7 +89,7 @@ void LayoutWidget::realignHorizontally() {
         w->y(m_margin);
     }
 
-    if (allocatedWidth < widthToAllocate && children().size()) {
+    if (allocatedWidth < widthToAllocate && !children().empty()) {
         auto& first = children()[0];
         first->width(first->width() + widthToAllocate);
     }
@@ -125,7 +125,7 @@ void LayoutWidget::realignVertically() {
         w->x(m_margin);
     }
 
-    if (allocatedHeight < heightToAllocate && children().size()) {
+    if (allocatedHeight < heightToAllocate && !children().empty()) {
         auto& first = children()[0];
         first->height(first->height() + heightToAllocate);
     }

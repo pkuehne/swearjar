@@ -19,9 +19,9 @@ public:
     explicit LayoutWidget(const std::string& name) : CollectionWidget(name) {
     }
 
-    virtual unsigned int requiredWidth() override;
-    virtual unsigned int requiredHeight() override;
-    virtual void addSpacer(unsigned int factor = 1);
+    unsigned int requiredWidth() override;
+    unsigned int requiredHeight() override;
+    void addSpacer(unsigned int factor = 1);
     virtual void realign();
     virtual void realignHorizontally();
     virtual void realignVertically();

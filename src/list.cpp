@@ -7,7 +7,7 @@ List::List(const std::string& name) : Widget(name) {
     canTakeFocus(true);
 }
 
-void List::addItem(std::wstring item) {
+void List::addItem(const std::wstring& item) {
     m_items.push_back(item);
 }
 
@@ -29,7 +29,7 @@ void List::selectedItem(unsigned int item) {
     unsigned int prevSelected = m_selectedItem;
 
     m_selectedItem = item;
-    if (m_items.size() == 0) {
+    if (m_items.empty()) {
         m_selectedItem = 0;
     }
     if (m_selectedItem > m_items.size() - 1) {
@@ -69,7 +69,7 @@ bool List::handleKeyPress(const KeyEvent& event) {
         return true;
     }
     if (event.key == KEY_PGUP) {
-        itemOffset(m_itemOffset ? m_itemOffset - 1 : 0);
+        itemOffset(m_itemOffset != 0 ? m_itemOffset - 1 : 0);
         return true;
     }
     if (event.key == KEY_DOWN) {
@@ -77,7 +77,7 @@ bool List::handleKeyPress(const KeyEvent& event) {
         return true;
     }
     if (event.key == KEY_UP) {
-        selectedItem(m_selectedItem ? m_selectedItem - 1 : 0);
+        selectedItem(m_selectedItem != 0 ? m_selectedItem - 1 : 0);
         return true;
     }
     if (event.key == KEY_ENTER) {

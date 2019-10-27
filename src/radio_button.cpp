@@ -18,10 +18,10 @@ void RadioButtonGroup::add(RadioButton* button) {
 void RadioButtonGroup::remove(RadioButton* button) {
     m_buttons.erase(button);
     if (button == m_current) {
-        if (m_buttons.size()) {
-            m_current = *m_buttons.begin();
-        } else {
+        if (m_buttons.empty()) {
             m_current = nullptr;
+        } else {
+            m_current = *m_buttons.begin();
         }
     }
 }
@@ -49,7 +49,7 @@ bool RadioButton::enabled() {
     return m_group->current() == this;
 }
 
-void RadioButton::enabled(bool) {
+void RadioButton::enabled(bool /* on */) {
     if (m_group == nullptr) {
         // Checkbox::enabled(on);
         return;

@@ -10,8 +10,6 @@ namespace SwearJar {
 class CursesWrapper : public CursesInterface {
 public:
     CursesWrapper();
-    ~CursesWrapper() {
-    }
     void initscr() override;
     void raw() override;
     void noecho() override;
@@ -30,7 +28,7 @@ public:
     void blink_on() override;
     void blink_off() override;
     void wbkgd(short pair) override;
-    void get_screen_size(int& height, int& width) override;
+    void get_screen_size(int* height, int* width) override;
 
     unsigned int newwin(int h, int w, int y, int x) override;
     void mvwin(int y, int x) override;
@@ -38,7 +36,7 @@ public:
 
     void mvwprint(int y, int x, const std::string& string) const override;
     void mvwprintw(int y, int x, const std::wstring& string) const override;
-    void mvaddch_(int y, int x, char c) const override;
+    void mvaddch_(int y, int x, char ch) const override;
     void mvaddwch_(int y, int x, wchar_t ch) const override;
 
     int getchar() override;

@@ -26,15 +26,15 @@ bool Button::handleKeyPress(const KeyEvent& event) {
     if (event.key != 10) {
         return false;
     }
-    if (onPressed != 0) {
+    if (onPressed != nullptr) {
         onPressed(*this);
     }
     return true;
 }
 
-bool Button::handleMouseClick(const MouseEvent&) {
+bool Button::handleMouseClick(const MouseEvent& /* event */) {
     LOG_DEBUG << "Button clicked: " << name() << LOG_END;
-    if (onPressed != 0) {
+    if (onPressed != nullptr) {
         onPressed(*this);
     }
     return true;

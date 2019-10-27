@@ -27,16 +27,17 @@ void Logging::add_level(const std::string& level) {
 }
 
 void Logging::add_timestamp() {
-    using namespace std::chrono;
-
-    auto now = system_clock::now();
-    auto fraction = now - time_point_cast<seconds>(now);
-    auto millis = duration_cast<milliseconds>(fraction);
-    time_t raw = system_clock::to_time_t(now);
+    auto now = std::chrono::system_clock::now();
+    auto fraction =
+        now - std::chrono::time_point_cast<std::chrono::seconds>(now);
+    auto millis =
+        std::chrono::duration_cast<std::chrono::milliseconds>(fraction);
+    time_t raw = std::chrono::system_clock::to_time_t(now);
 
     char formatted[20] = {0};
-    strftime(formatted, sizeof(formatted), "%T", localtime(&raw));
-    out << formatted;
+    strftime(static_cast<char*>(formatted), sizeof(formatted), "%T",
+             localtime(&raw));
+    out << static_cast<char*>(formatted);
     out << "." << millis.count() << " ";
 }
 

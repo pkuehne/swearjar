@@ -9,7 +9,7 @@ class TextEntry : public Widget {
 public:
     explicit TextEntry(const std::string& name);
 
-    void text(std::wstring text);
+    void text(const std::wstring& text);
     std::wstring text();
 
     void cursor(unsigned int cursor);

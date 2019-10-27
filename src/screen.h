@@ -28,7 +28,8 @@ public:
     void quit() {
         m_quit = true;
     }
-    std::function<void(const KeyEvent&)> unhandledKeys = [](const KeyEvent&) {};
+    std::function<void(const KeyEvent&)> unhandledKeys =
+        [](const KeyEvent& /* e */) {};
     std::function<void()> screenResized = []() {};
 
 private:

@@ -9,7 +9,7 @@ class List : public Widget {
 public:
     explicit List(const std::string& name);
 
-    void addItem(std::wstring item);
+    void addItem(const std::wstring& item);
     const std::vector<std::wstring>& items() {
         return m_items;
     }

@@ -31,8 +31,7 @@ const int KEY_RESIZE = 410;
 
 class CursesInterface {
 public:
-    virtual ~CursesInterface() {
-    }
+    virtual ~CursesInterface() = default;
     virtual void initscr() = 0;
     virtual void raw() = 0;
     virtual void noecho() = 0;
@@ -41,7 +40,7 @@ public:
     virtual void start_color() = 0;
     virtual void enable_mouse() = 0;
     virtual MouseEvent mouse_event() {
-        return MouseEvent();
+        return {};
     }
     virtual void init_pair(short pair, short fg, short bg) = 0;
     virtual bool has_colors() = 0;
@@ -54,7 +53,7 @@ public:
     virtual void blink_off() = 0;
 
     virtual void wbkgd(short pair) = 0;
-    virtual void get_screen_size(int& height, int& width) = 0;
+    virtual void get_screen_size(int* height, int* width) = 0;
 
     virtual int getchar() = 0;
     virtual void mvwprint(int y, int x, const std::string& string) const = 0;

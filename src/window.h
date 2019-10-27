@@ -34,7 +34,7 @@ struct WindowStyleParams {
 class Window {
 public:
     explicit Window(Screen& screen);
-    virtual ~Window();
+    virtual ~Window() = default;
 
     BaseWidget& baseWidget() {
         return *m_baseWidget;
@@ -75,7 +75,7 @@ private:
     unsigned int m_height = 0;
     Screen& m_screen;
     std::unique_ptr<BaseWidget> m_baseWidget;
-    std::unique_ptr<RenderContext> m_render = 0;
+    std::unique_ptr<RenderContext> m_render = nullptr;
     WindowStyle m_style = WindowStyle::FullScreen;
     WindowStyleParams m_params{};
 };
