@@ -8,8 +8,7 @@ class RenderContext {
 public:
     RenderContext(CursesInterface& curses, unsigned int window);
 
-    virtual ~RenderContext() {
-    }
+    virtual ~RenderContext() = default;
 
     void window(unsigned int window) {
         m_window = window;

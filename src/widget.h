@@ -22,11 +22,10 @@ enum Color {
 };
 
 class Widget {
-public: // Overridable
-    Widget(const std::string& name);
-    Widget(Widget&) = delete;
-    virtual ~Widget() {
-    }
+public:
+    explicit Widget(std::string name);
+    Widget(const Widget&) = delete;
+    virtual ~Widget() = default;
 
     virtual void height(unsigned int height);
     virtual unsigned int height();
@@ -63,13 +62,13 @@ public: // Overridable
         return m_name;
     }
 
-    virtual void render(const RenderContext&) {
+    virtual void render(const RenderContext& /* context */) {
     }
 
-    virtual bool handleKeyPress(const KeyEvent&) {
+    virtual bool handleKeyPress(const KeyEvent& /* event */) {
         return true;
     }
-    virtual bool handleMouseClick(const MouseEvent&) {
+    virtual bool handleMouseClick(const MouseEvent& /* event */) {
         return true;
     }
 
@@ -82,8 +81,8 @@ public: // Non-overridable
     bool canTakeFocus() {
         return m_canTakeFocus;
     }
-    std::function<void(Widget*)> gainFocus = 0;
-    std::function<void(Widget*)> loseFocus = 0;
+    std::function<void(Widget*)> gainFocus = nullptr;
+    std::function<void(Widget*)> loseFocus = nullptr;
 
 protected: // Internal widget functions
     void focus(bool focus);

@@ -7,9 +7,9 @@ namespace SwearJar {
 
 class List : public Widget {
 public:
-    List(const std::string& name);
+    explicit List(const std::string& name);
 
-    void addItem(std::wstring item);
+    void addItem(const std::wstring& item);
     const std::vector<std::wstring>& items() {
         return m_items;
     }

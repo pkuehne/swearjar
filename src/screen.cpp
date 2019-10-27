@@ -5,7 +5,7 @@
 
 namespace SwearJar {
 
-Screen::Screen(std::shared_ptr<CursesInterface> curses) : m_curses(curses) {
+Screen::Screen(std::shared_ptr<CursesInterface>&& curses) : m_curses(curses) {
     LOG_INFO << "Screen initialized for version " << VERSION << LOG_END;
 }
 
@@ -25,13 +25,12 @@ void Screen::initialize() {
 }
 
 void Screen::run() {
-    int ch = 0;
     m_curses->refresh();
 
     (*m_windows.rbegin())->baseWidget().moveFocusForward();
     while (!m_quit) {
         refreshWindows();
-        ch = m_curses->getchar();
+        int ch = m_curses->getchar();
         switch (ch) {
             case KEY_MOUSE: {
                 MouseEvent event = m_curses->mouse_event();
@@ -54,7 +53,7 @@ void Screen::run() {
 }
 
 void Screen::popWindow() {
-    if (m_windows.size() == 0) {
+    if (m_windows.empty()) {
         return;
     }
     m_windows.pop_back();

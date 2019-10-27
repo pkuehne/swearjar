@@ -21,6 +21,30 @@ public:
     }
 };
 
+TEST(Widget, settingFgColor) {
+    // Given
+    Widget w("test");
+    Color color = Color::Green;
+
+    // When
+    w.fgColor(color);
+
+    // Then
+    EXPECT_EQ(w.fgColor(), color);
+}
+
+TEST(Widget, settingBgColor) {
+    // Given
+    Widget w("test");
+    Color color = Color::Green;
+
+    // When
+    w.bgColor(color);
+
+    // Then
+    EXPECT_EQ(w.bgColor(), color);
+}
+
 TEST(Widget, moveFocusReturnsFalse) {
     // Given
     TestWidget base;

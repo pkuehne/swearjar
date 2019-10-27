@@ -31,16 +31,16 @@ bool Checkbox::handleKeyPress(const KeyEvent& event) {
 
     toggle();
 
-    if (onToggle != 0) {
+    if (onToggle != nullptr) {
         onToggle(*this);
     }
     return true;
 }
 
-bool Checkbox::handleMouseClick(const MouseEvent&) {
+bool Checkbox::handleMouseClick(const MouseEvent& /* event */) {
     toggle();
 
-    if (onToggle != 0) {
+    if (onToggle != nullptr) {
         onToggle(*this);
     }
     return true;

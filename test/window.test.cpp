@@ -11,8 +11,8 @@ class WindowClass : public ::testing::Test {
     void SetUp() {
         curses = std::make_shared<::testing::NiceMock<MockCurses>>();
         ON_CALL(*curses, get_screen_size(_, _))
-            .WillByDefault(DoAll(SetArgReferee<0>(screenHeight),
-                                 SetArgReferee<1>(screenWidth)));
+            .WillByDefault(DoAll(SetArgPointee<0>(screenHeight),
+                                 SetArgPointee<1>(screenWidth)));
     }
 
 protected:

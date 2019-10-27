@@ -8,7 +8,8 @@ project (SwearJar
 
 option(SJ_BUILD_TESTS "Whether to build the unit tests" ON)
 option(SJ_BUILD_EXAMPLES "Whether to build the examples" ON)
-option(SJ_COVERAGE "Whether to build the examples" OFF)
+option(SJ_COVERAGE "Whether to instrument the code for coverage data" OFF)
+option(SJ_LINT_COMPILATION "Whether to lint as we build with clang-tidy" OFF)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)

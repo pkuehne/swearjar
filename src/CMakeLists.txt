@@ -34,6 +34,11 @@ list(APPEND SwearJarHeaders
     radio_button.h
     text_entry.h
     )
+
+if (SJ_LINT_COMPILATION)
+set(CMAKE_CXX_CLANG_TIDY clang-tidy; -format-style=file)
+endif()
+
 # Create an object library that is not linked, but serves as a collection of
 # objects for other libraries
 add_library(swearjarobjects OBJECT "${SwearJarSources}")

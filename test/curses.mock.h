@@ -31,7 +31,7 @@ public:
                 (override, const));
     MOCK_METHOD(void, mvaddch_, (int, int, char), (override, const));
     MOCK_METHOD(void, mvaddwch_, (int y, int x, wchar_t ch), (override, const));
-    MOCK_METHOD(void, get_screen_size, (int&, int&), (override));
+    MOCK_METHOD(void, get_screen_size, (int*, int*), (override));
     MOCK_METHOD(void, wresize, (int, int), (override));
     MOCK_METHOD(void, mvwin, (int, int), (override));
     MOCK_METHOD(void, refresh, (), (override));

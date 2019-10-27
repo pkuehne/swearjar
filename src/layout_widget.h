@@ -6,7 +6,7 @@ namespace SwearJar {
 
 class SpacerWidget : public Widget {
 public:
-    SpacerWidget(const std::string& name) : Widget(name) {
+    explicit SpacerWidget(const std::string& name) : Widget(name) {
         growthFactor(1);
     }
 };
@@ -16,12 +16,12 @@ public:
     enum class Alignment { Fixed, Horizontal, Vertical };
 
 public:
-    LayoutWidget(const std::string& name) : CollectionWidget(name) {
+    explicit LayoutWidget(const std::string& name) : CollectionWidget(name) {
     }
 
-    virtual unsigned int requiredWidth() override;
-    virtual unsigned int requiredHeight() override;
-    virtual void addSpacer(unsigned int factor = 1);
+    unsigned int requiredWidth() override;
+    unsigned int requiredHeight() override;
+    void addSpacer(unsigned int factor = 1);
     virtual void realign();
     virtual void realignHorizontally();
     virtual void realignVertically();

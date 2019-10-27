@@ -50,7 +50,7 @@ bool CollectionWidget::moveFocusForward() {
         if (focusMoved) {
             return true;
         }
-        m_focusWidget++;
+        ++m_focusWidget;
     } while (m_focusWidget != m_widgets.end());
 
     // No more widgets

@@ -8,4 +8,10 @@ before_install:
 jobs:
     include:
         - stage: build and test
-          script: docker run --rm swearjar
+          script: docker run --rm swearjar scripts/build.sh
+        - stage: check coverage
+          script: docker run --rm swearjar scripts/coverage.sh
+        - stage: lint files
+          script: docker run --rm swearjar scripts/lint.sh
+        - stage: check format
+          script: docker run --rm swearjar scripts/format.sh

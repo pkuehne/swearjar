@@ -3,7 +3,7 @@
 
 namespace SwearJar {
 
-Widget::Widget(const std::string& name) : m_name(name) {
+Widget::Widget(std::string name) : m_name(std::move(name)) {
 }
 
 void Widget::height(unsigned int height) {
@@ -58,10 +58,10 @@ void Widget::growthFactor(unsigned int factor) {
 void Widget::focus(bool focus) {
     bool changed = focus != m_hasFocus;
     m_hasFocus = focus;
-    if (changed && m_hasFocus && gainFocus != 0) {
+    if (changed && m_hasFocus && gainFocus != nullptr) {
         gainFocus(this);
     }
-    if (changed && !m_hasFocus && loseFocus != 0) {
+    if (changed && !m_hasFocus && loseFocus != nullptr) {
         loseFocus(this);
     }
 }

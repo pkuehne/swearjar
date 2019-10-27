@@ -211,6 +211,20 @@ TEST_F(ListWidget, selectedItemSetToZeroIfNoItems) {
     EXPECT_EQ(emptyList.selectedItem(), 0);
 }
 
+TEST_F(ListWidget, unhandledKeyDoesNothing) {
+    // Given
+    KeyEvent event;
+    event.key = 'b';
+
+    list.selectedItem(2);
+
+    // When
+    bool handled = list.handleKeyPress(event);
+
+    // Then
+    EXPECT_FALSE(handled);
+}
+
 TEST_F(ListWidget, upArrowDecreasesSelectedItem) {
     // Given
     KeyEvent event;

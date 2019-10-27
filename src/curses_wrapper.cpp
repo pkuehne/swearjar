@@ -1,6 +1,6 @@
 #include "curses_wrapper.h"
 #include "logging.h"
-#include <signal.h>
+#include <csignal>
 
 namespace SwearJar {
 
@@ -26,7 +26,7 @@ void CursesWrapper::noecho() {
     ::noecho();
 }
 void CursesWrapper::keypad() {
-    ::keypad(m_windows[0], 1);
+    ::keypad(m_windows[0], true);
 }
 void CursesWrapper::endwin() {
     ::endwin();
@@ -41,7 +41,8 @@ void CursesWrapper::init_pair(short pair, short fore, short back) {
     ::init_pair(pair, fore, back);
 }
 void CursesWrapper::enable_mouse() {
-    mousemask(BUTTON1_CLICKED | BUTTON2_CLICKED | REPORT_MOUSE_POSITION, 0);
+    mousemask(BUTTON1_CLICKED | BUTTON2_CLICKED | REPORT_MOUSE_POSITION,
+              nullptr);
 }
 MouseEvent CursesWrapper::mouse_event() {
     MouseEvent event;
@@ -54,8 +55,8 @@ MouseEvent CursesWrapper::mouse_event() {
     event.device = mouse.id;
     event.x = mouse.x;
     event.y = mouse.y;
-    event.leftClicked = mouse.bstate & BUTTON1_CLICKED;
-    event.rightClicked = mouse.bstate & BUTTON2_CLICKED;
+    event.leftClicked = ((mouse.bstate & BUTTON1_CLICKED) != 0);
+    event.rightClicked = ((mouse.bstate & BUTTON2_CLICKED) != 0);
     return event;
 }
 
@@ -99,8 +100,8 @@ void CursesWrapper::wbkgd(short pair) {
     ::touchwin(m_windows[m_currentWindow]);
 }
 
-void CursesWrapper::get_screen_size(int& height, int& width) {
-    getmaxyx(stdscr, height, width);
+void CursesWrapper::get_screen_size(int* height, int* width) {
+    getmaxyx(stdscr, *height, *width);
 }
 
 unsigned int CursesWrapper::newwin(int h, int w, int y, int x) {
@@ -116,12 +117,12 @@ void CursesWrapper::mvwin(int y, int x) {
     ::mvwin(m_windows[m_currentWindow], y, x);
 }
 
-void CursesWrapper::mvwprint(int y, int x, const std::string& text) const {
-    mvwaddstr(m_windows[m_currentWindow], y, x, text.c_str());
+void CursesWrapper::mvwprint(int y, int x, const std::string& string) const {
+    mvwaddstr(m_windows[m_currentWindow], y, x, string.c_str());
 }
 
-void CursesWrapper::mvwprintw(int y, int x, const std::wstring& text) const {
-    mvwaddwstr(m_windows[m_currentWindow], y, x, text.c_str());
+void CursesWrapper::mvwprintw(int y, int x, const std::wstring& string) const {
+    mvwaddwstr(m_windows[m_currentWindow], y, x, string.c_str());
 }
 
 void CursesWrapper::mvaddch_(int y, int x, char ch) const {
@@ -147,7 +148,7 @@ void CursesWrapper::touchwin_() {
     ::touchwin(m_windows[m_currentWindow]);
 }
 
-void handle_winch(int) {
+void handle_winch(int /* x */) {
     endwin();
     refresh();
     clear();
@@ -158,7 +159,7 @@ void handle_winch(int) {
 void CursesWrapper::setupResizeHandler() {
     struct sigaction sa {};
     sa.sa_handler = handle_winch;
-    sigaction(SIGWINCH, &sa, NULL);
+    sigaction(SIGWINCH, &sa, nullptr);
 }
 
 } // namespace SwearJar

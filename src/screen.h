@@ -11,7 +11,7 @@ class Window;
 
 class Screen {
 public:
-    Screen(std::shared_ptr<CursesInterface> curses);
+    explicit Screen(std::shared_ptr<CursesInterface>&& curses);
     ~Screen();
     void initialize();
     void run();
@@ -28,7 +28,8 @@ public:
     void quit() {
         m_quit = true;
     }
-    std::function<void(const KeyEvent&)> unhandledKeys = [](const KeyEvent&) {};
+    std::function<void(const KeyEvent&)> unhandledKeys =
+        [](const KeyEvent& /* e */) {};
     std::function<void()> screenResized = []() {};
 
 private:
