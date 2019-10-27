@@ -9,6 +9,8 @@ FROM pkuehne/cpp-build-base:latest
 RUN apt update -qq && apt install --no-install-recommends -qq -y \
     git \
     gcovr \
+    clang-format \
+    clang-tidy \
     libncursesw5-dev
 
 WORKDIR /buildarea

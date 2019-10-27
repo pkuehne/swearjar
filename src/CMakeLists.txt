@@ -92,21 +92,3 @@ install(TARGETS swearjar
     PUBLIC_HEADER
         DESTINATION include/swearjar
     )
-
-add_custom_target(cppcheck
-    DEPENDS swearjar
-    COMMAND cppcheck
-        --error-exitcode=1
-        --enable=warning,performance,information,missingInclude
-        --std=c++14
-        --quiet
-        ${CMAKE_SOURCE_DIR}/src/*.cpp
-        ${CMAKE_SOURCE_DIR}/src/*.h
-    )
-add_custom_target(clang-tidy
-    DEPENDS swearjar
-    COMMAND clang-tidy
-        --checks="*"
-        --header-filter=${CMAKE_SOURCE_DIR}/src/.*
-        ${CMAKE_SOURCE_DIR}/src/*.cpp
-    )
