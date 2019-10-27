@@ -1,11 +1,15 @@
 cmake_minimum_required (VERSION 3.13)
+if(NOT ENV{TRAVIS_BUILD_ID})
+    set(ENV{TRAVIS_BUILD_ID} 0)
+endif()
 project (SwearJar
-    VERSION 0.0.0
+    VERSION 0.0.0.$ENV{TRAVIS_BUILD_ID}
     DESCRIPTION "UI toolkit wrapper for ncurses"
     HOMEPAGE_URL "https://github.com/pkuehne/swearjar/"
     LANGUAGES CXX
     )
 
+message("Configuring ${PROJECT_NAME} v${PROJECT_VERSION}")
 option(SJ_BUILD_TESTS "Whether to build the unit tests" ON)
 option(SJ_BUILD_EXAMPLES "Whether to build the examples" ON)
 option(SJ_COVERAGE "Whether to instrument the code for coverage data" OFF)
