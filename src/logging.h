@@ -3,8 +3,6 @@
 #include <fstream>
 #include <sstream>
 
-#define FILE "" //__FILE__
-
 #define LOG_LINE(level)                                                        \
     for (bool r = true; r; r = false)                                          \
         for (Logger logger(level, __FILE__, __LINE__); r; r = false)           \
@@ -15,12 +13,14 @@
 #define LOG_INFO std::stringstream()
 #define LOG_WARN std::stringstream()
 #define LOG_ERROR std::stringstream()
+#define LOG_FORCE std::stringstream()
 #define LOG_END std::endl;
 #else
 #define LOG_DEBUG LOG_LINE(LogLevel::Debug)
 #define LOG_INFO LOG_LINE(LogLevel::Info)
 #define LOG_WARN LOG_LINE(LogLevel::Warn)
 #define LOG_ERROR LOG_LINE(LogLevel::Error)
+#define LOG_FORCE LOG_LINE(LogLevel::Force)
 #define LOG_END ""
 #endif
 
@@ -32,6 +32,7 @@ enum class LogLevel {
     Info,
     Warn,
     Error,
+    Force,
     None,
 };
 
@@ -48,7 +49,7 @@ private:
     static LogManager* instance;
 
 private:
-    LogLevel m_level = LogLevel::Info;
+    LogLevel m_level = LogLevel::Warn;
     std::ofstream m_out;
     std::stringstream m_null;
 };

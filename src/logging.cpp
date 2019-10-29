@@ -73,6 +73,9 @@ void Logger::formatLevel(LogLevel level) {
         case LogLevel::Error:
             m_stream << "ERROR";
             break;
+        case LogLevel::Force:
+            m_stream << "FORCE";
+            break;
         default:
             break;
     }

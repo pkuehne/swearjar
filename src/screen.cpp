@@ -6,7 +6,7 @@
 namespace SwearJar {
 
 Screen::Screen(std::shared_ptr<CursesInterface>&& curses) : m_curses(curses) {
-    LOG_INFO << "Screen initialized for version " << VERSION << LOG_END;
+    LOG_FORCE << "Screen initialized for version " << VERSION << LOG_END;
 }
 
 Screen::~Screen() {
