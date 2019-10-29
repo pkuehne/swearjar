@@ -6,7 +6,8 @@
 namespace SwearJar {
 
 Window::Window(Screen& screen) : m_screen(screen) {
-    LOG_INFO << L"Testing" << LOG_END;
+    LogManager::get()->threshold(LogLevel::Debug);
+    LLOG_INFO << "Testing" << std::endl;
     m_id = screen.curses().newwin(1, 1, 0, 0);
     m_baseWidget = std::make_unique<BaseWidget>();
     m_render = std::make_unique<RenderContext>(screen.curses(), m_id);
