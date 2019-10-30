@@ -31,6 +31,7 @@ add_executable(unit_test
     text_entry.test.cpp
     frame.test.cpp
     label.test.cpp
+    logging.test.cpp
     )
 
 target_compile_options(unit_test PUBLIC -Wall)

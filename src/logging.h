@@ -42,7 +42,10 @@ public:
     static void reset();
 
     void threshold(LogLevel level);
+    LogLevel threshold();
     std::ostream& log(LogLevel level);
+    void enabled(bool enabled);
+    bool enabled();
 
 private:
     LogManager();
@@ -52,6 +55,7 @@ private:
     LogLevel m_level = LogLevel::Warn;
     std::ofstream m_out;
     std::stringstream m_null;
+    bool m_enabled = false;
 };
 
 class Logger {

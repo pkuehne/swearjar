@@ -15,22 +15,37 @@ LogManager* LogManager::get() {
 void LogManager::reset() {
     if (instance != nullptr) {
         delete instance;
+        instance = nullptr;
     }
 }
 
 LogManager::LogManager() : m_out(), m_null() {
-    m_out.open("swearjar.log", std::ofstream::out);
 }
 
 void LogManager::threshold(LogLevel level) {
     m_level = level;
 }
 
+LogLevel LogManager::threshold() {
+    return m_level;
+}
+
 std::ostream& LogManager::log(LogLevel level) {
-    if (level >= m_level) {
+    if (level >= m_level && m_enabled) {
+        if (!m_out.is_open()) {
+            m_out.open("swearjar.log", std::ofstream::out);
+        }
         return m_out;
     }
     return m_null;
+}
+
+void LogManager::enabled(bool enabled) {
+    m_enabled = enabled;
+}
+
+bool LogManager::enabled() {
+    return m_enabled;
 }
 
 Logger::Logger(LogLevel level, std::string file, int line)
