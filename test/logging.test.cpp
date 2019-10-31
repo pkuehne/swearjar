@@ -68,3 +68,44 @@ TEST_F(LoggingTest, logReturnsStringstreamIfNotEnabled) {
     // Then
     EXPECT_TRUE(dynamic_cast<std::stringstream*>(&logStream));
 }
+
+TEST_F(LoggingTest, LoggerRecordsLevel) {
+    // Given
+    std::stringstream& logStream =
+        dynamic_cast<std::stringstream&>(mgr->log(LogLevel::Force));
+
+    // When
+    { Logger log(LogLevel::Error, "", 0); }
+
+    // Then
+    EXPECT_THAT(logStream.str(), HasSubstr("ERROR"));
+}
+
+TEST_F(LoggingTest, LoggerRecordsMessages) {
+    // Given
+    std::stringstream& logStream =
+        dynamic_cast<std::stringstream&>(mgr->log(LogLevel::Force));
+
+    // When
+    {
+        Logger log(LogLevel::Error, "", 0);
+
+        log.output() << "Foo Bar Baz";
+    }
+
+    // Then
+    EXPECT_THAT(logStream.str(), HasSubstr("Foo Bar Baz"));
+}
+
+TEST_F(LoggingTest, LoggerRecordsFilename) {
+    // Given
+    std::stringstream& logStream =
+        dynamic_cast<std::stringstream&>(mgr->log(LogLevel::Force));
+
+    // When
+    { Logger log(LogLevel::Error, "/foo/bar/baz.cpp", 20); }
+
+    // Then
+    EXPECT_THAT(logStream.str(), HasSubstr("baz.cpp"));
+    EXPECT_THAT(logStream.str(), HasSubstr(":20"));
+}
