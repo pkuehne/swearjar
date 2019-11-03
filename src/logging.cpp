@@ -3,23 +3,17 @@
 
 namespace SwearJar {
 
-LogManager* LogManager::instance = nullptr;
+std::unique_ptr<LogManager> LogManager::instance = nullptr;
 
 LogManager* LogManager::get() {
-    if (instance == nullptr) {
-        instance = new LogManager();
+    if (!instance) {
+        instance.reset(new LogManager()); // NOLINT
     }
-    return instance;
+    return instance.get();
 }
 
 void LogManager::reset() {
-    if (instance != nullptr) {
-        delete instance;
-        instance = nullptr;
-    }
-}
-
-LogManager::LogManager() : m_out(), m_null() {
+    instance.reset(nullptr);
 }
 
 void LogManager::threshold(LogLevel level) {
@@ -48,7 +42,7 @@ bool LogManager::enabled() {
     return m_enabled;
 }
 
-Logger::Logger(LogLevel level, std::string file, int line)
+Logger::Logger(LogLevel level, const std::string& file, int line)
     : m_stream(LogManager::get()->log(level)) {
     formatTimestamp();
     m_stream << " ";

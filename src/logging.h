@@ -1,6 +1,7 @@
 #pragma once
 
 #include <fstream>
+#include <memory>
 #include <sstream>
 
 #define LOG_LINE(level)                                                        \
@@ -48,8 +49,8 @@ public:
     bool enabled();
 
 private:
-    LogManager();
-    static LogManager* instance;
+    LogManager() = default;
+    static std::unique_ptr<LogManager> instance;
 
 private:
     LogLevel m_level = LogLevel::Warn;
@@ -60,7 +61,7 @@ private:
 
 class Logger {
 public:
-    Logger(LogLevel level, std::string file, int line);
+    Logger(LogLevel level, const std::string& file, int line);
     ~Logger();
     std::ostream& output();
 

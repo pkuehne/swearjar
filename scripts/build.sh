@@ -4,5 +4,5 @@ set -ex
 
 cd build
 cmake ..
-make
+make -j 4
 ctest -V
