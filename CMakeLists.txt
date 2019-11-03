@@ -1,9 +1,9 @@
 cmake_minimum_required (VERSION 3.13)
-if(NOT ENV{TRAVIS_BUILD_ID})
-    set(ENV{TRAVIS_BUILD_ID} 0)
+if(NOT DEFINED ENV{TRAVIS_BUILD_NUMBER})
+    set(ENV{TRAVIS_BUILD_NUMBER} 0)
 endif()
 project (SwearJar
-    VERSION 0.0.0.$ENV{TRAVIS_BUILD_ID}
+    VERSION 0.0.0.$ENV{TRAVIS_BUILD_NUMBER}
     DESCRIPTION "UI toolkit wrapper for ncurses"
     HOMEPAGE_URL "https://github.com/pkuehne/swearjar/"
     LANGUAGES CXX
@@ -14,6 +14,7 @@ option(SJ_BUILD_TESTS "Whether to build the unit tests" ON)
 option(SJ_BUILD_EXAMPLES "Whether to build the examples" ON)
 option(SJ_COVERAGE "Whether to instrument the code for coverage data" OFF)
 option(SJ_LINT_COMPILATION "Whether to lint as we build with clang-tidy" OFF)
+set(COVERAGE_PERCENTAGE 78 CACHE STRING "Minimum Coverage number to succeed")
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)

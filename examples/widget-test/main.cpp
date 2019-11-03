@@ -1,4 +1,5 @@
 #include "frame.h"
+#include "logging.h"
 #include "swearjar.h"
 #include <iostream>
 
@@ -278,6 +279,7 @@ void run() {
     SwearJar::Screen screen(std::make_shared<SwearJar::CursesWrapper>());
 
     screen.initialize();
+    SwearJar::LogManager::get()->threshold(SwearJar::LogLevel::Info);
     make_example_menu(screen);
     screen.run();
 }
