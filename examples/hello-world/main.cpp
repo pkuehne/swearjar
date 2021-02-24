@@ -1,15 +1,14 @@
-#include <swearjar/swearjar.h>
+#include <swearjar.h>
 
 int main() {
-    using namespace SwearJar;
-    Screen screen(std::make_shared<SwearJar::CursesWrapper>());
-    screen.initialize();
-    screen.unhandledKeys = [&screen](KeyEvent event) { screen.quit(); };
+	namespace SJ = SwearJar;
+	SJ::Screen screen(new SJ::CursesWrapper());
+	screen.initialize();
 
-    auto& window = screen.createWindow<Window>();
-    auto& label = window.baseWidget().createWidget<Label>("Label");
-    label.text(L"Hello World 👋");
+	auto& window = screen.createWindow<SJ::Window>();
+	auto& label = window.baseWidget().createWidget<SJ::Label>("Label");
+	label.text(L"Hello World 👋");
 
-    screen.run();
-    return 0;
+	screen.run();
+	return 0;
 }
