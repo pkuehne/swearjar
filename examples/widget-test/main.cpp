@@ -276,7 +276,7 @@ void make_example_menu(SwearJar::Screen& screen) {
 }
 
 void run() {
-    SwearJar::Screen screen(std::make_shared<SwearJar::CursesWrapper>());
+    SwearJar::Screen screen(new SwearJar::CursesWrapper());
 
     screen.initialize();
     SwearJar::LogManager::get()->threshold(SwearJar::LogLevel::Info);

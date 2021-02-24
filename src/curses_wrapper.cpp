@@ -130,7 +130,7 @@ void CursesWrapper::mvaddch_(int y, int x, char ch) const {
 }
 
 void CursesWrapper::mvaddwch_(int y, int x, wchar_t ch) const {
-    const cchar_t out = {A_NORMAL, {ch}};
+    const cchar_t out = {A_NORMAL, {ch},0};
     mvwadd_wch(m_windows[m_currentWindow], y, x, &out);
 }
 

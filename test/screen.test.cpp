@@ -7,27 +7,25 @@
 using namespace ::testing;
 using namespace SwearJar;
 
-class ScreenClass : public Test {
-public:
-    void SetUp() {
-    }
+TEST (ScreenClass, canCreateScreenWithNakedPointer) {
+    // When
+    Screen screen(new MockCurses());
 
-protected:
-    std::shared_ptr<MockCurses> curses{
-        std::make_shared<NiceMock<MockCurses>>()};
-    Screen screen{curses};
-};
+    // Then
+}
 
-TEST_F(ScreenClass, popWindowDoesNothingIfThereAreNoWindows) {
+TEST(ScreenClass, popWindowDoesNothingIfThereAreNoWindows) {
     // Given
+    Screen screen(std::make_shared<NiceMock<MockCurses>>());
     ASSERT_EQ(0, screen.windows().size());
 
     // When
     EXPECT_NO_THROW(screen.popWindow());
 }
 
-TEST_F(ScreenClass, popWindowRemovesNewestWindow) {
+TEST(ScreenClass, popWindowRemovesNewestWindow) {
     // Given
+    Screen screen(std::make_shared<NiceMock<MockCurses>>());
     ASSERT_EQ(0, screen.windows().size());
     screen.createWindow<Window>();
     screen.createWindow<Window>();
@@ -39,7 +37,7 @@ TEST_F(ScreenClass, popWindowRemovesNewestWindow) {
     EXPECT_EQ(1, screen.windows().size());
 }
 
-TEST_F(ScreenClass, destructorUndoesCursesMode) {
+TEST(ScreenClass, destructorUndoesCursesMode) {
     // Given
     auto mock = std::make_shared<NiceMock<MockCurses>>();
     EXPECT_CALL(*mock, endwin());

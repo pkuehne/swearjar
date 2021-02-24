@@ -9,6 +9,8 @@ Screen::Screen(std::shared_ptr<CursesInterface>&& curses) : m_curses(curses) {
     LOG_FORCE << "Screen initialized for version " << VERSION << LOG_END;
 }
 
+Screen::Screen(CursesInterface* curses) : Screen(std::shared_ptr<CursesInterface>(curses)) {}
+
 Screen::~Screen() {
     m_curses->endwin();
 }
