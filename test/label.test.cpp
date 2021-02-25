@@ -64,4 +64,5 @@ TEST_F(LabelWidget, centredTextRendersInTheMiddleOfWidth) {
     label.render(*context);
 
     // Then
+    EXPECT_TRUE(label.centred());
 }

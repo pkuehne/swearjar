@@ -6,6 +6,8 @@ namespace SwearJar {
 Widget::Widget(std::string name) : m_name(std::move(name)) {
 }
 
+Widget::~Widget() = default;
+
 void Widget::height(unsigned int height) {
     m_height = height;
 }

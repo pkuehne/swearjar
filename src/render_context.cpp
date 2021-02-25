@@ -8,6 +8,8 @@ RenderContext::RenderContext(CursesInterface& curses, unsigned int window)
     LOG_DEBUG << "Created RenderContext for " << window << std::endl;
 }
 
+RenderContext::~RenderContext() = default;
+
 void RenderContext::window(unsigned int window) {
     m_window = window;
 }

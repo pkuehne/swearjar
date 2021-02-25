@@ -69,7 +69,7 @@ TEST_F(LoggingTest, logReturnsStringstreamIfNotEnabled) {
     EXPECT_TRUE(dynamic_cast<std::stringstream*>(&logStream));
 }
 
-TEST_F(LoggingTest, LoggerRecordsLevel) {
+TEST_F(LoggingTest, LoggerRecordsLevelError) {
     // Given
     std::stringstream& logStream =
         dynamic_cast<std::stringstream&>(mgr->log(LogLevel::Force));
@@ -79,6 +79,42 @@ TEST_F(LoggingTest, LoggerRecordsLevel) {
 
     // Then
     EXPECT_THAT(logStream.str(), HasSubstr("ERROR"));
+}
+
+TEST_F(LoggingTest, LoggerRecordsLevelWarn) {
+    // Given
+    std::stringstream& logStream =
+        dynamic_cast<std::stringstream&>(mgr->log(LogLevel::Force));
+
+    // When
+    { Logger log(LogLevel::Warn, "", 0); }
+
+    // Then
+    EXPECT_THAT(logStream.str(), HasSubstr("WARN"));
+}
+
+TEST_F(LoggingTest, LoggerRecordsLevelInfo) {
+    // Given
+    std::stringstream& logStream =
+        dynamic_cast<std::stringstream&>(mgr->log(LogLevel::Force));
+
+    // When
+    { Logger log(LogLevel::Info, "", 0); }
+
+    // Then
+    EXPECT_THAT(logStream.str(), HasSubstr("INFO"));
+}
+
+TEST_F(LoggingTest, LoggerRecordsNoLevelIfInvalid) {
+    // Given
+    std::stringstream& logStream =
+        dynamic_cast<std::stringstream&>(mgr->log(LogLevel::Force));
+
+    // When
+    { Logger log(LogLevel::None, "", 0); }
+
+    // Then
+    EXPECT_THAT(logStream.str(), HasSubstr("[]"));
 }
 
 TEST_F(LoggingTest, LoggerRecordsMessages) {

@@ -25,7 +25,7 @@ class Widget {
 public:
     explicit Widget(std::string name);
     Widget(const Widget&) = delete;
-    virtual ~Widget() = default;
+    virtual ~Widget();
 
     virtual void height(unsigned int height);
     virtual unsigned int height();

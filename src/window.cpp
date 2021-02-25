@@ -15,6 +15,8 @@ Window::Window(Screen& screen) : m_screen(screen) {
     resize();
 }
 
+Window::~Window() = default;
+
 BaseWidget& Window::baseWidget() {
     return *m_baseWidget;
 }

@@ -7,6 +7,17 @@
 using namespace ::testing;
 using namespace SwearJar;
 
+TEST(Checkbox, hasText) {
+    // Given
+    Checkbox box("chkTest");
+
+    // When
+    box.text(L"Test String");
+
+    // Then
+    EXPECT_EQ(L"Test String", box.text());
+}
+
 TEST(Checkbox, canTakeFocus) {
     // Given
     Checkbox box("chkTest");
@@ -29,6 +40,35 @@ TEST(Checkbox, togglesWhenSelectionKeyPressed) {
     EXPECT_NE(enabled, box.enabled());
 }
 
+TEST(Checkbox, doesNothingIfOtherKeyPressed) {
+    // Given
+    Checkbox box("chkTest");
+    KeyEvent event;
+    event.key = 11;
+    bool enabled = box.enabled();
+
+    // When
+    box.handleKeyPress(event);
+
+    // Then
+    EXPECT_EQ(enabled, box.enabled());
+}
+
+TEST(Checkbox, callsCallbackOnKeyboardToggle) {
+    // Given
+    Checkbox box("chkTest");
+    KeyEvent event;
+    event.key = 10;
+    bool called = false;
+    box.onToggle = [&called](Checkbox&) { called = true; };
+
+    // When
+    box.handleKeyPress(event);
+
+    // Then
+    EXPECT_TRUE(called);
+}
+
 TEST(Checkbox, togglesWhenClicked) {
     // Given
     Checkbox box("chkTest");
@@ -41,6 +81,20 @@ TEST(Checkbox, togglesWhenClicked) {
 
     // Then
     EXPECT_NE(enabled, box.enabled());
+}
+
+TEST(Checkbox, callsCallbackOnMouseToggle) {
+    // Given
+    Checkbox box("chkTest");
+    MouseEvent event;
+    bool called = false;
+    box.onToggle = [&called](Checkbox&) { called = true; };
+
+    // When
+    box.handleMouseClick(event);
+
+    // Then
+    EXPECT_TRUE(called);
 }
 
 TEST(Checkbox, doesntRenderXWhenNotEnabled) {

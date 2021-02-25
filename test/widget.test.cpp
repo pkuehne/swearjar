@@ -153,3 +153,21 @@ TEST(Widget, defaultsToZeroGrowthFactor) {
     // Then
     EXPECT_EQ(0, w.growthFactor());
 }
+
+TEST(Widget, handleMouseClickDoesNothingByDefault) {
+    // Given
+    Widget w("");
+    MouseEvent e;
+
+    // Then
+    EXPECT_TRUE(w.handleMouseClick(e));
+}
+
+TEST(Widget, handleKeyPressDoesNothingByDefault) {
+    // Given
+    Widget w("");
+    KeyEvent e;
+
+    // Then
+    EXPECT_TRUE(w.handleKeyPress(e));
+}
