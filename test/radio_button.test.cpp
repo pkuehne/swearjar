@@ -139,6 +139,14 @@ TEST_F(RadioButtonWidget, enabledOneDisablesOthers) {
     EXPECT_TRUE(button_two.enabled());
 }
 
+TEST_F(RadioButtonWidget, enablingButtonWithNoGroupHasNoEffect) {
+    // When
+    button.enabled(true);
+
+    // Then
+    EXPECT_FALSE(button.enabled());
+}
+
 TEST_F(RadioButtonWidget, settingCurrentMakesItEnabledOthersDisabled) {
     // Given
 
@@ -180,6 +188,16 @@ TEST_F(RadioButtonWidget, removeLastButtonSetsCurrentToNull) {
 
     // Then
     EXPECT_EQ(nullptr, empty_group.current());
+}
+
+TEST_F(RadioButtonWidget, buttonWithNoGroupIsNotEnabled) {
+    // Given
+
+    // When
+    bool enabled = button.enabled();
+
+    // Then
+    EXPECT_FALSE(enabled);
 }
 
 TEST_F(RadioButtonWidget, togglesWhenSelectionKeyPressed) {
