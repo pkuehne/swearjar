@@ -3,6 +3,13 @@
 
 namespace SwearJar {
 
+SpacerWidget::SpacerWidget(const std::string& name) : Widget(name) {
+    growthFactor(1);
+}
+
+LayoutWidget::LayoutWidget(const std::string& name) : CollectionWidget(name) {
+}
+
 void LayoutWidget::addSpacer(unsigned int factor) {
     auto& widget = createWidget<SpacerWidget>("spacer");
     widget.growthFactor(factor);
@@ -129,6 +136,22 @@ void LayoutWidget::realignVertically() {
         auto& first = children()[0];
         first->height(first->height() + heightToAllocate);
     }
+}
+
+void LayoutWidget::alignment(Alignment align) {
+    m_alignment = align;
+}
+
+LayoutWidget::Alignment LayoutWidget::alignment() {
+    return m_alignment;
+}
+
+void LayoutWidget::margin(unsigned int margin) {
+    m_margin = margin;
+}
+
+unsigned int LayoutWidget::margin() {
+    return m_margin;
 }
 
 void LayoutWidget::render(const RenderContext& context) {

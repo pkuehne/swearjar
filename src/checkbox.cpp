@@ -11,8 +11,20 @@ void Checkbox::text(const std::wstring& text) {
     minWidth(text.size() + 4);
 }
 
+std::wstring Checkbox::text() {
+    return m_text;
+}
+
 void Checkbox::enabled(bool enabled) {
     m_enabled = enabled;
+}
+
+bool Checkbox::enabled() {
+    return m_enabled;
+}
+
+void Checkbox::toggle() {
+    enabled(!m_enabled);
 }
 
 void Checkbox::render(const RenderContext& context) {

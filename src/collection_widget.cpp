@@ -21,6 +21,10 @@ unsigned int CollectionWidget::requiredWidth() {
     return min;
 }
 
+const std::vector<std::unique_ptr<Widget>>& CollectionWidget::children() const {
+    return m_widgets;
+}
+
 void CollectionWidget::render(const RenderContext& context) {
     LOG_DEBUG << "WI: render called" << LOG_END;
 

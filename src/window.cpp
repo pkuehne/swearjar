@@ -5,11 +5,33 @@
 
 namespace SwearJar {
 
+BaseWidget::BaseWidget() : LayoutWidget("base") {
+}
+
 Window::Window(Screen& screen) : m_screen(screen) {
     m_id = screen.curses().newwin(1, 1, 0, 0);
     m_baseWidget = std::make_unique<BaseWidget>();
     m_render = std::make_unique<RenderContext>(screen.curses(), m_id);
     resize();
+}
+
+BaseWidget& Window::baseWidget() {
+    return *m_baseWidget;
+}
+Screen& Window::screen() {
+    return m_screen;
+}
+unsigned int Window::x() {
+    return m_x;
+}
+unsigned int Window::y() {
+    return m_y;
+}
+unsigned int Window::width() {
+    return m_width;
+}
+unsigned int Window::height() {
+    return m_height;
 }
 
 void Window::setWindowStyleFullScreen() {

@@ -6,10 +6,15 @@
 namespace SwearJar {
 
 Screen::Screen(std::shared_ptr<CursesInterface>&& curses) : m_curses(curses) {
+    unhandledKeys = [this](const KeyEvent& /* e */) { quit(); };
+    screenResized = []() {};
+
     LOG_FORCE << "Screen initialized for version " << VERSION << LOG_END;
 }
 
-Screen::Screen(CursesInterface* curses) : Screen(std::shared_ptr<CursesInterface>(curses)) {}
+Screen::Screen(CursesInterface* curses)
+    : Screen(std::shared_ptr<CursesInterface>(curses)) {
+}
 
 Screen::~Screen() {
     m_curses->endwin();
@@ -54,6 +59,10 @@ void Screen::run() {
     }
 }
 
+CursesInterface& Screen::curses() {
+    return *m_curses;
+}
+
 void Screen::popWindow() {
     if (m_windows.empty()) {
         return;
@@ -74,6 +83,14 @@ void Screen::resizeWindows() {
         window->resize();
     }
     m_curses->refresh();
+}
+
+const std::vector<std::unique_ptr<Window>>& Screen::windows() const {
+    return m_windows;
+}
+
+void Screen::quit() {
+    m_quit = true;
 }
 
 void Screen::handleKeys(const KeyEvent& event) {

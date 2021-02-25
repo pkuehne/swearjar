@@ -14,9 +14,7 @@ public:
     }
 
     void current(RadioButton* button);
-    RadioButton* current() {
-        return m_current;
-    }
+    RadioButton* current();
 
 private:
     std::set<RadioButton*> m_buttons;
@@ -32,9 +30,7 @@ public:
     void toggle() override;
 
     void group(RadioButtonGroup* group);
-    RadioButtonGroup* group() {
-        return m_group;
-    }
+    RadioButtonGroup* group();
 
 private:
     std::string m_title;

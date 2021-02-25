@@ -38,57 +38,33 @@ public:
     virtual unsigned int requiredWidth();
 
     virtual void x(unsigned int x);
-    virtual unsigned int x() {
-        return m_x;
-    }
+    virtual unsigned int x();
     virtual void y(unsigned int y);
-    virtual unsigned int y() {
-        return m_y;
-    }
+    virtual unsigned int y();
     virtual void fgColor(short fg);
-    virtual short fgColor() {
-        return m_fg;
-    }
+    virtual short fgColor();
     virtual void bgColor(short bg);
-    virtual short bgColor() {
-        return m_bg;
-    }
+    virtual short bgColor();
     virtual void growthFactor(unsigned int factor);
-    virtual unsigned int growthFactor() {
-        return m_growthFactor;
-    }
+    virtual unsigned int growthFactor();
 
-    virtual std::string name() {
-        return m_name;
-    }
+    virtual std::string name();
 
-    virtual void render(const RenderContext& /* context */) {
-    }
-
-    virtual bool handleKeyPress(const KeyEvent& /* event */) {
-        return true;
-    }
-    virtual bool handleMouseClick(const MouseEvent& /* event */) {
-        return true;
-    }
+    virtual void render(const RenderContext& /* context */);
+    virtual bool handleKeyPress(const KeyEvent& /* event */);
+    virtual bool handleMouseClick(const MouseEvent& /* event */);
 
     virtual bool moveFocusForward();
 
 public: // Non-overridable
-    bool focus() {
-        return m_hasFocus;
-    }
-    bool canTakeFocus() {
-        return m_canTakeFocus;
-    }
+    bool focus();
+    bool canTakeFocus();
     std::function<void(Widget*)> gainFocus = nullptr;
     std::function<void(Widget*)> loseFocus = nullptr;
 
 protected: // Internal widget functions
     void focus(bool focus);
-    void canTakeFocus(bool can) {
-        m_canTakeFocus = can;
-    }
+    void canTakeFocus(bool can);
 
 private:
     std::string m_name;

@@ -15,17 +15,12 @@ public:
     std::function<void(Checkbox&)> onToggle;
 
     void text(const std::wstring& text);
-    std::wstring text() {
-        return m_text;
-    }
+    std::wstring text();
 
     virtual void enabled(bool enabled);
-    virtual bool enabled() {
-        return m_enabled;
-    }
-    virtual void toggle() {
-        enabled(!m_enabled);
-    }
+    virtual bool enabled();
+
+    virtual void toggle();
 
 private:
     std::wstring m_text;

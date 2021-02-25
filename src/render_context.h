@@ -10,49 +10,23 @@ public:
 
     virtual ~RenderContext() = default;
 
-    void window(unsigned int window) {
-        m_window = window;
-    }
-    unsigned int window() {
-        return m_window;
-    }
+    void window(unsigned int window);
+    unsigned int window();
 
-    void width(unsigned int width) {
-        m_width = width;
-    }
-    unsigned int width() {
-        return m_width;
-    }
+    void width(unsigned int width);
+    unsigned int width();
 
-    void height(unsigned int height) {
-        m_height = height;
-    }
-    unsigned int height() {
-        return m_height;
-    }
+    void height(unsigned int height);
+    unsigned int height();
 
-    void xOffset(unsigned int xOffset) {
-        m_xOffset = xOffset;
-    }
-    unsigned int xOffset() {
-        return m_xOffset;
-    }
+    void xOffset(unsigned int xOffset);
+    unsigned int xOffset();
 
-    void yOffset(unsigned int yOffset) {
-        m_yOffset = yOffset;
-    }
-    unsigned int yOffset() {
-        return m_yOffset;
-    }
+    void yOffset(unsigned int yOffset);
+    unsigned int yOffset();
 
-    virtual void addOffsets(unsigned int x, unsigned int y) const {
-        m_xOffset += x;
-        m_yOffset += y;
-    }
-    virtual void clearOffsets(unsigned int x, unsigned int y) const {
-        m_xOffset -= x;
-        m_yOffset -= y;
-    }
+    virtual void addOffsets(unsigned int x, unsigned int y) const;
+    virtual void clearOffsets(unsigned int x, unsigned int y) const;
 
     virtual void reverse(bool on) const;
     virtual void blink(bool on) const;

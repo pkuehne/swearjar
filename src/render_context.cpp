@@ -8,6 +8,56 @@ RenderContext::RenderContext(CursesInterface& curses, unsigned int window)
     LOG_DEBUG << "Created RenderContext for " << window << std::endl;
 }
 
+void RenderContext::window(unsigned int window) {
+    m_window = window;
+}
+
+unsigned int RenderContext::window() {
+    return m_window;
+}
+
+void RenderContext::width(unsigned int width) {
+    m_width = width;
+}
+
+unsigned int RenderContext::width() {
+    return m_width;
+}
+
+void RenderContext::height(unsigned int height) {
+    m_height = height;
+}
+
+unsigned int RenderContext::height() {
+    return m_height;
+}
+
+void RenderContext::xOffset(unsigned int xOffset) {
+    m_xOffset = xOffset;
+}
+
+unsigned int RenderContext::xOffset() {
+    return m_xOffset;
+}
+
+void RenderContext::yOffset(unsigned int yOffset) {
+    m_yOffset = yOffset;
+}
+
+unsigned int RenderContext::yOffset() {
+    return m_yOffset;
+}
+
+void RenderContext::addOffsets(unsigned int x, unsigned int y) const {
+    m_xOffset += x;
+    m_yOffset += y;
+}
+
+void RenderContext::clearOffsets(unsigned int x, unsigned int y) const {
+    m_xOffset -= x;
+    m_yOffset -= y;
+}
+
 void RenderContext::clearBackground(short fg, short bg) const {
     m_curses.wbkgd(m_curses.get_color(fg, bg));
 }

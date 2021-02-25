@@ -11,6 +11,10 @@ void Frame::title(const std::wstring& title) {
     m_title = title;
 }
 
+std::wstring Frame::title() {
+    return m_title;
+}
+
 unsigned int Frame::requiredWidth() {
     unsigned int childWidth = LayoutWidget::requiredWidth() + 2;
     unsigned int frameWidth = title().size() + 4;

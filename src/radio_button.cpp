@@ -25,6 +25,11 @@ void RadioButtonGroup::remove(RadioButton* button) {
         }
     }
 }
+
+RadioButton* RadioButtonGroup::current() {
+    return m_current;
+}
+
 void RadioButtonGroup::current(RadioButton* button) {
     m_current = button;
 }
@@ -59,6 +64,10 @@ void RadioButton::enabled(bool /* on */) {
 
 void RadioButton::toggle() {
     this->enabled(true);
+}
+
+RadioButtonGroup* RadioButton::group() {
+    return m_group;
 }
 
 } // namespace SwearJar

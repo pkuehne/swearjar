@@ -137,6 +137,8 @@ TEST_F(RadioButtonWidget, enabledOneDisablesOthers) {
     // Then
     EXPECT_FALSE(button_one.enabled());
     EXPECT_TRUE(button_two.enabled());
+    ASSERT_NE(group.current(), nullptr);
+    EXPECT_EQ(group.current(), &button_two);
 }
 
 TEST_F(RadioButtonWidget, enablingButtonWithNoGroupHasNoEffect) {

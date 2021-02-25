@@ -27,9 +27,7 @@ public:
     void run();
 
     /// Get access to the underlying Curses wrapper
-    CursesInterface& curses() {
-        return *m_curses;
-    }
+    CursesInterface& curses();
 
     /// Create a new window and make it topmost within the application
     template <typename T> T& createWindow();
@@ -38,24 +36,19 @@ public:
     void popWindow();
 
     /// Get a list of all windows the Screen is currently managing
-    const std::vector<std::unique_ptr<Window>>& windows() const {
-        return m_windows;
-    }
+    const std::vector<std::unique_ptr<Window>>& windows() const;
 
     /// End control of the screen
-    void quit() {
-        m_quit = true;
-    }
+    void quit();
 
     /// This function will be called for any keyboard keys that are not handled
     /// by SwearJar directly. Will by default quit the application when any key
     /// is pressed
-    std::function<void(const KeyEvent&)> unhandledKeys =
-        [this](const KeyEvent& /* e */) { quit(); };
+    std::function<void(const KeyEvent&)> unhandledKeys;
 
     /// This function will be called whenever the screen is resized. SwearJar
     /// will re-align widgets automatically
-    std::function<void()> screenResized = []() {};
+    std::function<void()> screenResized;
 
 private:
     void handleKeys(const KeyEvent& event);

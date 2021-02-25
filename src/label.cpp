@@ -10,8 +10,16 @@ void Label::text(const std::wstring& text) {
     m_text = text;
 }
 
+const std::wstring& Label::text() {
+    return m_text;
+}
+
 void Label::centred(bool centred) {
     m_centred = centred;
+}
+
+bool Label::centred() {
+    return m_centred;
 }
 
 void Label::render(const RenderContext& context) {

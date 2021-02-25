@@ -11,9 +11,7 @@ public:
     unsigned int requiredHeight() override;
     unsigned int requiredWidth() override;
 
-    const std::vector<std::unique_ptr<Widget>>& children() const {
-        return m_widgets;
-    }
+    const std::vector<std::unique_ptr<Widget>>& children() const;
 
     template <class T> T& createWidget(const std::string& name);
     template <class T>

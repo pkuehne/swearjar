@@ -10,8 +10,7 @@ namespace SwearJar {
 
 class BaseWidget : public LayoutWidget {
 public:
-    BaseWidget() : LayoutWidget("base") {
-    }
+    BaseWidget();
 };
 
 class Screen;
@@ -36,24 +35,13 @@ public:
     explicit Window(Screen& screen);
     virtual ~Window() = default;
 
-    BaseWidget& baseWidget() {
-        return *m_baseWidget;
-    }
-    Screen& screen() {
-        return m_screen;
-    }
-    unsigned int x() {
-        return m_x;
-    }
-    unsigned int y() {
-        return m_y;
-    }
-    unsigned int width() {
-        return m_width;
-    }
-    unsigned int height() {
-        return m_height;
-    }
+    BaseWidget& baseWidget();
+
+    Screen& screen();
+    unsigned int x();
+    unsigned int y();
+    unsigned int width();
+    unsigned int height();
     bool contains(unsigned int x, unsigned int y);
 
     void setWindowStyleFullScreen();

@@ -12,6 +12,10 @@ void Button::text(const std::wstring& text) {
     m_text = text;
 }
 
+const std::wstring& Button::text() {
+    return m_text;
+}
+
 void Button::render(const RenderContext& context) {
     context.clearArea(0, 0, width(), height(), fgColor(), bgColor());
 
