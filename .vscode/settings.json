@@ -61,11 +61,11 @@
     },
     "testMate.cpp.test.advancedExecutables": [
         {
-            "pattern": "{build,Build,BUILD,out,Out,OUT}/**/*{unit_test,test,Test,TEST}*",
-            "cwd": "${absDirpath}",
-            "env": {
-                "PATH": "${os_env:PATH}${osPathEnvSep}/adding/new/item/to/PATH/env"
-            },
+            "pattern": "build/test/unit_test",
+            // "cwd": "${absDirpath}",
+            // "env": {
+            //     "PATH": "${os_env:PATH}"
+            // },
             "runTask": {
                 "before": [
                     "Remove Coverage Files"

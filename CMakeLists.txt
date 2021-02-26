@@ -23,8 +23,13 @@ set(CURSES_NEED_NCURSES TRUE)
 set(CURSES_NEED_WIDE TRUE)
 find_package(Curses)
 
+if(SJ_COVERAGE)
+add_compile_options(--coverage)
+add_link_options(--coverage)
+endif()
+
 add_subdirectory(src)
-if(SJ_BUILD_EXAMPLES AND NOT SJ_COVERAGE)
+if(SJ_BUILD_EXAMPLES)
     add_subdirectory(examples)
 endif()
 

@@ -42,17 +42,10 @@ endif()
 # Create an object library that is not linked, but serves as a collection of
 # objects for other libraries
 add_library(swearjarobjects OBJECT "${SwearJarSources}")
-if(NOT SJ_COVERAGE)
 target_compile_options(swearjarobjects PRIVATE -Werror)
 target_compile_options(swearjarobjects PRIVATE -Wall)
 target_compile_options(swearjarobjects PRIVATE -Wextra)
 target_compile_options(swearjarobjects PRIVATE -Wpedantic)
-target_compile_options(swearjarobjects PRIVATE -g)
-target_compile_options(swearjarobjects PRIVATE -O2)
-else()
-target_compile_options(swearjarobjects PRIVATE -fprofile-arcs)
-target_compile_options(swearjarobjects PRIVATE -ftest-coverage)
-endif()
 
 # Build swearjarbase without a concrete CursesInterface implementation
 add_library(swearjarbase $<TARGET_OBJECTS:swearjarobjects>)
@@ -65,17 +58,10 @@ list(APPEND SwearJarHeaders
 # Build swearjar with CursesWrapper and all swearjar objects from the base
 add_library(swearjar curses_wrapper.cpp $<TARGET_OBJECTS:swearjarobjects>)
 target_include_directories(swearjar PUBLIC ${CMAKE_CURRENT_LIST_DIR})
-if(NOT SJ_COVERAGE)
 target_compile_options(swearjar PRIVATE -Werror)
 target_compile_options(swearjar PRIVATE -Wall)
 target_compile_options(swearjar PRIVATE -Wextra)
 target_compile_options(swearjar PRIVATE -Wpedantic)
-target_compile_options(swearjar PRIVATE -g)
-target_compile_options(swearjar PRIVATE -O2)
-else()
-target_compile_options(swearjarbase PRIVATE -fprofile-arcs)
-target_compile_options(swearjarbase PRIVATE -ftest-coverage)
-endif()
 
 target_link_libraries(swearjar swearjarbase ncursesw)
 set_target_properties(swearjar PROPERTIES PUBLIC_HEADER
