@@ -30,6 +30,40 @@ protected:
     unsigned int yOffset = 3;
 };
 
+TEST_F(RenderContextObject, addOffsets) {
+    // Given
+    context.xOffset(10);
+    context.yOffset(20);
+
+    // When
+    context.addOffsets(30, 40);
+
+    // Then
+    EXPECT_EQ(40, context.xOffset());
+    EXPECT_EQ(60, context.yOffset());
+}
+
+TEST_F(RenderContextObject, removeOffsets) {
+    // Given
+    context.xOffset(10);
+    context.yOffset(20);
+
+    // When
+    context.clearOffsets(3, 4);
+
+    // Then
+    EXPECT_EQ(7, context.xOffset());
+    EXPECT_EQ(16, context.yOffset());
+}
+
+TEST_F(RenderContextObject, validateWindowAssignment) {
+    // When
+    context.window(1234);
+
+    // Then
+    EXPECT_EQ(1234, context.window());
+}
+
 TEST_F(RenderContextObject, clearsBackgroundWithGivenColours) {
     // Given
     short fg = 1;

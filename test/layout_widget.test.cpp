@@ -39,6 +39,16 @@ TEST(LayoutWidget, spacerGrowsByDefault) {
     EXPECT_NE(0, w.growthFactor());
 }
 
+TEST(LayoutWidget, realignDoesNothingForFixedLayout) {
+    // Given
+    LayoutWidget base("");
+    base.width(20);
+    base.alignment(LayoutWidget::Alignment::Fixed);
+
+    // When
+    base.realign();
+}
+
 TEST(LayoutWidget, realignDoesNothingIfRequiredWidthIsBiggerThanWidth) {
     // Given
     LayoutWidget base("");

@@ -14,7 +14,7 @@ option(SJ_BUILD_TESTS "Whether to build the unit tests" ON)
 option(SJ_BUILD_EXAMPLES "Whether to build the examples" ON)
 option(SJ_COVERAGE "Whether to instrument the code for coverage data" ON)
 option(SJ_LINT_COMPILATION "Whether to lint as we build with clang-tidy" OFF)
-set(COVERAGE_PERCENTAGE 88 CACHE STRING "Minimum Coverage number to succeed")
+set(COVERAGE_PERCENTAGE 90 CACHE STRING "Minimum Coverage number to succeed")
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)

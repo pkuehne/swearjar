@@ -123,7 +123,7 @@
         {
             "type": "shell",
             "label": "Create Coverage Numbers",
-            "command": "gcovr -p -r ../src --object-dir=./src --xml cov.xml",
+            "command": "make cov_xml",
             "args": [],
             "options": {
                 "cwd": "${workspaceFolder}/build"

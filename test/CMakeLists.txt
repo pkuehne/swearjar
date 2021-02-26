@@ -68,4 +68,10 @@ add_custom_target(coverage
             --fail-under-line ${COVERAGE_PERCENTAGE}
             --print-summary
     )
+add_custom_target(cov_xml
+    COMMAND gcovr -p
+    -r ${CMAKE_SOURCE_DIR}/src
+    --object-dir=${CMAKE_BINARY_DIR}/src
+    --xml cov.xml
+    )
 endif()
