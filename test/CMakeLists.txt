@@ -53,23 +53,19 @@ add_custom_target(tests
     COMMAND unit_test --gtest_shuffle
     )
 
+add_custom_target(remove_gcda
+    COMMAND find . -name "*.gcda" -type f -delete
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    )
+add_dependencies(unit_test remove_gcda)
+
 if(SJ_COVERAGE)
 add_custom_target(coverage
     DEPENDS tests
     COMMAND gcovr -p
-                -r ${CMAKE_SOURCE_DIR}/src
-                --object-dir=${CMAKE_BINARY_DIR}/src
-                --fail-under-line ${COVERAGE_PERCENTAGE}
-                --xml cov.xml
-                --print-summary
-    COMMAND gcovr -p
-                -r ${CMAKE_SOURCE_DIR}/src
-                --object-dir=${CMAKE_BINARY_DIR}/src
-                --fail-under-line ${COVERAGE_PERCENTAGE}
-                #COMMAND gcovr -p
-                #-r ${CMAKE_SOURCE_DIR}/src
-                #--object-dir=${CMAKE_BINARY_DIR}/src
-                #--branches
-                #--exclude-unreachable-branches
+            -r ${CMAKE_SOURCE_DIR}/src
+            --object-dir=${CMAKE_BINARY_DIR}/src
+            --fail-under-line ${COVERAGE_PERCENTAGE}
+            --print-summary
     )
 endif()

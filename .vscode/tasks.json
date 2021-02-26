@@ -103,14 +103,41 @@
         },
         {
             "type": "shell",
-            "label": "Run example program",
-            "command": "build/example/example",
+            "label": "Remove Coverage Files",
+            "command": "find . -name '*.gcda' -type f -delete",
             "args": [],
             "options": {
-                "cwd": "${workspaceFolder}"
+                "cwd": "${workspaceFolder}/build"
             },
             "problemMatcher": [],
-            "group": "none"
+            "group": "none",
+            "presentation": {
+                "echo": true,
+                "reveal": "never",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "type": "shell",
+            "label": "Create Coverage Numbers",
+            "command": "gcovr -p -r ../src --object-dir=./src --xml cov.xml",
+            "args": [],
+            "options": {
+                "cwd": "${workspaceFolder}/build"
+            },
+            "problemMatcher": [],
+            "group": "none",
+            "presentation": {
+                "echo": true,
+                "reveal": "never",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
         }
     ],
     "version": "2.0.0"
