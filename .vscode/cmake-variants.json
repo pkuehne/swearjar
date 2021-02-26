@@ -1,0 +1,14 @@
+{
+    "Coverage": {
+        "description": "Build with coverage information",
+        "default": "yes",
+        "choices": {
+            "yes": {
+                "short": "Coverage",
+                "settings": {
+                    "SJ_COVERAGE": true
+                }
+            }
+        }
+    }
+}
