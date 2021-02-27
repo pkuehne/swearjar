@@ -279,7 +279,8 @@ void run() {
     SwearJar::Screen screen(new SwearJar::CursesWrapper());
 
     screen.initialize();
-    SwearJar::LogManager::get()->threshold(SwearJar::LogLevel::Info);
+    SwearJar::LogManager::get()->threshold(SwearJar::LogLevel::Debug);
+    SwearJar::LogManager::get()->enabled(true);
     make_example_menu(screen);
     screen.run();
 }

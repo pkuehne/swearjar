@@ -41,7 +41,7 @@ void CursesWrapper::init_pair(short pair, short fore, short back) {
     ::init_pair(pair, fore, back);
 }
 void CursesWrapper::enable_mouse() {
-    mousemask(BUTTON1_CLICKED | BUTTON2_CLICKED | REPORT_MOUSE_POSITION,
+    mousemask(BUTTON1_CLICKED | BUTTON3_CLICKED | REPORT_MOUSE_POSITION,
               nullptr);
 }
 MouseEvent CursesWrapper::mouse_event() {
@@ -55,8 +55,24 @@ MouseEvent CursesWrapper::mouse_event() {
     event.device = mouse.id;
     event.x = mouse.x;
     event.y = mouse.y;
-    event.leftClicked = ((mouse.bstate & BUTTON1_CLICKED) != 0);
-    event.rightClicked = ((mouse.bstate & BUTTON2_CLICKED) != 0);
+    event.leftClicked = ((mouse.bstate & BUTTON1_CLICKED) != 0 ||
+                         (mouse.bstate & BUTTON1_RELEASED) != 0);
+    event.rightClicked = ((mouse.bstate & BUTTON3_CLICKED) != 0 ||
+                          (mouse.bstate & BUTTON3_CLICKED) != 0);
+    // LOG_DEBUG << "Mouse bstate: " << mouse.bstate << LOG_END;
+    // LOG_DEBUG << "BUTTON1_CLICKED = " << BUTTON1_CLICKED << LOG_END;
+    // LOG_DEBUG << "BUTTON2_CLICKED = " << BUTTON2_CLICKED << LOG_END;
+    // LOG_DEBUG << "BUTTON3_CLICKED = " << BUTTON3_CLICKED << LOG_END;
+    // LOG_DEBUG << "BUTTON4_CLICKED = " << BUTTON4_CLICKED << LOG_END;
+    // LOG_DEBUG << "BUTTON1_PRESSED = " << BUTTON1_PRESSED << LOG_END;
+    // LOG_DEBUG << "BUTTON2_PRESSED = " << BUTTON2_PRESSED << LOG_END;
+    // LOG_DEBUG << "BUTTON3_PRESSED = " << BUTTON3_PRESSED << LOG_END;
+    // LOG_DEBUG << "BUTTON4_PRESSED = " << BUTTON4_PRESSED << LOG_END;
+    // LOG_DEBUG << "BUTTON1_RELEASED = " << BUTTON1_RELEASED << LOG_END;
+    // LOG_DEBUG << "BUTTON2_RELEASED = " << BUTTON2_RELEASED << LOG_END;
+    // LOG_DEBUG << "BUTTON3_RELEASED = " << BUTTON3_RELEASED << LOG_END;
+    // LOG_DEBUG << "BUTTON4_RELEASED = " << BUTTON4_RELEASED << LOG_END;
+
     return event;
 }
 
@@ -130,7 +146,7 @@ void CursesWrapper::mvaddch_(int y, int x, char ch) const {
 }
 
 void CursesWrapper::mvaddwch_(int y, int x, wchar_t ch) const {
-    const cchar_t out = {A_NORMAL, {ch},0};
+    const cchar_t out = {A_NORMAL, {ch}, 0};
     mvwadd_wch(m_windows[m_currentWindow], y, x, &out);
 }
 

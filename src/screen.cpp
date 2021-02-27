@@ -110,6 +110,7 @@ void Screen::handleMouse(const MouseEvent& event) {
               << " y=" << event.y << " l=" << event.leftClicked
               << " r=" << event.rightClicked << LOG_END;
     if (!event.leftClicked) {
+        LOG_DEBUG << "Not a left-click" << LOG_END;
         return;
     }
     auto& topWin = *(*m_windows.rbegin());
