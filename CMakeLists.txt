@@ -30,7 +30,7 @@ endif()
 
 add_subdirectory(src)
 if(SJ_BUILD_EXAMPLES)
-    add_subdirectory(examples)
+    add_subdirectory(examples/widget-test)
 endif()
 
 if(SJ_BUILD_TESTS OR SJ_COVERAGE)
