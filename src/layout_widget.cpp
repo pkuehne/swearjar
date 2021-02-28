@@ -159,4 +159,12 @@ void LayoutWidget::render(const RenderContext& context) {
     CollectionWidget::render(context);
 }
 
+CenterWrapper::CenterWrapper(LayoutWidget& base) : m_base(base) {
+    m_base.addSpacer();
+}
+
+CenterWrapper::~CenterWrapper() {
+    m_base.addSpacer();
+}
+
 } // namespace SwearJar

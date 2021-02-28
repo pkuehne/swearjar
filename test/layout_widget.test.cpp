@@ -293,6 +293,7 @@ TEST(LayoutWidget, realignSetsFullHeightWithMargin) {
     base.realign();
 
     // Then
+    ASSERT_EQ(base.margin(), margin);
     EXPECT_EQ(base.height() - (margin * 2), c1.height());
     EXPECT_EQ(base.height() - (margin * 2), c2.height());
     EXPECT_EQ(base.height() - (margin * 2), c3.height());
@@ -384,4 +385,40 @@ TEST(LayoutWidget, requiredWidthCalculatesMaxWidthWhenVertical) {
     auto width = base.requiredWidth();
 
     EXPECT_EQ(width, c3.requiredWidth());
+}
+
+TEST(LayoutWidget, createCentralWidgetCreatesSpacersAround) {
+    // Given
+    LayoutWidget base("");
+    base.alignment(LayoutWidget::Alignment::Vertical);
+
+    // When
+    base.createCentralWidget<Widget>("central");
+
+    // Then
+    ASSERT_EQ(3, base.children().size());
+
+    EXPECT_EQ("spacer", base.children()[0]->name());
+    EXPECT_EQ("central", base.children()[1]->name());
+    EXPECT_EQ("spacer", base.children()[2]->name());
+}
+
+TEST(CenterWrapper, addsSpacerWidgetBeforeAndAfter) {
+    // Given
+    LayoutWidget base("");
+
+    // When
+    {
+        CenterWrapper wrapper(base);
+        base.createWidget<Widget>("one");
+        base.createWidget<Widget>("two");
+    }
+
+    // Then
+    ASSERT_EQ(4, base.children().size());
+
+    EXPECT_EQ("spacer", base.children()[0]->name());
+    EXPECT_EQ("one", base.children()[1]->name());
+    EXPECT_EQ("two", base.children()[2]->name());
+    EXPECT_EQ("spacer", base.children()[3]->name());
 }

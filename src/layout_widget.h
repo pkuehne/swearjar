@@ -29,11 +29,32 @@ public:
     void margin(unsigned int margin);
     unsigned int margin();
 
+    // Creates the specified widget like createWidget(), but adds a SpacerWidget
+    // before and after automatically.
+    template <class T> T& createCentralWidget(const std::string& name);
     void render(const RenderContext& context) override;
 
 private:
     Alignment m_alignment = Alignment::Fixed;
     unsigned int m_margin = 0;
+};
+
+template <class T>
+T& LayoutWidget::createCentralWidget(const std::string& name) {
+    addSpacer();
+    T& w = createWidget<T>(name);
+    addSpacer();
+
+    return w;
+}
+
+class CenterWrapper {
+public:
+    CenterWrapper(LayoutWidget& base);
+    ~CenterWrapper();
+
+private:
+    LayoutWidget& m_base;
 };
 
 } // namespace SwearJar
