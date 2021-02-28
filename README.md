@@ -30,22 +30,32 @@ SwearJar also handles things like mouse clicks, key presses and an event loop fo
 
 See the more [extensive guide][getting-started] available on the [Wiki][wiki].
 
-To start, you'll need to compile the SwearJar library. Clone the repository and then run
+To start, you'll need to include the SwearJar library in your project. To include in your CMake-based project, see the guide on [CMake Integration][cmake-integration].
 
+To do things old-school, just clone the repository and build it:
+
+```bash
+    git clone https://github.com/pkuehne/swearjar.git
+    cd swearjar
     mkdir -p build
     cd build
     cmake ..
-    make && sudo make install
+```
 
-That will put the library and header files in the right location on your system.
+Once done, just include the library in your link line and the src directory in your headers.
 
-The following snippet will get you started using SwearJar, but see the Wiki for more information on usage and widgets.
+```bash
+ gcc -I /path/to/swearjar/src -L /path/to/swearjar/build/src -lswearjar -lncursesw 
+```
 
+The following snippet will get you started using SwearJar, but see the [Wiki][wiki] for more information on usage and widgets.
+
+```cpp
     #include "swearjar.h"
 
     int main() {
         using namespace SwearJar;
-        Screen screen(std::make_shared<SwearJar::CursesWrapper>());
+        Screen screen(new CursesWrapper());
         screen.init();
 
         // Add windows and widgets
@@ -53,6 +63,7 @@ The following snippet will get you started using SwearJar, but see the Wiki for 
         screen.run();
         return 0;
     }
+```
 
 # Roadmap 🛣️
 
@@ -84,3 +95,5 @@ See the FAQ and if your question is not answered there, please open an
 [milestones]: https://github.com/pkuehne/swearjar/milestones
 
 [issues]: https://github.com/pkuehne/swearjar/issues
+
+[cmake-integration]: https://github.com/pkuehne/swearjar/wiki/CMake-integration
