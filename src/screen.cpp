@@ -32,29 +32,37 @@ void Screen::initialize() {
 }
 
 void Screen::run() {
+    ready();
+    while (!m_quit) {
+        refresh();
+    }
+}
+
+void Screen::ready() {
     m_curses->refresh();
 
     (*m_windows.rbegin())->baseWidget().moveFocusForward();
-    while (!m_quit) {
-        refreshWindows();
-        int ch = m_curses->getchar();
-        switch (ch) {
-            case KEY_MOUSE: {
-                MouseEvent event = m_curses->mouse_event();
-                handleMouse(event);
-                break;
-            }
-            case KEY_RESIZE: {
-                resizeWindows();
-                screenResized();
-                break;
-            }
-            default: {
-                KeyEvent event;
-                event.key = ch;
-                handleKeys(event);
-                break;
-            }
+}
+
+void Screen::refresh() {
+    refreshWindows();
+    int ch = m_curses->getchar();
+    switch (ch) {
+        case KEY_MOUSE: {
+            MouseEvent event = m_curses->mouse_event();
+            handleMouse(event);
+            break;
+        }
+        case KEY_RESIZE: {
+            resizeWindows();
+            screenResized();
+            break;
+        }
+        default: {
+            KeyEvent event;
+            event.key = ch;
+            handleKeys(event);
+            break;
         }
     }
 }

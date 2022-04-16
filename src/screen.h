@@ -23,8 +23,15 @@ public:
     /// hand over control of the screen to SwearJar
     void initialize();
 
-    // Hand over control to SwearJar
+    /// Hand over control to SwearJar, convenience function to wrap ready() and
+    /// refresh()
     void run();
+
+    /// Signal to SwearJar that the screen is ready to be drawn and refreshed
+    void ready();
+
+    /// Refresh the screen and collect mouse/keyboard input
+    void refresh();
 
     /// Get access to the underlying Curses wrapper
     CursesInterface& curses();
