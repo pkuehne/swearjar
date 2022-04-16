@@ -41,7 +41,9 @@ void Screen::run() {
 void Screen::ready() {
     m_curses->refresh();
 
-    (*m_windows.rbegin())->baseWidget().moveFocusForward();
+    if (!m_windows.empty()) {
+        (*m_windows.rbegin())->baseWidget().moveFocusForward();
+    }
 }
 
 void Screen::refresh() {
