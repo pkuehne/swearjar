@@ -12,6 +12,10 @@ void Button::text(const std::wstring& text) {
     m_text = text;
 }
 
+void Button::text(const std::string& text) {
+    this->text(convertString(text));
+}
+
 const std::wstring& Button::text() {
     return m_text;
 }

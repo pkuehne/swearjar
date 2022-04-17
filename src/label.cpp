@@ -5,6 +5,10 @@ namespace SwearJar {
 Label::Label(const std::string& name) : Widget(name) {
 }
 
+void Label::text(const std::string& text) {
+    this->text(convertString(text));
+}
+
 void Label::text(const std::wstring& text) {
     minWidth(text.size());
     m_text = text;

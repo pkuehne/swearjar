@@ -18,6 +18,17 @@ TEST(Checkbox, hasText) {
     EXPECT_EQ(L"Test String", box.text());
 }
 
+TEST(Checkbox, canSetNarrowText) {
+    // Given
+    Checkbox box("chkTest");
+
+    // When
+    box.text("Test String");
+
+    // Then
+    EXPECT_EQ(L"Test String", box.text());
+}
+
 TEST(Checkbox, canTakeFocus) {
     // Given
     Checkbox box("chkTest");

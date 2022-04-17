@@ -1,5 +1,6 @@
 #include "widget.h"
 #include "logging.h"
+#include <sstream>
 
 namespace SwearJar {
 
@@ -7,6 +8,12 @@ Widget::Widget(std::string name) : m_name(std::move(name)) {
 }
 
 Widget::~Widget() = default;
+
+std::wstring Widget::convertString(const std::string& input) {
+    std::wstringstream buffer;
+    buffer << input.c_str();
+    return buffer.str();
+}
 
 void Widget::height(unsigned int height) {
     m_height = height;

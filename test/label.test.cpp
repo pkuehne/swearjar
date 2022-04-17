@@ -1,5 +1,5 @@
-#include "curses.mock.h"
 #include "label.h"
+#include "curses.mock.h"
 #include "render_context.mock.h"
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -31,6 +31,19 @@ TEST_F(LabelWidget, settingTextAlsoSetsTheRequiredWidth) {
     // Then
     EXPECT_EQ(12, label.requiredWidth());
     EXPECT_EQ(L"Enter text: ", label.text());
+}
+
+TEST_F(LabelWidget, settingStandardStringSetsWideVersion) {
+    // Given
+    std::string original("FooBar");
+    std::wstring wide(L"FooBar");
+
+    // When
+    label.text(wide);
+
+    // Then
+    EXPECT_EQ(6, label.requiredWidth());
+    EXPECT_EQ(wide, label.text());
 }
 
 TEST_F(LabelWidget, uncentredTextRendersAtXZero) {

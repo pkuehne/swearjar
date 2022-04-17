@@ -8,6 +8,7 @@ class Label : public Widget {
 public:
     explicit Label(const std::string& name);
     virtual void text(const std::wstring& text);
+    virtual void text(const std::string& text);
     virtual const std::wstring& text();
 
     virtual void centred(bool centred);

@@ -7,6 +7,7 @@ class Button : public Widget {
 public:
     explicit Button(const std::string& name);
     virtual void text(const std::wstring& text);
+    virtual void text(const std::string& text);
     virtual const std::wstring& text();
 
     std::function<void(Button&)> onPressed;

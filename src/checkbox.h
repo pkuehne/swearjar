@@ -15,6 +15,7 @@ public:
     std::function<void(Checkbox&)> onToggle;
 
     void text(const std::wstring& text);
+    void text(const std::string& text);
     std::wstring text();
 
     virtual void enabled(bool enabled);

@@ -11,6 +11,10 @@ void Checkbox::text(const std::wstring& text) {
     minWidth(text.size() + 4);
 }
 
+void Checkbox::text(const std::string& text) {
+    this->text(convertString(text));
+}
+
 std::wstring Checkbox::text() {
     return m_text;
 }

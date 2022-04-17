@@ -27,6 +27,8 @@ public:
     Widget(const Widget&) = delete;
     virtual ~Widget();
 
+    static std::wstring convertString(const std::string& input);
+
     virtual void height(unsigned int height);
     virtual unsigned int height();
     virtual void minHeight(unsigned int height);

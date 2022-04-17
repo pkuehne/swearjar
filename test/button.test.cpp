@@ -29,6 +29,16 @@ TEST_F(ButtonWidget, canTakeFocusByDefault) {
     EXPECT_TRUE(b.canTakeFocus());
 }
 
+TEST_F(ButtonWidget, setTextSetsWide) {
+    // Given
+
+    // When
+    b.text("Test Title");
+
+    // Then
+    EXPECT_EQ(L"Test Title", b.text());
+}
+
 TEST_F(ButtonWidget, renderClearsTheAreaOfTheButton) {
     // Given
     b.text(L"Foo");
