@@ -1,7 +1,9 @@
 #include "screen.h"
 #include "logging.h"
 #include "window.h"
+#include <chrono>
 #include <iostream>
+#include <thread>
 
 namespace SwearJar {
 
@@ -35,6 +37,8 @@ void Screen::initialize() {
 void Screen::run() {
     ready();
     while (!m_quit) {
+        // FPS is ~20
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
         refresh();
     }
 }
@@ -62,7 +66,7 @@ void Screen::refresh() {
             break;
         }
         case KEY_TIMEOUT: {
-            return;
+            break;
         }
         default: {
             KeyEvent event;
