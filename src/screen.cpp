@@ -25,6 +25,7 @@ void Screen::initialize() {
     m_curses->raw();
     m_curses->noecho();
     m_curses->keypad();
+    m_curses->nodelay();
     if (m_curses->has_colors()) {
         m_curses->start_color();
     }
@@ -44,10 +45,10 @@ void Screen::ready() {
     if (!m_windows.empty()) {
         (*m_windows.rbegin())->baseWidget().moveFocusForward();
     }
+    refreshWindows();
 }
 
 void Screen::refresh() {
-    refreshWindows();
     int ch = m_curses->getchar();
     switch (ch) {
         case KEY_MOUSE: {
@@ -60,6 +61,9 @@ void Screen::refresh() {
             screenResized();
             break;
         }
+        case KEY_TIMEOUT: {
+            return;
+        }
         default: {
             KeyEvent event;
             event.key = ch;
@@ -67,6 +71,7 @@ void Screen::refresh() {
             break;
         }
     }
+    refreshWindows();
 }
 
 CursesInterface& Screen::curses() {

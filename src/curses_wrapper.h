@@ -14,6 +14,7 @@ public:
     void raw() override;
     void noecho() override;
     void keypad() override;
+    void nodelay() override;
     void endwin() override;
     bool has_colors() override;
     void start_color() override;

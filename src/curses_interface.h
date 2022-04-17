@@ -17,6 +17,7 @@ struct KeyEvent {
     int key = 0;
 };
 
+const int KEY_TIMEOUT = -1;
 const int KEY_TAB = 9;
 const int KEY_ENTER = 10;
 const int KEY_DOWN = 258;
@@ -36,6 +37,7 @@ public:
     virtual void raw() = 0;
     virtual void noecho() = 0;
     virtual void keypad() = 0;
+    virtual void nodelay() = 0;
     virtual void endwin() = 0;
     virtual void start_color() = 0;
     virtual void enable_mouse() = 0;
