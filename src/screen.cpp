@@ -24,6 +24,7 @@ void Screen::initialize() {
     m_curses->initscr();
     m_curses->raw();
     m_curses->noecho();
+    m_curses->nodelay(true);
     m_curses->keypad();
     if (m_curses->has_colors()) {
         m_curses->start_color();
@@ -32,31 +33,15 @@ void Screen::initialize() {
 }
 
 void Screen::run() {
-    m_curses->refresh();
-
-    (*m_windows.rbegin())->baseWidget().moveFocusForward();
+    m_curses->nodelay(false); // We want to wait for keypresses
     while (!m_quit) {
-        refreshWindows();
-        int ch = m_curses->getchar();
-        switch (ch) {
-            case KEY_MOUSE: {
-                MouseEvent event = m_curses->mouse_event();
-                handleMouse(event);
-                break;
-            }
-            case KEY_RESIZE: {
-                resizeWindows();
-                screenResized();
-                break;
-            }
-            default: {
-                KeyEvent event;
-                event.key = ch;
-                handleKeys(event);
-                break;
-            }
-        }
+        update();
     }
+}
+
+void Screen::update() {
+    refreshWindows();
+    handleInput();
 }
 
 CursesInterface& Screen::curses() {
@@ -91,6 +76,32 @@ const std::vector<std::unique_ptr<Window>>& Screen::windows() const {
 
 void Screen::quit() {
     m_quit = true;
+}
+
+bool Screen::shouldQuit() {
+    return m_quit;
+}
+
+void Screen::handleInput() {
+    int ch = m_curses->getchar();
+    switch (ch) {
+        case KEY_MOUSE: {
+            MouseEvent event = m_curses->mouse_event();
+            handleMouse(event);
+            break;
+        }
+        case KEY_RESIZE: {
+            resizeWindows();
+            screenResized();
+            break;
+        }
+        default: {
+            KeyEvent event;
+            event.key = ch;
+            handleKeys(event);
+            break;
+        }
+    }
 }
 
 void Screen::handleKeys(const KeyEvent& event) {

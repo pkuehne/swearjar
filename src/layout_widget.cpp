@@ -8,6 +8,7 @@ SpacerWidget::SpacerWidget(const std::string& name) : Widget(name) {
 }
 
 LayoutWidget::LayoutWidget(const std::string& name) : CollectionWidget(name) {
+    growthFactor(1);
 }
 
 void LayoutWidget::addSpacer(unsigned int factor) {

@@ -250,7 +250,7 @@ void make_example_menu(SwearJar::Screen& screen) {
     auto& btnQuit = frame.createWidget<Button>("btnQuit");
     frame.addSpacer(2);
 
-    btnLabel.text(L"Labels € Buttons");
+    btnLabel.text(L"Labels & Buttons");
     btnLabel.onPressed = [&screen](Button&) {
         make_button_label_example(screen);
     };

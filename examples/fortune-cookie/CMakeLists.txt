@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 3.13)
 
 # Set some basic information about the project
-project (FortuneCOokie
+project (FortuneCookie
 	VERSION 0.0.1
 	DESCRIPTION "First proper TUI example"
 	LANGUAGES CXX

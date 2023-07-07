@@ -35,6 +35,7 @@ public:
     virtual void initscr() = 0;
     virtual void raw() = 0;
     virtual void noecho() = 0;
+    virtual void nodelay(bool)  = 0;
     virtual void keypad() = 0;
     virtual void endwin() = 0;
     virtual void start_color() = 0;
