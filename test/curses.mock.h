@@ -8,6 +8,7 @@ public:
     MOCK_METHOD(void, initscr, (), (override));
     MOCK_METHOD(void, raw, (), (override));
     MOCK_METHOD(void, noecho, (), (override));
+    MOCK_METHOD(void, nodelay, (bool), (override));
     MOCK_METHOD(void, keypad, (), (override));
     MOCK_METHOD(void, nodelay, (), (override));
     MOCK_METHOD(void, endwin, (), (override));

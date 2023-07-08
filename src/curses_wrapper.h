@@ -13,6 +13,7 @@ public:
     void initscr() override;
     void raw() override;
     void noecho() override;
+    void nodelay(bool delay = true) override;
     void keypad() override;
     void nodelay() override;
     void endwin() override;

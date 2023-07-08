@@ -23,15 +23,11 @@ public:
     /// hand over control of the screen to SwearJar
     void initialize();
 
-    /// Hand over control to SwearJar, convenience function to wrap ready() and
-    /// refresh()
+    /// Hand over control to SwearJar
     void run();
 
-    /// Signal to SwearJar that the screen is ready to be drawn and refreshed
-    void ready();
-
-    /// Refresh the screen and collect mouse/keyboard input
-    void refresh();
+    /// Redraws the screen and handles key/mouse events
+    void update();
 
     /// Get access to the underlying Curses wrapper
     CursesInterface& curses();
@@ -48,6 +44,11 @@ public:
     /// End control of the screen
     void quit();
 
+    /// Did SwearJar request to quit?
+    // TODO: This needs tidying up, why would SJ need to quit? Handle via a
+    // signal of some sort
+    bool shouldQuit();
+
     /// This function will be called for any keyboard keys that are not handled
     /// by SwearJar directly. Will by default quit the application when any key
     /// is pressed
@@ -58,6 +59,7 @@ public:
     std::function<void()> screenResized;
 
 private:
+    void handleInput();
     void handleKeys(const KeyEvent& event);
     void handleMouse(const MouseEvent& event);
     void refreshWindows();

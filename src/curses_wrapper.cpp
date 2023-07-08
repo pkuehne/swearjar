@@ -25,6 +25,9 @@ void CursesWrapper::raw() {
 void CursesWrapper::noecho() {
     ::noecho();
 }
+void CursesWrapper::nodelay(bool value) {
+    ::nodelay(m_windows[0], value);
+}
 void CursesWrapper::keypad() {
     ::keypad(m_windows[0], true);
 }
