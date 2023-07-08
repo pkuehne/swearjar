@@ -1,4 +1,5 @@
 #include "curses_wrapper.h"
+#include "curses_interface.h"
 #include "logging.h"
 #include <csignal>
 
@@ -30,9 +31,6 @@ void CursesWrapper::nodelay(bool value) {
 }
 void CursesWrapper::keypad() {
     ::keypad(m_windows[0], true);
-}
-void CursesWrapper::nodelay() {
-    ::nodelay(m_windows[0], true);
 }
 void CursesWrapper::endwin() {
     ::endwin();
@@ -157,7 +155,11 @@ void CursesWrapper::mvaddwch_(int y, int x, wchar_t ch) const {
 }
 
 int CursesWrapper::getchar() {
-    return ::wgetch(stdscr);
+    int value = ::wgetch(stdscr);
+    if (value == ERR) {
+        return KEY_TIMEOUT;
+    }
+    return value;
 }
 
 void CursesWrapper::refresh() {

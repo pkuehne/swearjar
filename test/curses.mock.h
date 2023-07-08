@@ -10,7 +10,6 @@ public:
     MOCK_METHOD(void, noecho, (), (override));
     MOCK_METHOD(void, nodelay, (bool), (override));
     MOCK_METHOD(void, keypad, (), (override));
-    MOCK_METHOD(void, nodelay, (), (override));
     MOCK_METHOD(void, endwin, (), (override));
     MOCK_METHOD(void, start_color, (), (override));
     MOCK_METHOD(void, enable_mouse, (), (override));

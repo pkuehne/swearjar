@@ -1,4 +1,5 @@
 #include "screen.h"
+#include "curses_interface.h"
 #include "logging.h"
 #include "window.h"
 #include <chrono>
@@ -28,7 +29,6 @@ void Screen::initialize() {
     m_curses->noecho();
     m_curses->nodelay(true);
     m_curses->keypad();
-    m_curses->nodelay();
     if (m_curses->has_colors()) {
         m_curses->start_color();
     }
@@ -89,6 +89,9 @@ bool Screen::shouldQuit() {
 void Screen::handleInput() {
     int ch = m_curses->getchar();
     switch (ch) {
+        case KEY_TIMEOUT: {
+            break;
+        }
         case KEY_MOUSE: {
             MouseEvent event = m_curses->mouse_event();
             handleMouse(event);

@@ -38,7 +38,6 @@ public:
     virtual void noecho() = 0;
     virtual void nodelay(bool)  = 0;
     virtual void keypad() = 0;
-    virtual void nodelay() = 0;
     virtual void endwin() = 0;
     virtual void start_color() = 0;
     virtual void enable_mouse() = 0;
