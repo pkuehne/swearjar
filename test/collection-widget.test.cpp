@@ -16,7 +16,7 @@ public:
 
 class TestWidget : public SwearJar::Widget {
 public:
-    TestWidget(const std::string& name) : Widget("") {
+    TestWidget(const std::string& name) : Widget(name) {
         canTakeFocus(true);
     }
     void canTakeFocus(bool focus) {
@@ -369,4 +369,42 @@ TEST(CollectionWidget, renderSetsFocusIfSetOnWidget) {
 
     // When
     base.render(*context);
+}
+
+TEST(CollectionWidget, getWidgetReturnsWidgetIfFound) {
+    // Given
+    CollectionWidget base("base");
+    auto& foo = base.createWidget<TestWidget>("foo");
+
+    // When
+    auto* found = base.getWidget<TestWidget>("foo");
+
+    // Then
+    ASSERT_NE(nullptr, found);
+    EXPECT_EQ(foo.name(), found->name());
+}
+
+TEST(CollectionWidget, getWidgetReturnsNullptrIfNotFound) {
+    // Given
+    CollectionWidget base("base");
+    base.createWidget<TestWidget>("foo");
+
+    // When
+    auto* found = base.getWidget<TestWidget>("bar");
+
+    // Then
+    EXPECT_EQ(nullptr, found);
+}
+
+TEST(CollectionWidget, getWidgetReturnsWidgetIfNested) {
+    // Given
+    CollectionWidget base("base");
+    auto& nested = base.createWidget<CollectionWidget>("nested");
+    nested.createWidget<TestWidget>("foo");
+
+    // When
+    auto* found = base.getWidget<TestWidget>("foo");
+
+    // Then
+    EXPECT_NE(nullptr, found);
 }

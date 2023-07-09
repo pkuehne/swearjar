@@ -23,7 +23,7 @@ enum Color {
 
 class Widget {
 public:
-    explicit Widget(std::string name);
+    explicit Widget(const std::string& name);
     Widget(const Widget&) = delete;
     virtual ~Widget();
 
@@ -50,7 +50,7 @@ public:
     virtual void growthFactor(unsigned int factor);
     virtual unsigned int growthFactor();
 
-    virtual std::string name();
+    virtual const std::string& name();
 
     virtual void render(const RenderContext& /* context */);
     virtual bool handleKeyPress(const KeyEvent& /* event */);

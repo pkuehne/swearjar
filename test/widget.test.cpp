@@ -171,3 +171,11 @@ TEST(Widget, handleKeyPressDoesNothingByDefault) {
     // Then
     EXPECT_TRUE(w.handleKeyPress(e));
 }
+
+TEST(Widget, nameIsSet) {
+    // Given
+    Widget w("foo");
+
+    // Then
+    EXPECT_EQ("foo", w.name());
+}

@@ -4,7 +4,7 @@
 
 namespace SwearJar {
 
-Widget::Widget(std::string name) : m_name(std::move(name)) {
+Widget::Widget(const std::string& name) : m_name(name) {
 }
 
 Widget::~Widget() = default;
@@ -83,7 +83,7 @@ unsigned int Widget::growthFactor() {
     return m_growthFactor;
 }
 
-std::string Widget::name() {
+const std::string& Widget::name() {
     return m_name;
 }
 

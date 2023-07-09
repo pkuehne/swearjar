@@ -16,7 +16,7 @@ public:
     template <class T> T& createWidget(const std::string& name);
     template <class T>
     T& createWidget(const std::string& name, unsigned int x, unsigned int y);
-
+    template <class T> T* getWidget(const std::string& name);
     void render(const RenderContext& context) override;
     bool moveFocusForward() override;
     bool handleKeyPress(const KeyEvent& event) override;
@@ -26,6 +26,23 @@ private:
     std::vector<std::unique_ptr<Widget>> m_widgets;
     std::vector<std::unique_ptr<Widget>>::iterator m_focusWidget;
 };
+
+template <class T> T* CollectionWidget::getWidget(const std::string& name) {
+    for (auto& widget : m_widgets) {
+        if (widget->name() == name) {
+            return dynamic_cast<T*>(widget.get());
+        }
+        auto* collection = dynamic_cast<CollectionWidget*>(widget.get());
+        if (collection != nullptr) {
+            // This is a collection widget, check its children as well
+            auto* found = collection->getWidget<T>(name);
+            if (found != nullptr) {
+                return found;
+            }
+        }
+    }
+    return nullptr;
+}
 
 template <class T> T& CollectionWidget::createWidget(const std::string& name) {
     return createWidget<T>(name, 0, 0);
