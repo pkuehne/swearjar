@@ -13,6 +13,9 @@ class Screen {
 public:
     explicit Screen(std::shared_ptr<CursesInterface>&& curses);
 
+    Screen(const Screen&) = delete;
+    Screen(Screen&&) = default;
+
     /// Call this with `new CursesWrapper()`. Screen will take ownership of the
     /// pointer.
     explicit Screen(CursesInterface* curses);
