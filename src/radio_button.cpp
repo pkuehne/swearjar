@@ -18,10 +18,9 @@ void RadioButtonGroup::add(RadioButton* button) {
 void RadioButtonGroup::remove(RadioButton* button) {
     m_buttons.erase(button);
     if (button == m_current) {
-        if (m_buttons.empty()) {
-            m_current = nullptr;
-        } else {
-            m_current = *m_buttons.begin();
+        m_current = m_buttons.empty() ? nullptr : *m_buttons.begin();
+        if (onChanged && m_current != nullptr) {
+            onChanged(*m_current);
         }
     }
 }

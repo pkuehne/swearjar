@@ -285,6 +285,31 @@ TEST_F(RadioButtonWidget, onChangedNotFiredWhenCurrentSetToSameButton) {
     EXPECT_FALSE(called);
 }
 
+TEST_F(RadioButtonWidget, onChangedFiredWhenCurrentButtonRemoved) {
+    // Given - button_one is current; removing it promotes button_two
+    bool called = false;
+    group.onChanged = [&called](RadioButton&) { called = true; };
+
+    // When
+    group.remove(&button_one);
+
+    // Then
+    EXPECT_TRUE(called);
+    EXPECT_EQ(group.current(), &button_two);
+}
+
+TEST_F(RadioButtonWidget, onChangedNotFiredWhenNonCurrentButtonRemoved) {
+    // Given
+    bool called = false;
+    group.onChanged = [&called](RadioButton&) { called = true; };
+
+    // When - remove the non-current button
+    group.remove(&button_two);
+
+    // Then
+    EXPECT_FALSE(called);
+}
+
 TEST_F(RadioButtonWidget, rendersIndicatorWhenEnabled) {
     // Given
     auto curses = std::make_shared<NiceMock<MockCurses>>();
