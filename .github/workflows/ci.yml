@@ -12,37 +12,49 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Build Docker image
-        run: docker build -t swearjar .
-      - name: Run build and tests
-        run: docker run --rm swearjar scripts/build.sh
+      - name: Install dependencies
+        run: sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends libncursesw5-dev
+      - name: Configure
+        run: cmake -B build
+      - name: Build
+        run: cmake --build build -j4
+      - name: Test
+        run: ctest --test-dir build -V
 
   coverage:
     name: Check Coverage
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Build Docker image
-        run: docker build -t swearjar .
+      - name: Install dependencies
+        run: sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends libncursesw5-dev gcovr
+      - name: Configure
+        run: cmake -B build -DSJ_COVERAGE=ON -DSJ_BUILD_EXAMPLES=OFF
+      - name: Build
+        run: cmake --build build -j4
       - name: Check coverage
-        run: docker run --rm swearjar scripts/coverage.sh
+        run: cmake --build build --target coverage
 
   lint:
     name: Lint Files
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Build Docker image
-        run: docker build -t swearjar .
-      - name: Run linter
-        run: docker run --rm swearjar scripts/lint.sh
+      - name: Install dependencies
+        run: sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends libncursesw5-dev clang-tidy
+      - name: Configure
+        run: cmake -B build -DSJ_LINT_COMPILATION=ON -DSJ_BUILD_EXAMPLES=OFF -DSJ_BUILD_TESTS=OFF
+      - name: Build
+        run: cmake --build build -j4
 
   format:
     name: Check Format
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Build Docker image
-        run: docker build -t swearjar .
+      - name: Install dependencies
+        run: sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends clang-format
       - name: Check formatting
-        run: docker run --rm swearjar scripts/format.sh
+        run: |
+          CHANGES=$(clang-format -style=file -output-replacements-xml src/*.cpp src/*.h | grep "replacement " | wc -l)
+          if [ "$CHANGES" -ne "0" ]; then exit 1; fi
