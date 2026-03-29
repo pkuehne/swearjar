@@ -10,12 +10,16 @@ public:
     void title(const std::wstring& title);
     std::wstring title();
 
+    void titleCentred(bool centred);
+    bool titleCentred();
+
     unsigned int requiredWidth() override;
 
     void render(const RenderContext& context) override;
 
 private:
     std::wstring m_title;
+    bool m_titleCentred = false;
 };
 
 } // namespace SwearJar

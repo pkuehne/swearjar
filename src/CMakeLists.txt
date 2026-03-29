@@ -11,6 +11,7 @@ list (APPEND SwearJarSources
     progressbar.cpp
     collection_widget.cpp
     layout_widget.cpp
+    toggle_widget.cpp
     checkbox.cpp
     list.cpp
     radio_button.cpp
@@ -29,6 +30,7 @@ list(APPEND SwearJarHeaders
     progressbar.h
     collection_widget.h
     layout_widget.h
+    toggle_widget.h
     checkbox.h
     list.h
     radio_button.h

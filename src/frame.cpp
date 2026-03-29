@@ -15,6 +15,14 @@ std::wstring Frame::title() {
     return m_title;
 }
 
+void Frame::titleCentred(bool centred) {
+    m_titleCentred = centred;
+}
+
+bool Frame::titleCentred() {
+    return m_titleCentred;
+}
+
 unsigned int Frame::requiredWidth() {
     unsigned int childWidth = LayoutWidget::requiredWidth() + 2;
     unsigned int frameWidth = title().size() + 4;
@@ -23,7 +31,11 @@ unsigned int Frame::requiredWidth() {
 
 void Frame::render(const RenderContext& context) {
     context.drawBorder(0, 0, width(), height(), fgColor(), bgColor());
-    context.drawText(2, 0, m_title, fgColor(), bgColor());
+    unsigned int xStart = 2;
+    if (m_titleCentred && width() > m_title.size() + 2) {
+        xStart = (width() - m_title.size()) / 2;
+    }
+    context.drawText(xStart, 0, m_title, fgColor(), bgColor());
 
     LayoutWidget::render(context); // render child widgets
 }
