@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [development, main]
+  pull_request:
+    branches: [development, main]
+
+jobs:
+  build-and-test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Docker image
+        run: docker build -t swearjar .
+      - name: Run build and tests
+        run: docker run --rm swearjar scripts/build.sh
+
+  coverage:
+    name: Check Coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Docker image
+        run: docker build -t swearjar .
+      - name: Check coverage
+        run: docker run --rm swearjar scripts/coverage.sh
+
+  lint:
+    name: Lint Files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Docker image
+        run: docker build -t swearjar .
+      - name: Run linter
+        run: docker run --rm swearjar scripts/lint.sh
+
+  format:
+    name: Check Format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Docker image
+        run: docker build -t swearjar .
+      - name: Check formatting
+        run: docker run --rm swearjar scripts/format.sh

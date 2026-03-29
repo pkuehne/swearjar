@@ -1,9 +1,9 @@
 cmake_minimum_required (VERSION 3.13)
-if(NOT DEFINED ENV{TRAVIS_BUILD_NUMBER})
-    set(ENV{TRAVIS_BUILD_NUMBER} 0)
+if(NOT DEFINED ENV{GITHUB_RUN_NUMBER})
+    set(ENV{GITHUB_RUN_NUMBER} 0)
 endif()
 project (SwearJar
-    VERSION 0.0.0.$ENV{TRAVIS_BUILD_NUMBER}
+    VERSION 0.0.0.$ENV{GITHUB_RUN_NUMBER}
     DESCRIPTION "UI toolkit wrapper for ncurses"
     HOMEPAGE_URL "https://github.com/pkuehne/swearjar/"
     LANGUAGES CXX
