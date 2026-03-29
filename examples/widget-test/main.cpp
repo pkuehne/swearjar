@@ -104,7 +104,7 @@ public:
             int val = checkbox.enabled() ? -10 : 10;
             bar.value(bar.value() + val);
         };
-        checkbox.onToggle = [&btnIncr](Checkbox& me) {
+        checkbox.onToggle = [&btnIncr](SwearJar::ToggleWidget& me) {
             btnIncr.text(me.enabled() ? L"Decrement" : L"Increment");
         };
 
