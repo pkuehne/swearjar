@@ -1,4 +1,5 @@
 #include "checkbox.h"
+#include "toggle_widget.h"
 #include "curses.mock.h"
 #include "render_context.mock.h"
 #include <gmock/gmock.h>
@@ -71,7 +72,7 @@ TEST(Checkbox, callsCallbackOnKeyboardToggle) {
     KeyEvent event;
     event.key = 10;
     bool called = false;
-    box.onToggle = [&called](Checkbox&) { called = true; };
+    box.onToggle = [&called](ToggleWidget&) { called = true; };
 
     // When
     box.handleKeyPress(event);
@@ -99,7 +100,7 @@ TEST(Checkbox, callsCallbackOnMouseToggle) {
     Checkbox box("chkTest");
     MouseEvent event;
     bool called = false;
-    box.onToggle = [&called](Checkbox&) { called = true; };
+    box.onToggle = [&called](ToggleWidget&) { called = true; };
 
     // When
     box.handleMouseClick(event);

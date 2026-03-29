@@ -44,6 +44,41 @@ TEST_F(FrameWidget, requiredWidthIsAtLeastTitleWidth) {
     EXPECT_GE(frame.requiredWidth(), frame.title().size());
 }
 
+TEST_F(FrameWidget, titleDefaultsToLeftAligned) {
+    // Given / When
+    EXPECT_FALSE(frame.titleCentred());
+}
+
+TEST_F(FrameWidget, centredTitleRendersMidWidth) {
+    // Given
+    frame.width(20);
+    std::wstring title(L"test");  // length 4 => xStart = (20-4)/2 = 8
+    frame.title(title);
+    frame.titleCentred(true);
+
+    EXPECT_CALL(*context,
+                drawText(8, _, TypedEq<const std::wstring&>(title), _, _));
+    EXPECT_CALL(*context, drawBorder(_, _, _, _, _, _));
+
+    // When
+    frame.render(*context);
+}
+
+TEST_F(FrameWidget, uncentredTitleRendersAtPositionTwo) {
+    // Given
+    frame.width(20);
+    std::wstring title(L"test");
+    frame.title(title);
+    frame.titleCentred(false);
+
+    EXPECT_CALL(*context,
+                drawText(2, _, TypedEq<const std::wstring&>(title), _, _));
+    EXPECT_CALL(*context, drawBorder(_, _, _, _, _, _));
+
+    // When
+    frame.render(*context);
+}
+
 TEST_F(FrameWidget, requiredWidthIsAtLeastChildWidgetWidth) {
     // Given
     auto& w = frame.createWidget<Widget>("testWidget");

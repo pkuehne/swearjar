@@ -26,6 +26,7 @@ add_executable(unit_test
     button.test.cpp
     progressbar.test.cpp
     list.test.cpp
+    toggle_widget.test.cpp
     checkbox.test.cpp
     radio_button.test.cpp
     text_entry.test.cpp

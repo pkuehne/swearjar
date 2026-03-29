@@ -1,10 +1,12 @@
 #pragma once
-#include "checkbox.h"
+
+#include "toggle_widget.h"
 #include <set>
 
 namespace SwearJar {
 
 class RadioButton;
+
 class RadioButtonGroup {
 public:
     void add(RadioButton* button);
@@ -21,7 +23,7 @@ private:
     RadioButton* m_current = nullptr;
 };
 
-class RadioButton : public Checkbox {
+class RadioButton : public ToggleWidget {
 public:
     explicit RadioButton(const std::string& name);
 
@@ -29,11 +31,12 @@ public:
     void enabled(bool on) override;
     void toggle() override;
 
+    void render(const RenderContext& context) override;
+
     void group(RadioButtonGroup* group);
     RadioButtonGroup* group();
 
 private:
-    std::string m_title;
     RadioButtonGroup* m_group = nullptr;
 };
 

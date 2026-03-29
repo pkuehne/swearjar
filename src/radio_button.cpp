@@ -34,8 +34,7 @@ void RadioButtonGroup::current(RadioButton* button) {
     m_current = button;
 }
 
-RadioButton::RadioButton(const std::string& name) : Checkbox(name) {
-    //
+RadioButton::RadioButton(const std::string& name) : ToggleWidget(name) {
 }
 
 void RadioButton::group(RadioButtonGroup* group) {
@@ -49,21 +48,27 @@ void RadioButton::group(RadioButtonGroup* group) {
 bool RadioButton::enabled() {
     if (m_group == nullptr) {
         return false;
-        // return Checkbox::enabled(); }
     }
     return m_group->current() == this;
 }
 
-void RadioButton::enabled(bool /* on */) {
-    if (m_group == nullptr) {
-        // Checkbox::enabled(on);
+void RadioButton::enabled(bool on) {
+    if (m_group == nullptr || !on) {
         return;
     }
     m_group->current(this);
 }
 
 void RadioButton::toggle() {
-    this->enabled(true);
+    enabled(true);
+}
+
+void RadioButton::render(const RenderContext& context) {
+    context.drawText(0, 0, L"( ) ", fgColor(), bgColor());
+    context.drawText(4, 0, m_text, fgColor(), bgColor());
+    if (enabled()) {
+        context.drawChar(1, 0, L'*', fgColor(), bgColor());
+    }
 }
 
 RadioButtonGroup* RadioButton::group() {
