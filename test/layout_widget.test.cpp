@@ -403,6 +403,59 @@ TEST(LayoutWidget, createCentralWidgetCreatesSpacersAround) {
     EXPECT_EQ("spacer", base.children()[2]->name());
 }
 
+TEST(LayoutWidget, realignHorizontallyFillsFullWidthWhenRoundingOccurs) {
+    // Given - 7 extra pixels split among 3 equal-growth widgets gives 2 each
+    // (truncated), leaving 1 pixel unallocated. The first widget should absorb it.
+    LayoutWidget base("");
+    base.width(10);
+    base.alignment(LayoutWidget::Alignment::Horizontal);
+
+    auto& c1 = base.createWidget<Widget>("");
+    c1.minWidth(1);
+    c1.growthFactor(1);
+
+    auto& c2 = base.createWidget<Widget>("");
+    c2.minWidth(1);
+    c2.growthFactor(1);
+
+    auto& c3 = base.createWidget<Widget>("");
+    c3.minWidth(1);
+    c3.growthFactor(1);
+
+    // When
+    base.realign();
+
+    // Then - all allocated widths must sum to the full container width
+    EXPECT_EQ(base.width(), c1.width() + c2.width() + c3.width());
+}
+
+TEST(LayoutWidget, realignVerticallyFillsFullHeightWhenRoundingOccurs) {
+    // Given - 7 extra pixels split among 3 equal-growth widgets gives 2 each
+    // (truncated), leaving 1 pixel unallocated. The first widget should absorb it.
+    LayoutWidget base("");
+    base.height(10);
+    base.width(10);
+    base.alignment(LayoutWidget::Alignment::Vertical);
+
+    auto& c1 = base.createWidget<Widget>("");
+    c1.minHeight(1);
+    c1.growthFactor(1);
+
+    auto& c2 = base.createWidget<Widget>("");
+    c2.minHeight(1);
+    c2.growthFactor(1);
+
+    auto& c3 = base.createWidget<Widget>("");
+    c3.minHeight(1);
+    c3.growthFactor(1);
+
+    // When
+    base.realign();
+
+    // Then - all allocated heights must sum to the full container height
+    EXPECT_EQ(base.height(), c1.height() + c2.height() + c3.height());
+}
+
 TEST(CenterWrapper, addsSpacerWidgetBeforeAndAfter) {
     // Given
     LayoutWidget base("");

@@ -176,9 +176,48 @@ TEST_F(WindowClass, equalWidthEqualHeight) {
     Window w(screen);
     w.setWindowStyleFixed(x, y, width, height);
 
-    // When
+    // When - position (x+width, y+height) is just outside the window boundary
     bool inside = w.contains(40, 60);
 
     // Then
+    EXPECT_FALSE(inside);
+}
+
+TEST_F(WindowClass, lastInsideXlastInsideY) {
+    // Given
+    Screen screen(curses);
+    Window w(screen);
+    w.setWindowStyleFixed(x, y, width, height);
+
+    // When - position (x+width-1, y+height-1) is the last pixel inside
+    bool inside = w.contains(39, 59);
+
+    // Then
     EXPECT_TRUE(inside);
+}
+
+TEST_F(WindowClass, outsideRightEdge) {
+    // Given
+    Screen screen(curses);
+    Window w(screen);
+    w.setWindowStyleFixed(x, y, width, height);
+
+    // When - one past the right edge
+    bool inside = w.contains(x + width, y);
+
+    // Then
+    EXPECT_FALSE(inside);
+}
+
+TEST_F(WindowClass, outsideBottomEdge) {
+    // Given
+    Screen screen(curses);
+    Window w(screen);
+    w.setWindowStyleFixed(x, y, width, height);
+
+    // When - one past the bottom edge
+    bool inside = w.contains(x, y + height);
+
+    // Then
+    EXPECT_FALSE(inside);
 }

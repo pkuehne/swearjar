@@ -62,7 +62,7 @@ MouseEvent CursesWrapper::mouse_event() {
     event.leftClicked = ((mouse.bstate & BUTTON1_CLICKED) != 0 ||
                          (mouse.bstate & BUTTON1_RELEASED) != 0);
     event.rightClicked = ((mouse.bstate & BUTTON3_CLICKED) != 0 ||
-                          (mouse.bstate & BUTTON3_CLICKED) != 0);
+                          (mouse.bstate & BUTTON3_RELEASED) != 0);
     // LOG_DEBUG << "Mouse bstate: " << mouse.bstate << LOG_END;
     // LOG_DEBUG << "BUTTON1_CLICKED = " << BUTTON1_CLICKED << LOG_END;
     // LOG_DEBUG << "BUTTON2_CLICKED = " << BUTTON2_CLICKED << LOG_END;

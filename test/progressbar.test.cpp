@@ -120,3 +120,18 @@ TEST(Progressbar, settingValueBeyondMaxSetsItToMax) {
     // Then
     EXPECT_EQ(bar.value(), 10);
 }
+
+TEST(Progressbar, ZeroMaximumRendersNothingWithoutCrash) {
+    // Given
+    auto curses = std::make_shared<::testing::NiceMock<MockCurses>>();
+    auto context = std::make_unique<MockRenderContext>(*curses);
+
+    EXPECT_CALL(*context, drawChar(_, _, A<wchar_t>(), _, _)).Times(0);
+
+    Progressbar bar("bar");
+    bar.maximum(0);
+    bar.width(10);
+
+    // When - should not divide by zero or crash
+    EXPECT_NO_THROW(bar.render(*context));
+}

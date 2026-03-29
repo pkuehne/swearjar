@@ -13,9 +13,13 @@ void List::addItem(const std::wstring& item) {
 
 void List::itemOffset(unsigned int offset) {
     m_itemOffset = offset;
-    unsigned int maxOffset = m_items.size() - height();
-    if (m_itemOffset > maxOffset) {
-        m_itemOffset = maxOffset;
+    if (m_items.size() <= height()) {
+        m_itemOffset = 0;
+    } else {
+        unsigned int maxOffset = m_items.size() - height();
+        if (m_itemOffset > maxOffset) {
+            m_itemOffset = maxOffset;
+        }
     }
     if (m_itemOffset > m_selectedItem) {
         selectedItem(m_itemOffset);

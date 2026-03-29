@@ -97,9 +97,10 @@ void LayoutWidget::realignHorizontally() {
         w->y(m_margin);
     }
 
-    if (allocatedWidth < widthToAllocate && !children().empty()) {
+    unsigned int expectedEnd = width() - m_margin;
+    if (allocatedWidth < expectedEnd && !children().empty()) {
         auto& first = children()[0];
-        first->width(first->width() + widthToAllocate);
+        first->width(first->width() + (expectedEnd - allocatedWidth));
     }
 }
 
@@ -133,9 +134,10 @@ void LayoutWidget::realignVertically() {
         w->x(m_margin);
     }
 
-    if (allocatedHeight < heightToAllocate && !children().empty()) {
+    unsigned int expectedEnd = height() - m_margin;
+    if (allocatedHeight < expectedEnd && !children().empty()) {
         auto& first = children()[0];
-        first->height(first->height() + heightToAllocate);
+        first->height(first->height() + (expectedEnd - allocatedHeight));
     }
 }
 

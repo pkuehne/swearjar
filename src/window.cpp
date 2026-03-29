@@ -127,8 +127,8 @@ void Window::resize() {
 }
 
 bool Window::contains(unsigned int x, unsigned int y) {
-    if (x >= m_x && x <= (m_x + width())) {
-        if (y >= m_y && y <= (m_y + height())) {
+    if (x >= m_x && x < (m_x + width())) {
+        if (y >= m_y && y < (m_y + height())) {
             return true;
         }
     }

@@ -385,3 +385,33 @@ TEST_F(ListWidget, pressingEnterTriggersCallbackIfSet) {
     // When
     EXPECT_NO_THROW(list.handleKeyPress(event));
 }
+
+TEST_F(ListWidget, itemOffsetClampsToZeroWhenFewerItemsThanHeight) {
+    // Given - list has 5 items, height is 3; create a list with height > item count
+    List shortList{"shortList"};
+    shortList.height(10);
+    shortList.addItem(item1);
+    shortList.addItem(item2);
+    shortList.addItem(item3);
+
+    // When - try to set an offset even though items (3) < height (10)
+    shortList.itemOffset(5);
+
+    // Then - offset must be clamped to 0, no underflow
+    EXPECT_EQ(0u, shortList.itemOffset());
+}
+
+TEST_F(ListWidget, itemOffsetClampsToZeroWhenExactlyEqualItemsAndHeight) {
+    // Given - list has 3 items, height is 3 (equal, so no scrolling possible)
+    List equalList{"equalList"};
+    equalList.height(3);
+    equalList.addItem(item1);
+    equalList.addItem(item2);
+    equalList.addItem(item3);
+
+    // When
+    equalList.itemOffset(2);
+
+    // Then - no scrollable space, offset clamped to 0
+    EXPECT_EQ(0u, equalList.itemOffset());
+}
