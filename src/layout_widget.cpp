@@ -69,9 +69,9 @@ unsigned int calculateNewSize(unsigned int minSize, unsigned int growthFactor,
 }
 
 void LayoutWidget::realignHorizontally() {
-    LOG_DEBUG << "Realigning " << name() << " horizontally "
-              << "(W:" << width() << " R:" << requiredWidth()
-              << " M:" << m_margin << ")" << LOG_END;
+    LOG_DEBUG << "Realigning " << name() << " horizontally " << "(W:" << width()
+              << " R:" << requiredWidth() << " M:" << m_margin << ")"
+              << LOG_END;
     unsigned int widthToAllocate = width() - requiredWidth() - (m_margin * 2);
     if (widthToAllocate > width()) {
         LOG_WARN << "Can't realign " << name() << " horizontally as "
@@ -105,9 +105,9 @@ void LayoutWidget::realignHorizontally() {
 }
 
 void LayoutWidget::realignVertically() {
-    LOG_DEBUG << "Realigning " << name() << " vertically "
-              << "(H:" << height() << " R:" << requiredHeight()
-              << " M:" << m_margin << ")" << LOG_END;
+    LOG_DEBUG << "Realigning " << name() << " vertically " << "(H:" << height()
+              << " R:" << requiredHeight() << " M:" << m_margin << ")"
+              << LOG_END;
     unsigned int heightToAllocate =
         height() - requiredHeight() - (m_margin * 2);
     if (heightToAllocate > height()) {

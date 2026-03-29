@@ -39,6 +39,17 @@ TEST(LayoutWidget, spacerGrowsByDefault) {
     EXPECT_NE(0, w.growthFactor());
 }
 
+TEST(LayoutWidget, alignmentGetterReturnsSetValue) {
+    // Given
+    LayoutWidget base("");
+
+    // When
+    base.alignment(LayoutWidget::Alignment::Horizontal);
+
+    // Then
+    EXPECT_EQ(LayoutWidget::Alignment::Horizontal, base.alignment());
+}
+
 TEST(LayoutWidget, realignDoesNothingForFixedLayout) {
     // Given
     LayoutWidget base("");
