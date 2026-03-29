@@ -23,16 +23,14 @@ bool ToggleWidget::handleKeyPress(const KeyEvent& event) {
     if (event.key != 10) {
         return false;
     }
-    toggle();
-    if (onToggle) {
+    if (toggle() && onToggle) {
         onToggle(*this);
     }
     return true;
 }
 
 bool ToggleWidget::handleMouseClick(const MouseEvent& /* event */) {
-    toggle();
-    if (onToggle) {
+    if (toggle() && onToggle) {
         onToggle(*this);
     }
     return true;

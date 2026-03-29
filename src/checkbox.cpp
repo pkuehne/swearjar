@@ -13,8 +13,9 @@ bool Checkbox::enabled() {
     return m_enabled;
 }
 
-void Checkbox::toggle() {
+bool Checkbox::toggle() {
     enabled(!m_enabled);
+    return true;
 }
 
 void Checkbox::render(const RenderContext& context) {

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "toggle_widget.h"
+#include <functional>
 #include <set>
 
 namespace SwearJar {
@@ -18,6 +19,8 @@ public:
     void current(RadioButton* button);
     RadioButton* current();
 
+    std::function<void(RadioButton&)> onChanged;
+
 private:
     std::set<RadioButton*> m_buttons;
     RadioButton* m_current = nullptr;
@@ -29,7 +32,7 @@ public:
 
     bool enabled() override;
     void enabled(bool on) override;
-    void toggle() override;
+    bool toggle() override;
 
     void render(const RenderContext& context) override;
 

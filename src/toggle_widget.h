@@ -15,7 +15,8 @@ public:
 
     virtual void enabled(bool enabled) = 0;
     virtual bool enabled() = 0;
-    virtual void toggle() = 0;
+    // Returns true if state actually changed.
+    virtual bool toggle() = 0;
 
     bool handleKeyPress(const KeyEvent& event) override;
     bool handleMouseClick(const MouseEvent& event) override;

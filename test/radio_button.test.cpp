@@ -1,5 +1,6 @@
 #include "curses.mock.h"
 #include "radio_button.h"
+#include "toggle_widget.h"
 #include "render_context.mock.h"
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -221,6 +222,67 @@ TEST_F(RadioButtonWidget, togglesWhenClicked) {
 
     // Then
     EXPECT_TRUE(button_two.enabled());
+}
+
+TEST_F(RadioButtonWidget, onChangedFiredWhenSelectionChanges) {
+    // Given
+    bool called = false;
+    group.onChanged = [&called](RadioButton&) { called = true; };
+
+    // When
+    button_two.enabled(true);
+
+    // Then
+    EXPECT_TRUE(called);
+}
+
+TEST_F(RadioButtonWidget, onChangedNotFiredWhenSelectionUnchanged) {
+    // Given - button_one is already current
+    bool called = false;
+    group.onChanged = [&called](RadioButton&) { called = true; };
+
+    // When - click the already-selected button
+    button_one.handleMouseClick(mouse);
+
+    // Then
+    EXPECT_FALSE(called);
+}
+
+TEST_F(RadioButtonWidget, onToggleNotFiredWhenAlreadySelected) {
+    // Given - button_one is already current
+    bool called = false;
+    button_one.onToggle = [&called](ToggleWidget&) { called = true; };
+
+    // When
+    key.key = 10;
+    button_one.handleKeyPress(key);
+
+    // Then
+    EXPECT_FALSE(called);
+}
+
+TEST_F(RadioButtonWidget, onChangedFiredWhenCurrentSetDirectlyOnGroup) {
+    // Given
+    bool called = false;
+    group.onChanged = [&called](RadioButton&) { called = true; };
+
+    // When - set selection via group directly
+    group.current(&button_two);
+
+    // Then
+    EXPECT_TRUE(called);
+}
+
+TEST_F(RadioButtonWidget, onChangedNotFiredWhenCurrentSetToSameButton) {
+    // Given - button_one is already current
+    bool called = false;
+    group.onChanged = [&called](RadioButton&) { called = true; };
+
+    // When
+    group.current(&button_one);
+
+    // Then
+    EXPECT_FALSE(called);
 }
 
 TEST_F(RadioButtonWidget, rendersIndicatorWhenEnabled) {

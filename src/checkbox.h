@@ -12,7 +12,7 @@ public:
 
     void enabled(bool enabled) override;
     bool enabled() override;
-    void toggle() override;
+    bool toggle() override;
 
 private:
     bool m_enabled = false;

@@ -31,7 +31,13 @@ RadioButton* RadioButtonGroup::current() {
 }
 
 void RadioButtonGroup::current(RadioButton* button) {
+    if (m_current == button) {
+        return;
+    }
     m_current = button;
+    if (onChanged && button != nullptr) {
+        onChanged(*button);
+    }
 }
 
 RadioButton::RadioButton(const std::string& name) : ToggleWidget(name) {
@@ -59,8 +65,12 @@ void RadioButton::enabled(bool on) {
     m_group->current(this);
 }
 
-void RadioButton::toggle() {
+bool RadioButton::toggle() {
+    if (enabled()) {
+        return false;
+    }
     enabled(true);
+    return true;
 }
 
 void RadioButton::render(const RenderContext& context) {
