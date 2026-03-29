@@ -33,6 +33,9 @@ void Progressbar::decrement() {
 }
 
 void Progressbar::render(const RenderContext& context) {
+    if (m_maximum == 0) {
+        return;
+    }
     float percent = static_cast<float>(m_value) / m_maximum;
 
     for (int ii = 0; ii < width() * percent; ii++) {
