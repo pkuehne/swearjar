@@ -46,6 +46,15 @@ TEST_F(LabelWidget, settingStandardStringSetsWideVersion) {
     EXPECT_EQ(wide, label.text());
 }
 
+TEST_F(LabelWidget, settingNarrowStringConvertsToWide) {
+    // When
+    label.text(std::string("Hello"));
+
+    // Then
+    EXPECT_EQ(L"Hello", label.text());
+    EXPECT_EQ(5, label.requiredWidth());
+}
+
 TEST_F(LabelWidget, uncentredTextRendersAtXZero) {
     // Given
     label.text(L"A");
